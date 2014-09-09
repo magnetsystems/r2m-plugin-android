@@ -1,8 +1,7 @@
-r2m-android-plugin
-==================
+# rest2mobile Plugin for Android Studio & IntelliJ IDEA
 
-rest2mobile IDE Plugin for Android Studio and IntelliJ IDEA
+Use the rest2mobile plugin to generate Android code to interface with REST APIs. For information on how to use the plugin, see https://github.com/magnetsystems/r2m/wiki.
 
-Release
--------
-https://github.com/magnetsystems/r2m-plugin-android/releases
+## Releases
+
+For releases, go to https://github.com/magnetsystems/r2m-plugin-android/releases.
