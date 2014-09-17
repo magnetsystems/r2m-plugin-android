@@ -20,7 +20,7 @@ Once you've downloaded the plugin, follow these instructions to install it:
  rest2mobile** appears in the list of plugins. Click **OK**.
 5. Restart Android Studio.
  
-To confirm that the plugin is installed, look for a new **Magnet** item in the menu bar. When you click on this, the **REST Controller** menu item appears. The following screenshot is an example of the plug-in: 
+To confirm that the plugin is installed, look for a new **Magnet** item in the menu bar. When you click on this, the **Add REST API** menu item appears. The following screenshot is an example of the plug-in: 
 
 ![rest2mobile plugin for Android Studio](https://github.com/magnetsystems/rest2mobile/blob/master/docimg/r2m-android.jpg)
 
