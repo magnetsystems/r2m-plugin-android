@@ -18,7 +18,7 @@
 package com.magnet.plugin.helpers;
 
 /**
- * Created by alshvets on 8/29/14.
+ * OS utilities
  */
 public class OSHelper {
 

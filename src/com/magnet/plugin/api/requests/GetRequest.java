@@ -25,6 +25,9 @@ import com.magnet.plugin.api.requests.abs.BaseRequest;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 
+/**
+ * HTTP Get request
+ */
 public class GetRequest extends BaseRequest {
 
 

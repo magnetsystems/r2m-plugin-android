@@ -22,9 +22,6 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-/**
- * Created by dlernatovich on 9/9/14.
- */
 public class FormatHelper {
     public static String formatJSONCode(String code) {
         String formatted="";

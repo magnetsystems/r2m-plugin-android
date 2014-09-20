@@ -22,7 +22,7 @@ import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 
 /**
- * Created by alshvets on 8/20/14.
+ * Logging utilities
  */
 public class Logger {
 

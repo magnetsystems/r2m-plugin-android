@@ -17,9 +17,6 @@
 
 package com.magnet.plugin.models;
 
-/**
- * Created by alshvets on 8/26/14.
- */
 public class Path {
 
     private String path = "";

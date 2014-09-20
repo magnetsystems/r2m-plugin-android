@@ -29,9 +29,6 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * @author Andrew
- */
 public class MethodTypeSection extends BasePanel {
 
     private JLabel jLabel1;

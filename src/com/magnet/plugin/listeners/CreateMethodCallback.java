@@ -19,9 +19,6 @@ package com.magnet.plugin.listeners;
 
 import com.magnet.plugin.api.models.ApiMethodModel;
 
-/**
- * Created by alshvets on 8/28/14.
- */
 public interface CreateMethodCallback {
 
     public void createMethod(ApiMethodModel methodModel);

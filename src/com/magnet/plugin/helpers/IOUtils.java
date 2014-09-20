@@ -17,8 +17,6 @@
 
 package com.magnet.plugin.helpers;
 
-import org.apache.xmlbeans.impl.common.IOUtil;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;

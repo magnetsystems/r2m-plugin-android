@@ -32,9 +32,6 @@ import java.awt.event.FocusListener;
 
 import static com.magnet.plugin.helpers.UIHelper.ERROR_REQUIRED_FIELD;
 
-/**
- * @author aderkach
- */
 public class QueryPanel extends BasePanel {
 
     private JTextField key;

@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by alshvets on 8/20/14.
+ * Request model
  */
 public class RequestModel {
 

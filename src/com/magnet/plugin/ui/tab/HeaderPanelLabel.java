@@ -25,10 +25,6 @@ import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
 
-/**
- *
- * @author aderkach
- */
 public class HeaderPanelLabel extends BasePanel {
 
     private JLabel key;

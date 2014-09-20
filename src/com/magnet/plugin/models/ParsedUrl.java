@@ -20,9 +20,6 @@ package com.magnet.plugin.models;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by alshvets on 8/27/14.
- */
 public class ParsedUrl {
 
     List<Path> paths=new ArrayList<Path>();

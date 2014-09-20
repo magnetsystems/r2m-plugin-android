@@ -25,10 +25,6 @@ import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
 
-/**
- *
- * @author aderkach
- */
 public class PathPanelLabel extends BasePanel {
 
     private JLabel path;

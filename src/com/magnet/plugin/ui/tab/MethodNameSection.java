@@ -42,9 +42,6 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author aderkach
- */
 public class MethodNameSection extends BasePanel implements URLFocusListener, PluginIcon {
 
     private JLabel jLabel1;

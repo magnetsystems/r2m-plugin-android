@@ -23,9 +23,6 @@ import com.magnet.plugin.api.models.RequestHeaderModel;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by alshvets on 8/26/14.
- */
 public class Method {
 
     private String methodName;

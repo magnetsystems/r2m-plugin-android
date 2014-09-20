@@ -31,9 +31,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author Andrew
- */
 public class HeaderSection extends ExtendedJPanel {
 
     private JLabel jLabel4;
@@ -88,8 +85,8 @@ public class HeaderSection extends ExtendedJPanel {
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addGap(FormConfig.CUSTOM_GAP)
-                                .addComponent(jLabel4, GroupLayout.Alignment.TRAILING)
+                                        .addGap(FormConfig.CUSTOM_GAP)
+                                        .addComponent(jLabel4, GroupLayout.Alignment.TRAILING)
                         )
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                                 .addGroup(GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
@@ -100,14 +97,14 @@ public class HeaderSection extends ExtendedJPanel {
                                 .addGroup(customGroupHorizontal))));
 
         layout.setVerticalGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                        .addComponent(jLabel4)
-                        .addComponent(jSeparator1, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE)
-                        .addComponent(jLabel5)
-                        .addComponent(jButton1)
-                )
-                .addComponent(getLabelPanel())
-                .addGroup(customGroupVertical)
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(jLabel4)
+                                        .addComponent(jSeparator1, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE)
+                                        .addComponent(jLabel5)
+                                        .addComponent(jButton1)
+                        )
+                        .addComponent(getLabelPanel())
+                        .addGroup(customGroupVertical)
         );
 
     }

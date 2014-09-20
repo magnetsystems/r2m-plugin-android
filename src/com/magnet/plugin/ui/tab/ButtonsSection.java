@@ -26,9 +26,6 @@ import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
 
-/**
- * @author Andrew
- */
 public class ButtonsSection extends BasePanel {
 
     private JButton testApiButton;

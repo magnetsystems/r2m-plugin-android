@@ -20,7 +20,6 @@ package com.magnet.plugin.messages;
 /**
  * Placeholder for retrieving all L10N messages
  *
- * @author etexier
  */
 public class Rest2MobileMessages {
     //

@@ -25,6 +25,9 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpRequestBase;
 
 
+/**
+ * HTTP Delete request
+ */
 public class DeleteRequest extends BaseRequest {
 
 

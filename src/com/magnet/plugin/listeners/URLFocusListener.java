@@ -17,9 +17,6 @@
 
 package com.magnet.plugin.listeners;
 
-/**
- * Created by dlernatovich on 9/3/14.
- */
 public interface URLFocusListener {
     void onFocusChange(String url);
 }

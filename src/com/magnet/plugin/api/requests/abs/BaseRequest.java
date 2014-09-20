@@ -31,7 +31,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import java.util.List;
 
 /**
- * Created by alshvets on 8/20/14.
+ * HTTP Base Request implementation
  */
 public abstract class BaseRequest extends AbstractRequest<ApiMethodModel> {
 

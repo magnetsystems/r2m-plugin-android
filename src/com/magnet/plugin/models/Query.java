@@ -17,15 +17,8 @@
 
 package com.magnet.plugin.models;
 
-import com.sun.deploy.net.URLEncoder;
-import org.apache.http.client.utils.URLEncodedUtils;
-
 import java.io.UnsupportedEncodingException;
-import java.net.URL;
 
-/**
- * Created by alshvets on 8/26/14.
- */
 public class Query {
 
     private String key;

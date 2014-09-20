@@ -27,10 +27,6 @@ import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import javax.swing.JPanel;
 
-/**
- *
- * @author Andrew
- */
 public class ExtendedJPanel extends BasePanel{
     
     private List<JPanel> panels = new CopyOnWriteArrayList<JPanel>();
