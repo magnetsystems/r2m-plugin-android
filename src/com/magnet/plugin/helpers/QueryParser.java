@@ -28,9 +28,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by dlernatovich on 8/27/14.
- */
 public class QueryParser {
     public static ParsedUrl parseQuerry(String url) {
         List<Path> paths = new ArrayList<Path>();

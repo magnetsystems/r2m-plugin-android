@@ -37,9 +37,6 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author aderkach
- */
 public class URLSection extends BasePanel implements FocusListener {
 
     private JButton pathButton;

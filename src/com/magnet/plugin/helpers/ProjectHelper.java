@@ -31,7 +31,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by dlernatovich on 9/8/14.
+ * Project utilities
  */
 public class ProjectHelper {
 

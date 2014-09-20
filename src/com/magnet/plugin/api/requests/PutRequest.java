@@ -26,8 +26,9 @@ import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
 
 /**
- * Created by alshvets on 8/20/14.
+ * HTTP Put request
  */
+
 public class PutRequest extends BaseRequest {
 
 

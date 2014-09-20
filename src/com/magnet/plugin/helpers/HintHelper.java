@@ -25,9 +25,6 @@ import java.awt.*;
 import static com.magnet.plugin.constants.Colors.PINK;
 
 
-/**
- * Created by dlernatovich on 9/3/14.
- */
 public class HintHelper {
     public static void setHintToTextField(String hint, JTextField textField) {
         PromptSupport.setPrompt(hint, textField);

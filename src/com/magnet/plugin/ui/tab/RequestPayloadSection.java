@@ -26,9 +26,6 @@ import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
 
-/**
- * @author Andrew
- */
 public class RequestPayloadSection extends JSONPanel {
 
     private JLabel jLabel1;

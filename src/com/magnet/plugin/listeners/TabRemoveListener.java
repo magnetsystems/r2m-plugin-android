@@ -19,9 +19,6 @@ package com.magnet.plugin.listeners;
 
 import com.magnet.plugin.ui.tab.MainPanel;
 
-/**
- * Created by dlernatovich on 8/29/14.
- */
 public interface TabRemoveListener {
     void removeCurrentPanel(MainPanel mainPanel);
 }

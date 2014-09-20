@@ -17,8 +17,6 @@
 
 package com.magnet.plugin.helpers;
 
-import java.io.File;
-
 /**
  * Constants for Rest-By-Example specification
  */

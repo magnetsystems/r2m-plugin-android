@@ -45,9 +45,6 @@ import java.awt.event.ActionListener;
 
 import static com.magnet.plugin.helpers.UIHelper.*;
 
-/**
- * @author aderkach
- */
 public class MainPanel extends BasePanel {
 
     private MethodNameSection panel;

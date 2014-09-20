@@ -22,7 +22,6 @@ import java.util.ResourceBundle;
 
 /**
  * Base class to retrieve L10N messages
- * @author etexier
  */
 public class MessagesSupport {
 
