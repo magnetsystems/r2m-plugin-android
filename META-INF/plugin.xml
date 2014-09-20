@@ -1,0 +1,101 @@
+<!--
+  ~ Copyright (c) 2014 Magnet Systems, Inc.
+  ~ All rights reserved.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License"); you
+  ~ may not use this file except in compliance with the License. You
+  ~ may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+  ~ implied. See the License for the specific language governing
+  ~ permissions and limitations under the License.
+  -->
+
+<idea-plugin version="2">
+    <id>com.magnet.r2m</id>
+    <name>Magnet rest2mobile</name>
+    <version>1.0.0</version>
+    <vendor logo="/icon_logo.png" url="http://developer.magnet.com">Magnet</vendor>
+    <description><![CDATA[
+
+Native Android API generator for REST services
+
+Interacting with REST APIs from a mobile app can require a lot of code:
+<ul style="list-style-type:disc">
+ <li>Connecting to the server</li>
+ <li>Building the REST URL and HTTP headers</li>
+ <li>Marshaling and un-marshaling JSON data</li>
+ <li>Converting JSON data to type safe objects</li>
+</ul>
+The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services into Java components that you can call from your mobile app. The components are native classes and interfaces that automatically handle server connections and type safety.
+]]></description>
+
+    <change-notes>
+        <![CDATA[
+    Fixed Javadoc generation fixes.<br>
+    Fixed line number in validation.<br>
+    Fixed missing methods generation.<br>
+    Fixed updates check.<br>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Build+Number+Ranges for description -->
+    <idea-version since-build="94.539"/>
+
+    <!-- please see http://confluence.jetbrains.com/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+    </extensions>
+
+    <project-components>
+        <!-- Add your project components here -->
+        <component>
+            <implementation-class>com.magnet.plugin.actions.HistoryComponent</implementation-class>
+        </component>
+    </project-components>
+
+    <actions>
+        <group id="MagnetPlugin.MainMenuGroup" text="Magnet">
+            <add-to-group group-id="MainMenu"
+                          anchor="before"
+                          relative-to-action="ViewMenu"/>
+            <action id="MagnetPlugin.MainMenuAddRestApi"
+                    class="com.magnet.plugin.actions.AddRestApi"
+                    text="Add REST API"
+                    description="REST API"
+                    icon="/icon_logo.png"/>
+            <action id="MagnetPlugin.MainMenuCheckUpdates"
+                    class="com.magnet.plugin.actions.CheckUpdatesAction"
+                    text="Check for Updates..."
+                    description="About"/>
+            <action id="MagnetPlugin.MainMenuHelp"
+                    class="com.magnet.plugin.actions.HelpAction"
+                    text="Help"
+                    description="Help"/>
+            <action id="MagnetPlugin.MainMenuAbout"
+                    class="com.magnet.plugin.actions.AboutAction"
+                    text="About"
+                    description="About"/>
+        </group>
+
+
+        <action id="MagnetPlugin.ContextMenuRestController"
+                class="com.magnet.plugin.actions.AddRestApi"
+                text="REST API" icon="/icon_logo.png">
+            <add-to-group group-id="NewGroup"
+                          anchor="before"
+                          relative-to-action="NewActivity"/>
+        </action>
+    </actions>
+
+
+</idea-plugin>
