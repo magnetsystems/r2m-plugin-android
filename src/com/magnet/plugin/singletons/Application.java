@@ -22,9 +22,6 @@ import com.intellij.openapi.project.Project;
 import com.magnet.plugin.listeners.ControllerActionCallback;
 import com.magnet.plugin.ui.AddControllerForm;
 
-/**
- * Created by dlernatovich on 9/16/14.
- */
 public class Application implements ControllerActionCallback {
     private static Application application;
     private AddControllerForm currentForm;

@@ -197,9 +197,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             showErrorMessage(ERROR_TEST_API);
         } else if (controllerName.isEmpty()) {
             showErrorMessage(ERROR_SERVICE_NAME);
-//        }
-//        else if (!response.isSuccesfull()) {
-//            showErrorMessage(ERROR_REQUEST);
         } else {
             getGenerator().createMethodFile(methodModel);
             HistoryHelper.saveUrl(project, methodModel.getRequestModel().getUrl());

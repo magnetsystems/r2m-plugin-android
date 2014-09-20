@@ -36,9 +36,7 @@ public class HistoryHelper {
         String[] savedUrls=history.getUrls();
         String[] urls=new String[savedUrls.length+1]; //need require empty place for current value;
         urls[START_INDEX]="";
-        for(int i=START_INDEX; i<savedUrls.length;i++){
-            urls[i+1]=savedUrls[i];
-        }
+        System.arraycopy(savedUrls, START_INDEX, urls, 1, savedUrls.length);
 
         return urls;
     }
@@ -48,9 +46,7 @@ public class HistoryHelper {
         History history=historyComponent.getState();
         String[] savedUrls=history.getUrls();
         List<String> savedList= new ArrayList<String>();
-        for(int i=START_INDEX; i<savedUrls.length;i++){
-            savedList.add(savedUrls[i]);
-        }
+        savedList.addAll(Arrays.asList(savedUrls).subList(START_INDEX, savedUrls.length));
         if(!savedList.contains(url)){
             savedList.add(START_INDEX, url);
         }

@@ -21,17 +21,10 @@ import com.magnet.plugin.api.mock.WorkerCallback;
 import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.api.models.RequestModel;
 import com.magnet.plugin.api.requests.abs.BaseRequest;
-import com.magnet.plugin.helpers.ContentTypeHelper;
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.entity.StringEntity;
-import org.apache.http.message.BasicHeader;
 
-/**
- * Created by alshvets on 8/20/14.
- */
 public class PostRequest extends BaseRequest {
 
 

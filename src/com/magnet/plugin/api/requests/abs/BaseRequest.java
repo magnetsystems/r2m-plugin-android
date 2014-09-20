@@ -66,7 +66,7 @@ public abstract class BaseRequest extends AbstractRequest<ApiMethodModel> {
                     request.setHeader(ContentTypeHelper.CONTENT_TYPE_HEADER, type);
                 }
             }
-            // check if content-type is parameteried
+            // check if content-type is parameterized
             HttpResponse httpResponse = httpClient.execute(request);
             ApiMethodModel methodModel = new ApiMethodModel();
             methodModel.setRequestHeaders(request.getAllHeaders());

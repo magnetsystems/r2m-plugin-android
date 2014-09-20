@@ -18,17 +18,17 @@
 package com.magnet.plugin.ui.tab;
 
 import com.magnet.plugin.constants.Colors;
-import com.magnet.plugin.helpers.FormatHelper;
-import com.magnet.plugin.helpers.JSONValidator;
-import com.magnet.plugin.helpers.UIHelper;
 import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.constants.PluginIcon;
+import com.magnet.plugin.helpers.FormatHelper;
+import com.magnet.plugin.helpers.JSONValidator;
 import org.jdesktop.swingx.JXLabel;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
+
 import static com.magnet.plugin.constants.Colors.BLACK;
 import static com.magnet.plugin.constants.Colors.GREEN;
 

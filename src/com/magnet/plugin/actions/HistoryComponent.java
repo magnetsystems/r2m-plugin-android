@@ -23,8 +23,6 @@ import com.magnet.plugin.models.History;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
-
 /**
  * Manage history
  */

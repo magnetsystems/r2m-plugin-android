@@ -24,8 +24,6 @@ import com.magnet.plugin.api.models.RequestModel;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.singletons.Application;
 import com.magnet.plugin.ui.AddControllerForm;
-import com.magnet.plugin.constants.PluginIcon;
-import org.jdesktop.swingx.JXLabel;
 
 import java.awt.*;
 
