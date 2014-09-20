@@ -110,11 +110,11 @@ public class QueryPanel extends BasePanel {
     }
 
     public boolean checkRequirementField() {
-        if (key.getText().toString().trim().equalsIgnoreCase("")) {
+        if (key.getText().trim().equalsIgnoreCase("")) {
             return false;
         }
 
-        if (value.getText().toString().trim().equalsIgnoreCase("")) {
+        if (value.getText().trim().equalsIgnoreCase("")) {
             return false;
         }
         return true;

@@ -36,7 +36,7 @@ public class HeaderPanel extends BasePanel {
     private JTextField value;
     private JButton delete;
 
-    public ExtendedJPanel getParrentPanel() {
+    public ExtendedJPanel getParentPanel() {
         return parrentPanel;
     }
 

@@ -18,7 +18,6 @@
 package com.magnet.plugin.helpers;
 
 import com.magnet.plugin.api.models.ApiMethodModel;
-import org.apache.http.Header;
 
 import java.io.IOException;
 import java.util.Arrays;

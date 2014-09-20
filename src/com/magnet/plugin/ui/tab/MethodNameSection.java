@@ -110,7 +110,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                methodName.setText(VerifyHelper.verifyMethodName(methodName.getText().toString()));
+                methodName.setText(VerifyHelper.verifyMethodName(methodName.getText()));
             }
         });
 
@@ -192,7 +192,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         }
         String text = "";
         if (!getComboBoxEditor().getText().trim().isEmpty()) {
-            text = getComboBoxEditor().getText().toString();
+            text = getComboBoxEditor().getText();
         }
         return text;
     }

@@ -120,7 +120,7 @@ public class PathPanel extends JPanel {
         } else {
             HintHelper.removeHintFromField(variableName);
             variableName.setEditable(false);
-            variableNameValue = variableName.getText().toString().trim();
+            variableNameValue = variableName.getText().trim();
             variableName.setText("");
         }
     }
@@ -137,9 +137,9 @@ public class PathPanel extends JPanel {
 
     public Path getPath() {
         Path path = new Path();
-        path.setPath(this.path.getText().toString());
+        path.setPath(this.path.getText());
         path.setVariable(variable.isSelected());
-        path.setVariableName("{" + variableName.getText().toString() + "}");
+        path.setVariableName("{" + variableName.getText() + "}");
 
         return path;
     }
@@ -160,7 +160,7 @@ public class PathPanel extends JPanel {
         }
 
         if (variable.isSelected()) {
-            if (variableName.getText().toString().trim().equalsIgnoreCase("")) {
+            if (variableName.getText().trim().equalsIgnoreCase("")) {
                 return false;
             }
         }

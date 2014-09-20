@@ -140,12 +140,12 @@ public class HeaderSection extends ExtendedJPanel {
         }
 
         private void deleteThisPanel() {
-            panel.getParrentPanel().remove(panel);
-            panel.getParrentPanel().removePanel(panel);
-            panel.getParrentPanel().visibleLabelPanel();
-            panel.getParrentPanel().revalidate();
-            panel.getParrentPanel().validate();
-            panel.getParrentPanel().repaint();
+            panel.getParentPanel().remove(panel);
+            panel.getParentPanel().removePanel(panel);
+            panel.getParentPanel().visibleLabelPanel();
+            panel.getParentPanel().revalidate();
+            panel.getParentPanel().validate();
+            panel.getParentPanel().repaint();
         }
     }
 

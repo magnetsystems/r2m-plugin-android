@@ -19,9 +19,6 @@ package com.magnet.plugin.models;
 
 import com.magnet.plugin.constants.JSONErrorType;
 
-/**
- * Created by dlernatovich on 9/18/14.
- */
 public class JSONError {
     protected JSONErrorType errorType;
     private int startIndex;

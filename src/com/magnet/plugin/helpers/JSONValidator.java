@@ -94,10 +94,10 @@ public class JSONValidator {
             }
         } else if (field instanceof JTextField) {
             ((JTextField) field).setText(text);
-            ((JTextField) field).setVisible(isNeedVisible);
+            field.setVisible(isNeedVisible);
         } else if (field instanceof JTextArea) {
             ((JTextArea) field).setText(text);
-            ((JTextArea) field).setVisible(isNeedVisible);
+            field.setVisible(isNeedVisible);
         }
     }
 
