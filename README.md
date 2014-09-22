@@ -18,3 +18,20 @@ The following picture is a screenshot of the plugin:
 ### Setup
 
 Please follow the installation steps described on [here](http://developer.magnet.com/android).
+
+## License
+
+Licensed under the **[Apache License, Version 2.0] [license]** (the "License");
+you may not use this software except in compliance with the License.
+
+## Copyright
+
+Copyright © 2014 Magnet Systems, Inc. All rights reserved.
+
+[website]: http://developer.magnet.com
+[techdoc]: https://github.com/magnetsystems/rest2mobile/wiki
+[r2m-plugin-android]:https://github.com/magnetsystems/r2m-plugin-android/
+[r2m-plugin-ios]:https://github.com/magnetsystems/r2m-plugin-ios/
+[r2m-cli]:https://github.com/magnetsystems/r2m-cli/
+[license]: http://www.apache.org/licenses/LICENSE-2.0
+[r2m wiki]:https://github.com/magnetsystems/r2m-cli/wiki
