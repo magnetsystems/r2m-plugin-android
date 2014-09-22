@@ -7,6 +7,15 @@ The rest2mobile plugin for Android Studio & IntelliJ IDEA has these prerequisite
 * Android Studio or IntelliJ IDEA
 * Android 'minSDKVersion' value of 16 or later
 
+### Build
+
+Use Intellij 13 or later to create the plugin project from the source:
+* create the project from the source directory <code>src</code>
+* register the <code>res</code> and <code>l10n</code> directories as resources
+* register the <code>libs</code> directory as a library 
+
+Build the plugin zip using the <code>Build->Prepare Plugin Module ... for deployment<code> option.
+
 ### Releases
 
 Download the latest release [here](https://github.com/magnetsystems/r2m-plugin-android/releases).
@@ -18,6 +27,11 @@ The following picture is a screenshot of the plugin:
 ### Setup
 
 Please follow the installation steps described on [here](http://developer.magnet.com/android).
+
+### Feedback
+
+We are constantly adding features and welcome feedback. 
+Please, ask questions or file requests [here](https://github.com/magnetsystems/r2m-plugin-android/issues)
 
 ## License
 
