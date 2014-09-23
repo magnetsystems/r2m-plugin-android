@@ -14,7 +14,7 @@ Use Intellij 13 or later to create the plugin project from the source:
 * register the <code>res</code> and <code>l10n</code> directories as resources
 * register the <code>libs</code> directory as a library 
 
-Build the plugin zip using the <code>Build->Prepare Plugin Module ... for deployment<code> option.
+Build the plugin zip using the <code>Build->Prepare Plugin Module ... for deployment</code> option.
 
 ### Releases
 
@@ -31,7 +31,7 @@ Please follow the installation steps described on [here](http://developer.magnet
 ### Feedback
 
 We are constantly adding features and welcome feedback. 
-Please, ask questions or file requests [here](https://github.com/magnetsystems/r2m-plugin-android/issues)
+Please, ask questions or file requests [here](https://github.com/magnetsystems/r2m-plugin-android/issues).
 
 ## License
 
