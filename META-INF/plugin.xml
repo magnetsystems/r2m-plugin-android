@@ -18,7 +18,7 @@
 <idea-plugin version="2">
     <id>com.magnet.r2m</id>
     <name>Magnet rest2mobile</name>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <vendor logo="/icon_logo.png" url="http://developer.magnet.com">Magnet</vendor>
     <description><![CDATA[
 
@@ -36,10 +36,6 @@ The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services in
 
     <change-notes>
         <![CDATA[
-    Fixed Javadoc generation fixes.<br>
-    Fixed line number in validation.<br>
-    Fixed missing methods generation.<br>
-    Fixed updates check.<br>
     ]]>
     </change-notes>
 

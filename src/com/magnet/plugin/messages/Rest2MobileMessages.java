@@ -50,7 +50,7 @@ public class Rest2MobileMessages {
     public static final String ERROR_EMPTY_DICTIONARY_TEXT = "ERROR_EMPTY_DICTIONARY_TEXT";
     public static final String ERROR_MISSING_COMMA_TEXT = "ERROR_MISSING_COMMA_TEXT";
     public static final String ERROR_MISSING_QUOTES_TEXT = "ERROR_MISSING_QUOTES_TEXT";
-    public static final String ERROR_MISSING_CLOSING = "ERROR_MISSING_CLOSING";
+
     /**
      * @param key  constant identifying L10n message
      * @param args arguments to be expanded in L10n message
