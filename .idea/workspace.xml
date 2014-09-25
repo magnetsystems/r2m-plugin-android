@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="$R2M_KEEP_TEMP_FILES$" id="e6744349-6d48-44e6-9800-4a02fe42edd8" name="Default" comment="More cleanup">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/magnet/plugin/ui/AddControllerForm.java" afterPath="$PROJECT_DIR$/src/com/magnet/plugin/ui/AddControllerForm.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/magnet/plugin/models/JSONError.java" afterPath="$PROJECT_DIR$/src/com/magnet/plugin/models/JSONError.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/magnet/plugin/helpers/JSONValidator.java" afterPath="$PROJECT_DIR$/src/com/magnet/plugin/helpers/JSONValidator.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+    <list default="$R2M_KEEP_TEMP_FILES$" id="e6744349-6d48-44e6-9800-4a02fe42edd8" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="" />
     </list>
     <ignored path="r2m-plugin-android.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -93,25 +90,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="workspace.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-          <provider selected="$R2M_KEEP_TEMP_FILES$" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="17910">
-              <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
-              <folding>
-                <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65079" placeholder="..." />
-                <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65064" placeholder="..." />
-                <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65051" placeholder="..." />
-                <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65033" placeholder="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="HighlightHelper.java" pinned="false" current="$R2M_KEEP_TEMP_FILES$" current-in-tab="$R2M_KEEP_TEMP_FILES$">
         <entry file="file://$PROJECT_DIR$/src/com/magnet/plugin/helpers/HighlightHelper.java">
           <provider selected="$R2M_KEEP_TEMP_FILES$" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6647399" vertical-offset="0" max-vertical-offset="570">
+            <state vertical-scroll-proportion="0.63653135" vertical-offset="0" max-vertical-offset="570">
               <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
               <folding />
             </state>
@@ -371,6 +353,20 @@
               <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="r2m-plugin-android" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="r2m-plugin-android" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value=".idea" />
+              <option name="myItemType" value="com.android.tools.idea.gradle.projectView.AndroidPsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -592,7 +588,11 @@
       <created>1411174463045</created>
       <updated>1411174463045</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="Add better message for validation.">
+      <created>1411606553067</created>
+      <updated>1411606553067</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TodoView" selected-index="0">
@@ -620,7 +620,7 @@
     <editor active="false" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Changes" active="$R2M_KEEP_TEMP_FILES$" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="$R2M_KEEP_TEMP_FILES$" weight="0.3402778" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="$R2M_KEEP_TEMP_FILES$" weight="0.3402778" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3298611" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -636,7 +636,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="SLIDING" type="SLIDING" visible="false" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="$R2M_KEEP_TEMP_FILES$" weight="0.2284345" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="$R2M_KEEP_TEMP_FILES$" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="$R2M_KEEP_TEMP_FILES$" weight="0.2284345" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3275463" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32960597" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -662,7 +662,8 @@
     </option>
     <MESSAGE value="Cleanup" />
     <MESSAGE value="More cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="More cleanup" />
+    <MESSAGE value="Add better message for validation." />
+    <option name="LAST_COMMIT_MESSAGE" value="Add better message for validation." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -1025,19 +1026,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="$R2M_KEEP_TEMP_FILES$" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0" vertical-offset="30" max-vertical-offset="18270">
-          <caret line="15" column="52" selection-start-line="15" selection-start-column="52" selection-end-line="15" selection-end-column="52" />
-          <folding>
-            <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65079" placeholder="..." />
-            <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65064" placeholder="..." />
-            <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65051" placeholder="..." />
-            <marker date="1411606497000" expanded="$R2M_KEEP_TEMP_FILES$" signature="65016:65033" placeholder="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/magnet/plugin/helpers/UIHelper.java">
       <provider selected="$R2M_KEEP_TEMP_FILES$" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0" vertical-offset="40" max-vertical-offset="600">
@@ -1077,7 +1065,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/magnet/plugin/helpers/HighlightHelper.java">
       <provider selected="$R2M_KEEP_TEMP_FILES$" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6647399" vertical-offset="0" max-vertical-offset="570">
+        <state vertical-scroll-proportion="0.63653135" vertical-offset="0" max-vertical-offset="570">
           <caret line="45" column="0" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="0" />
           <folding />
         </state>
