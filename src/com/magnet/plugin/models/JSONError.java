@@ -63,12 +63,7 @@ public class JSONError {
         if ((endIndex == -1)) {
             error = errorType + " (line: " + startIndex + ")\n";
         } else {
-            error = errorType
-                    + "  (range "
-                    + startIndex
-                    + " : "
-                    + endIndex
-                    + " )\n";
+            error = errorType.toString() + "\n";
         }
         return error;
     }

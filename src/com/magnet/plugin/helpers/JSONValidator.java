@@ -51,10 +51,13 @@ public class JSONValidator {
         return matchCount >= 2;
     }
 
-    public static List<JSONError> validateJSON(String text, JComponent field, JTextArea jsonField) {
+    public static void validateJSON(String text, JComponent field, JTextArea jsonField) {
         BodyValidationResult validationResult = BodyValidator.validateBody(text);
 
-        StringBuilder errorMessage = getErrorMessage(validationResult.getErrors());
+        if (validationResult.isValid()) {
+            return;
+        }
+        StringBuilder errorMessage = getErrorMessage(validationResult.getErrors(), new JsonErrorConverter(text));
         setMessageToField(field, errorMessage.toString().trim(), !validationResult.isValid());
 
         JsonErrorConverter jsonErrorConverter = new JsonErrorConverter(text);
@@ -65,7 +68,6 @@ public class JSONValidator {
 
         HighlightHelper.highlightErrors(errors, jsonField);
 
-        return errors;
     }
 
     public static BodyValidationResult validateBody(String text) {
@@ -76,10 +78,14 @@ public class JSONValidator {
         return text.replaceAll(UNUSED_SYMBOLS, " ");
     }
 
-    public static StringBuilder getErrorMessage(List<ValidationResultEntry> errors) {
+    public static StringBuilder getErrorMessage(List<ValidationResultEntry> errors, JsonErrorConverter converter) {
         StringBuilder errorMessage = new StringBuilder();
         for (ValidationResultEntry error : errors) {
-            errorMessage.append(error.getMessage()).append("\n");
+            if (converter == null ) {
+                errorMessage.append(error.getMessage()).append("\n");
+            } else {
+                errorMessage.append(converter.convert(error));
+            }
         }
         return errorMessage;
     }
