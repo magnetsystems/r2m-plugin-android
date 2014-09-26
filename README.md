@@ -28,6 +28,23 @@ The following picture is a screenshot of the plugin:
 
 Please follow the installation steps described on [here](http://developer.magnet.com/android).
 
+Be sure you include the rest2mobile Android SDK in your app by inserting this in your app's <code>build.gradle</code>.
+```groovy
+repositories {
+    maven {
+        url "http://repo.magnet.com:8081/artifactory/public/"
+    }
+    mavenLocal()
+    mavenCentral()
+}
+dependencies {
+    compile("com.magnet:r2m-sdk-android:1.0.0@aar") {
+        transitive = true
+    }
+}
+```
+
+
 ### Feedback
 
 We are constantly adding features and welcome feedback. 
