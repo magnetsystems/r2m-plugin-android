@@ -274,9 +274,14 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         private boolean checkResponse() {
             boolean result = true;
             for (MainPanel mainPanel : tabs) {
-                BodyValidationResult validationResult = JSONValidator.validateBody(mainPanel.getResponse());
+                // Revalidate the payload before generation
+                String text = mainPanel.getResponse();
+                BodyValidationResult validationResult = JSONValidator.validateBody(text);
                 if (!validationResult.isValid()) {
-                    UIHelper.showErrorMessage(Rest2MobileMessages.getMessage(Rest2MobileMessages.INVALID_RESPONSE_MESSAGE) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors(), null));
+                    UIHelper.showErrorMessage(
+                            Rest2MobileMessages.getMessage(Rest2MobileMessages.INVALID_RESPONSE_MESSAGE) +
+                            "\n" +
+                            JSONValidator.getErrorMessage(new JsonErrorConverter(text), validationResult.getErrors()));
                     result = false;
                     break;
                 }

@@ -47,7 +47,7 @@ public class HighlightHelper {
                     error.getEndIndex(),
                     errorHighlighter);
         } catch (Exception ble) {
-            System.out.println(ble);
+            ble.printStackTrace();
         }
     }
 

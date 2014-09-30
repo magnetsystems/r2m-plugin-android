@@ -70,61 +70,6 @@ public class VerifyHelper {
         return verify(name, "[^A-Za-z0-9_]", false);
     }
 
-//    public static boolean verifyResponse(String text, boolean isNeedLogger, JComponent errorMessageField) {
-//        boolean result = false;
-//        // Do not unformat! it will remove the line separator used to found out which line and column are invalid
-//        //        String requestOrResponseBody = FormatHelper.unformatJSONCode(text);
-//        //        BodyValidationResult resultValidator = BodyValidator.validateBody(requestOrResponseBody);
-//        BodyValidationResult resultValidator = BodyValidator.validateBody(text);
-//        if (resultValidator.isValid()) {
-//            result = true;
-//        } else {
-//            String errorMessage = "";
-//            for (ValidationResultEntry entry :
-//                    resultValidator.getErrors()) {
-//                errorMessage = entry.getMessage();
-//                if (isNeedLogger) {
-//                    Logger.error(errorMessage);
-//                }
-//            }
-//            setErrorMessageField(errorMessage, errorMessageField);
-//        }
-//        return result;
-//    }
-
-    public static BodyValidationResult verifyResponse(String text, boolean isNeedLogger, JComponent errorMessageField) {
-        boolean result = false;
-        // Do not unformat! it will remove the line separator used to found out which line and column are invalid
-        // String requestOrResponseBody = FormatHelper.unformatJSONCode(text);
-        // BodyValidationResult resultValidator = BodyValidator.validateBody(requestOrResponseBody);
-        BodyValidationResult resultValidator = BodyValidator.validateBody(text);
-        if (resultValidator.isValid()) {
-            result = true;
-        } else {
-            String errorMessage = "";
-            for (ValidationResultEntry entry :
-                    resultValidator.getErrors()) {
-                errorMessage = entry.getMessage();
-
-                if (isNeedLogger) {
-                    Logger.error(errorMessage);
-                }
-            }
-            setErrorMessageField(errorMessage, errorMessageField);
-        }
-        return resultValidator;
-    }
-
-    private static void setErrorMessageField(String message, JComponent errorMessageField) {
-        if (errorMessageField != null) {
-            if (errorMessageField instanceof JLabel) {
-                ((JLabel) errorMessageField).setText(message);
-            } else if (errorMessageField instanceof JTextField) {
-                ((JTextField) errorMessageField).setText(message);
-            }
-        }
-    }
-
     private static String verify(String name, String regExp, boolean isUpper) {
         name = name.replaceAll(regExp, "");
         if (!name.equalsIgnoreCase("")) {

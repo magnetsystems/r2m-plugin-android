@@ -42,7 +42,7 @@ public class Rest2MobileMessages {
     public static final String UPDATES_WINDOW_TITLE = "UPDATES_WINDOW_TITLE";
     public static final String UPDATES_AVAILABLE = "UPDATES_AVAILABLE";
     public static final String NO_UPDATES_AVAILABLE = "NO_UPDATES_AVAILABLE";
-    public static final String INVALID_RESPONSE_MESSAGE = "INVALID_RESPONCE_MESSAGE";
+    public static final String INVALID_RESPONSE_MESSAGE = "INVALID_RESPONSE_MESSAGE";
     public static final String NAME_CONFLICTS_WITH_JAVA_KEYWORDS = "NAME_CONFLICTS_WITH_JAVA_KEYWORDS";
 
     public static final String ERROR_NULL_VALUE_TEXT = "ERROR_NULL_VALUE_TEXT";
