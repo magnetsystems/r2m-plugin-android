@@ -37,19 +37,6 @@ public class ProjectManager {
     private static final String PACKAGE_LINE_PREFIX = "package=";
     private static final String BUILD_PREFIX = "build";
 
-    public static String getResourceFolder(Project project) {
-        String result;
-        VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentSourceRoots();
-        if ((result = getGradle(vFiles, "res")) == null) {
-            result = getNonGradle(vFiles, "res");
-        }
-        return result;
-    }
-
-    public static File getResourceFolderFile(Project project) {
-        return new File(getResourceFolder(project));
-    }
-
     public static String getSourceFolder(Project project) {
         String result;
         VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentSourceRoots();

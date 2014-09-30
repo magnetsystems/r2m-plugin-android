@@ -153,7 +153,6 @@ public class Generator {
             displayIndicatorMessage(progressIndicator, "Removed temporary files...", 10);
             File cachedSourceFolder = cacheManager.getControllerSourceFolder();
             FileUtils.copyDirectory(cachedSourceFolder, ProjectManager.getSourceFolderFile(project));
-            copyMappings(cachedSourceFolder, ProjectManager.getResourceFolderFile(project));
             displayIndicatorMessage(progressIndicator, "Completed generation", 100);
         } catch (Exception e) {
             e.printStackTrace();

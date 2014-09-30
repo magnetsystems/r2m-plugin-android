@@ -32,6 +32,11 @@ import java.util.List;
  * validation helpers
  */
 public class VerifyHelper {
+    /**
+     * The supported schemes when validating the url
+     */
+    private static final String[] SUPPORTED_PROTOCOL_SCHEMES = {"http", "https"};
+    private static final long URL_VALIDATION_OPTIONS = UrlValidator.ALLOW_LOCAL_URLS;
 
     public static final List<String> KEYWORDS = new ArrayList<String>(
             Arrays.asList(new String[]{
@@ -46,6 +51,7 @@ public class VerifyHelper {
                     "transient", "try", "void", "volatile", "while"
             })
     );
+
 
     public static String verifyPackageName(String name) {
         name = name.replaceAll(">", "");
@@ -136,7 +142,7 @@ public class VerifyHelper {
         String templateURL = url;
         templateURL = templateURL.replaceAll("\\{", "");
         templateURL = templateURL.replaceAll("}", "");
-        UrlValidator urlValidator = new UrlValidator();
+        UrlValidator urlValidator = new UrlValidator(SUPPORTED_PROTOCOL_SCHEMES, URL_VALIDATION_OPTIONS);
         return urlValidator.isValid(templateURL);
     }
 
