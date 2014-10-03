@@ -21,11 +21,13 @@ import com.intellij.ide.SaveAndSyncHandlerImpl;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ex.ProjectManagerEx;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.FrameWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
 import com.magnet.plugin.api.models.ApiMethodModel;
+import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.generator.Generator;
 import com.magnet.plugin.helpers.*;
 import com.magnet.plugin.listeners.ControllerActionCallback;
@@ -35,8 +37,8 @@ import com.magnet.plugin.listeners.generator.PostGenerateCallback;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.project.CacheManager;
 import com.magnet.plugin.project.ProjectManager;
-import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.ui.tab.MainPanel;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -47,16 +49,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 import static com.magnet.plugin.helpers.UIHelper.*;
 
 public class AddControllerForm extends FrameWrapper implements CreateMethodCallback, PostGenerateCallback {
     private JPanel contentPane;
-    private JTextField controllerName;
+    private ComboBox controllerName;
     private JButton generateServiceButton;
     private JTabbedPane tabPanel;
     private JTextField packageNameField;
@@ -68,7 +68,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
     private final AnActionEvent anAction;
 
-    public AddControllerForm(Project project, AnActionEvent anAction, boolean canBeParent, ControllerActionCallback actionCallback) {
+    public AddControllerForm(final Project project, AnActionEvent anAction, boolean canBeParent, ControllerActionCallback actionCallback) {
 //        super(project, canBeParent);
         super(project);
 
@@ -77,6 +77,11 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         this.project = project;
 
         Font font = UIHelper.getFont();
+        controllerName.setModel(new DefaultComboBoxModel(ControllerCacheManager.getCachedControllers(project)));
+//        ObjectToStringConverter converter = new ControllerNameConverter();
+        AutoCompleteDecorator.decorate(controllerName);
+        controllerName.setPrototypeDisplayValue("");
+        controllerName.setFocusable(true);
         controllerName.setFont(font);
         generateServiceButton.setFont(font);
         packageNameField.setFont(font);
@@ -104,10 +109,17 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                controllerName.setText(VerifyHelper.verifyClassName(controllerName.getText()));
+                String item = getControllerName();
+                if (null == item || item.isEmpty()) {
+                    return;
+                }
+                if (Arrays.asList(ControllerCacheManager.getCachedControllers(project)).contains(item)) {
+                    // populate data
+                    item = item.substring(item.lastIndexOf('.'));
+                }
+                controllerName.getEditor().setItem(VerifyHelper.verifyClassName(item));
             }
         });
-//        init();
         setDefaultParameters();
     }
 
@@ -130,7 +142,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         customTab.setTabRemoveListener(tabRemoveListener);
         customTab.setIndex(index);
 
-//        scrollPane.setViewportView(customTab);
         tabs.add(customTab);
         tabPanel.removeChangeListener(tabListener);
         tabPanel.remove(index);
@@ -149,28 +160,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         tabCount = tabPanel.getTabCount();
         tabPanel.invalidate();
     }
-
-//    @Nullable
-//    @Override
-//    protected JComponent createCenterPanel() {
-//        contentPane.setSize(FormConfig.SCREEN_DIMENSION);
-//        contentPane.setMinimumSize(FormConfig.SCREEN_DIMENSION);
-////        contentPane.setMaximumSize(FormConfig.SCREEN_DIMENSION);
-////        contentPane.setPreferredSize(FormConfig.SCREEN_DIMENSION);
-//        return contentPane;
-//    }
-
-//    @NotNull
-//     @Override
-//     protected Action[] createActions() {
-//        return new Action[0];
-//    }
-
-//    @NotNull
-//    @Override
-//    protected Action[] createLeftSideActions() {
-//        return super.createLeftSideActions();
-//    }
 
     private ChangeListener tabListener = new ChangeListener() {
         @Override
@@ -211,7 +200,11 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
 
     private String getControllerName() {
-        return this.controllerName.getText().trim();
+        Object item = this.controllerName.getEditor().getItem();
+        if (item == null) {
+            return null;
+        }
+        return item.toString().trim();
     }
 
     private String getPackageName() {
@@ -350,7 +343,9 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         }
 
         private boolean checkControllerName() {
-            if (controllerName.getText().trim().isEmpty()) {
+            String name = getControllerName();
+
+            if (name == null || name.isEmpty()) {
                 showErrorMessage(ERROR_SERVICE_NAME);
                 return false;
             } else if (packageNameField.getText().trim().isEmpty()) {

@@ -22,6 +22,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.api.models.RequestHeaderModel;
+import com.magnet.plugin.helpers.ControllerCacheManager;
 import com.magnet.plugin.helpers.FileHelper;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.RestByExampleKeywords;
@@ -158,6 +159,7 @@ public class Generator {
             displayIndicatorMessage(progressIndicator, "Removed temporary files...", 10);
             File cachedSourceFolder = cacheManager.getControllerSourceFolder();
             FileUtils.copyDirectory(cachedSourceFolder, ProjectManager.getSourceFolderFile(project));
+            ControllerCacheManager.saveController(project, cacheManager.getControllerFolder().getName());
             displayIndicatorMessage(progressIndicator, "Completed generation", 100);
         } catch (Exception e) {
             e.printStackTrace();

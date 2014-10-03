@@ -18,7 +18,7 @@
 package com.magnet.plugin.helpers;
 
 import com.intellij.openapi.project.Project;
-import com.magnet.plugin.actions.HistoryComponent;
+import com.magnet.plugin.components.HistoryComponent;
 import com.magnet.plugin.models.History;
 
 import java.util.ArrayList;

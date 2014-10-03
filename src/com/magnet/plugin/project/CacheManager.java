@@ -23,6 +23,7 @@ import com.magnet.plugin.helpers.FileHelper;
 import com.magnet.plugin.helpers.Logger;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FilenameFilter;
 import java.util.Arrays;
 import java.util.List;
@@ -102,7 +103,7 @@ public class CacheManager {
         return new File(getControllerFolder(), EXAMPLES_SUB_DIR);
     }
 
-    private File getControllerFolder() {
+    public File getControllerFolder() {
         return new File(getProjectCacheFolder(project) + File.separator + getUniqueFolderName(packageName, controllerName));
     }
 
@@ -162,5 +163,19 @@ public class CacheManager {
      */
     public void clearControllerMethodCache(String methodName) {
         FileUtil.delete(getControllerMethodExample(methodName));
+    }
+
+    /**
+     * @param project current project
+     * @return array of controller cache folders (sub-dirs) under the {@link #CACHE_DIR_REL_PATH}
+     */
+    public static File[] getControllerFolders(Project project) {
+        String dir = getProjectCacheFolder(project);
+        return new File(dir).listFiles(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                return file.isDirectory();
+            }
+        });
     }
 }

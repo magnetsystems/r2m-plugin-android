@@ -15,13 +15,15 @@
  * permissions and limitations under the License.
  */
 
-package com.magnet.plugin.actions;
+package com.magnet.plugin.components;
 
-import com.intellij.openapi.components.*;
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StoragePathMacros;
+import com.intellij.openapi.components.StorageScheme;
 import com.intellij.openapi.project.Project;
+import com.magnet.plugin.components.CacheComponent;
 import com.magnet.plugin.models.History;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Manage history
@@ -33,42 +35,12 @@ import org.jetbrains.annotations.Nullable;
                 @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/r2murlcache.xml", scheme = StorageScheme.DIRECTORY_BASED)
         }
 )
-public class HistoryComponent implements ProjectComponent, PersistentStateComponent<History> {
+public class HistoryComponent extends CacheComponent<History> {
 
-    private History history;
+    public final static String NAME = "HistoryComponent";
 
     public HistoryComponent(Project project) {
-        history=new History(new String[0]);
-    }
-
-    public void initComponent() {
-        // TODO: insert component initialization logic here
-    }
-
-    public void disposeComponent() {
-        // TODO: insert component disposal logic here
-    }
-
-    @NotNull
-    public String getComponentName() {
-        return "HistoryComponent";
-    }
-
-    public void projectOpened() {
-    }
-
-    public void projectClosed() {
-        // called when project is being closed
-    }
-
-    @Nullable
-    @Override
-    public History getState() {
-        return history;
-    }
-
-    @Override
-    public void loadState(History history) {
-        this.history=history;
+        super(new History(new String[0]), NAME);
     }
 }
+
