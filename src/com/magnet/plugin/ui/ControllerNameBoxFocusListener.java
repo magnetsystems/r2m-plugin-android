@@ -19,9 +19,7 @@ package com.magnet.plugin.ui;
 import com.intellij.openapi.project.Project;
 import com.magnet.plugin.helpers.ControllerCacheManager;
 import com.magnet.plugin.helpers.VerifyHelper;
-import com.magnet.plugin.project.CacheManager;
 
-import javax.swing.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.util.Arrays;
@@ -29,6 +27,8 @@ import java.util.List;
 
 /**
  * Focus listener for Controller name box
+ * When losing focus, the form is populated with cached data, if the controller matches one of the previously
+ * created controllers
  */
 public class ControllerNameBoxFocusListener implements FocusListener {
 
@@ -51,33 +51,35 @@ public class ControllerNameBoxFocusListener implements FocusListener {
         }
 
         String name = populateControllerPackageAndName(entry);
-        //populatePayloads(entry);
+        populatePayloads(entry);
 
 
         form.getControllerNameBox().getEditor().setItem(VerifyHelper.verifyClassName(name));
     }
 
     private void populatePayloads(String entry) {
-        // populate the payloads TODO: warn if already set.
         int index = entry.lastIndexOf('.');
         if (index <= 0) {
             return;
         }
-
-        List<String> cachedControllers = Arrays.asList(ControllerCacheManager.getCachedControllers(project));
-        if (!cachedControllers.contains(entry)) {
+        if (!isCacheController(entry)) {
             return;
         }
 
-        String packageName = entry.substring(0, index);
-        String controllerName = entry.substring(index + 1);
-        CacheManager cache = new CacheManager(project, packageName, controllerName);
-        List<String> methodNames = cache.getControllerMethodNames();
-        JTabbedPane tabPanel = form.getTabPanel();
-        tabPanel.removeAll();
+        // first remove all tabs
+//        form.getTabManager().removeAllTabs();
 
-
-        return;
+//
+//        String packageName = entry.substring(0, index);
+//        String controllerName = entry.substring(index + 1);
+//        CacheManager cache = new CacheManager(project, packageName, controllerName);
+//        List<String> methodNames = cache.getControllerMethodNames().toArray(new String[methodNames.size()]);
+//        for (int i = 0; i < methodNames.size(); i++) {
+//            MainPanel panel = form.getTabManager().addNewTab(i);
+//            panel.createMethod();
+//            panel.getPanel().getMethodNamePanel().setText(methodNames[i]);
+//            panel.getPanel().getUrlField().getEditor().setItem("http://blah.com");
+//        }
 
     }
 
@@ -90,6 +92,11 @@ public class ControllerNameBoxFocusListener implements FocusListener {
         // populate package name
         form.getPackageNameField().setText(packageName);
         return entry.substring(entry.lastIndexOf('.') + 1);
+    }
+
+    private boolean isCacheController(String entry) {
+        List<String> cachedControllers = Arrays.asList(ControllerCacheManager.getCachedControllers(project));
+        return cachedControllers.contains(entry);
     }
 
 }

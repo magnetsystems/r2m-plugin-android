@@ -16,6 +16,7 @@
  */
 package com.magnet.plugin.ui.tab;
 
+import com.beust.jcommander.internal.Lists;
 import com.intellij.openapi.project.Project;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.listeners.TabRemoveListener;
@@ -30,16 +31,12 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- *  Manage the method tabs in form
+ * Manage the method tabs in form
  */
 public class TabManager {
     private final Project project;
     private final AddControllerForm form;
     private final JTabbedPane tabPanel;
-
-    public List<MainPanel> getTabs() {
-        return Collections.unmodifiableList(tabs);
-    }
 
     private final List<MainPanel> tabs;
 
@@ -53,6 +50,9 @@ public class TabManager {
 
     }
 
+    /**
+     * Initialize the tabs
+     */
     private void init() {
         MainPanel customTab = new MainPanel(project, form, tabPanel);
         customTab.setTabRemoveListener(tabRemoveListener);
@@ -63,7 +63,7 @@ public class TabManager {
         tabPanel.addChangeListener(tabListener);
     }
 
-    public void addNewTab(int index) {
+    public MainPanel addNewTab(int index) {
         MainPanel customTab = new MainPanel(project, form, tabPanel);
         customTab.setTabRemoveListener(tabRemoveListener);
         customTab.setIndex(index);
@@ -76,6 +76,13 @@ public class TabManager {
         tabPanel.setSelectedIndex(0);
         tabPanel.addChangeListener(tabListener);
         updateRemoveButtons();
+        return customTab;
+    }
+
+    public void removeAllTabs() {
+        for (MainPanel tab : getTabs() /* use a copy */) {
+            removeTab(tab);
+        }
     }
 
     public void removeTab(MainPanel mainPanel) {
@@ -111,7 +118,6 @@ public class TabManager {
     };
 
 
-
     private void updateRemoveButtons() {
         for (int i = 0; i < tabs.size(); i++) {
             tabs.get(i).setIndex(i);
@@ -126,7 +132,12 @@ public class TabManager {
         tabPanel.revalidate();
     }
 
-
+    /**
+     * @return an immutable copy of the tabs list
+     */
+    public List<MainPanel> getTabs() {
+        return Collections.unmodifiableList(Lists.newArrayList(tabs));
+    }
 
 
 }

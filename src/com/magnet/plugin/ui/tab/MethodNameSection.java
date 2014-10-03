@@ -44,30 +44,21 @@ import java.util.List;
 
 public class MethodNameSection extends BasePanel implements URLFocusListener, PluginIcon {
 
-    private JLabel jLabel1;
     private JTextField methodName;
     private JCheckBox advancedBox;
-    private JLabel jLabel2;
 
     private ComboBox urlField;
 
 
     private URLSection urlSection;
 
-    public void setProject(Project project) {
-        urlField.setModel(new DefaultComboBoxModel(HistoryHelper.getSavedUrls(project)));
-        urlField.setPrototypeDisplayValue("");
-//        urlField.setMinimumAndPreferredWidth(15);
-    }
-
-
     {
 
-        jLabel1 = new JLabel();
+        JLabel jLabel1 = new JLabel();
         methodName = new JTextField();
         methodName.setColumns(1);
         advancedBox = new JCheckBox();
-        jLabel2 = new JLabel();
+        JLabel jLabel2 = new JLabel();
 
 
         urlField = new ComboBox();
@@ -83,7 +74,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                ParsedUrl parsedUrl = QueryParser.parseQuerry((getComboBoxEditor()).getText());
+                ParsedUrl parsedUrl = QueryParser.parseQuery((getComboBoxEditor()).getText());
                 urlSection.setParsedQuery(parsedUrl);
                 urlSection.revalidateSection();
             }
@@ -157,11 +148,20 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         advancedBox.setPressedIcon(getSelectedIcon(advancedBox));
     }
 
+    public void setProject(Project project) {
+        urlField.setModel(new DefaultComboBoxModel(HistoryHelper.getSavedUrls(project)));
+        urlField.setPrototypeDisplayValue("");
+//        urlField.setMinimumAndPreferredWidth(15);
+    }
+
+
+
+
     private void showHideUrlSection(ActionEvent evt) {
         advancedBox.setPressedIcon(getSelectedIcon(advancedBox));
         if (advancedBox.isSelected()) {
 //            advancedBox.setIcon(openIcon);
-            ParsedUrl parsedUrl = QueryParser.parseQuerry(getComboBoxEditor().getText());
+            ParsedUrl parsedUrl = QueryParser.parseQuery(getComboBoxEditor().getText());
             urlSection.setParsedQuery(parsedUrl);
             urlSection.setVisible(true);
         } else {

@@ -22,6 +22,7 @@
 package com.magnet.plugin.ui.tab;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.components.JBScrollPane;
 import com.magnet.plugin.api.core.RequestFactory;
 import com.magnet.plugin.api.mock.WorkerCallback;
 import com.magnet.plugin.api.models.ApiMethodModel;
@@ -54,9 +55,6 @@ public class MainPanel extends BasePanel {
     private ResponseSection responseSection;
     private ButtonsSection buttons;
 
-    private JScrollPane jScrollPane;
-    private JPanel jPanel1;
-
     private CreateMethodCallback methodCallback;
     private TabRemoveListener tabRemoveListener;
     private JTabbedPane tabPanel;
@@ -64,8 +62,6 @@ public class MainPanel extends BasePanel {
     private ApiMethodModel apiMethodModel = null;
 
     private int index = -1;
-
-    private Project project = null;
 
 
     {
@@ -77,8 +73,8 @@ public class MainPanel extends BasePanel {
         responseSection = new ResponseSection();
         buttons = new ButtonsSection();
 
-        jScrollPane = new JScrollPane();
-        jPanel1 = new JPanel();
+        JScrollPane jScrollPane = new JBScrollPane();
+        JPanel jPanel1 = new JPanel();
 
 
         DocumentListener createMethodButtonUpdater = new DocumentListener() {
@@ -222,7 +218,6 @@ public class MainPanel extends BasePanel {
     public MainPanel(Project project, CreateMethodCallback methodCallback, JTabbedPane tabPanel) {
         this.methodCallback = methodCallback;
         this.tabPanel = tabPanel;
-        this.project = project;
         panel.setProject(project);
     }
 
@@ -289,10 +284,6 @@ public class MainPanel extends BasePanel {
         }
     };
 
-    public TabRemoveListener getTabRemoveListener() {
-        return tabRemoveListener;
-    }
-
     public void setTabRemoveListener(TabRemoveListener tabRemoveListener) {
         this.tabRemoveListener = tabRemoveListener;
     }
@@ -332,4 +323,9 @@ public class MainPanel extends BasePanel {
             }
         }
     }
+    public MethodNameSection getPanel() {
+        return panel;
+    }
+
+
 }

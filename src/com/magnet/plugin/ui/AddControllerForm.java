@@ -139,11 +139,12 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         return controllerNameBox;
     }
 
-    public JTabbedPane getTabPanel() {
-        return tabPanel;
-    }
     public JTextField getPackageNameField() {
         return packageNameField;
+    }
+
+    public TabManager getTabManager() {
+        return tabManager;
     }
 
     public String getControllerName() {
