@@ -30,5 +30,6 @@ public interface PluginIcon {
     Icon closeIconPressed = IconLoader.getIcon("/plus_button_pressed.png");
     Icon openIconPressed = IconLoader.getIcon("/minus_button_pressed.png");
     Icon errorIcon = IconLoader.getIcon("/error_icon.png");
+    Icon warningIcon = IconLoader.getIcon("/warning_icon.png");
     Icon validIcon = IconLoader.getIcon("/check_icon.png");
 }

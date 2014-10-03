@@ -22,6 +22,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ex.ProjectManagerEx;
 import com.intellij.openapi.ui.FrameWrapper;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
 import com.magnet.plugin.api.models.ApiMethodModel;
@@ -278,11 +279,13 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
                 String text = mainPanel.getResponse();
                 BodyValidationResult validationResult = JSONValidator.validateBody(text);
                 if (!validationResult.isValid()) {
-                    UIHelper.showErrorMessage(
-                            Rest2MobileMessages.getMessage(Rest2MobileMessages.INVALID_RESPONSE_MESSAGE) +
-                            "\n" +
-                            JSONValidator.getErrorMessage(new JsonErrorConverter(text), validationResult.getErrors()));
-                    result = false;
+                    int okCancelResult = Messages.showOkCancelDialog(mainPanel, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
+                            Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_TITLE),
+                            Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CONTINUE),
+                            Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
+                            null);
+                    result = okCancelResult == 0;
+
                     break;
                 }
             }

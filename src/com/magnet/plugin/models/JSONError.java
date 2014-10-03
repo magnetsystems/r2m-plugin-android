@@ -17,15 +17,24 @@
 
 package com.magnet.plugin.models;
 
+import com.magnet.langpack.builder.rest.parser.validation.DocLocation;
+import com.magnet.langpack.builder.rest.parser.validation.ValidationResultEntry;
 import com.magnet.plugin.constants.JSONErrorType;
 
 public class JSONError {
     protected JSONErrorType errorType;
     private int startIndex;
     private int endIndex;
+    private ValidationResultEntry validationResultEntry;
 
-    public JSONError() {
+    public JSONError(ValidationResultEntry validationResultEntry, int startIndex, int endIndex) {
+      this.validationResultEntry = validationResultEntry;
+      this.startIndex = startIndex;
+      this.endIndex = endIndex;
+
+      this.errorType = convertErrorType(validationResultEntry.getErrorType());
     }
+
 
     public JSONError(JSONErrorType errorType, int startIndex, int endIndex) {
         this.errorType = errorType;
@@ -37,7 +46,12 @@ public class JSONError {
         return errorType;
     }
 
-    public void setErrorType(JSONErrorType errorType) {
+    public String getErrorTypeAsString() {
+      return errorType2String(errorType);
+    }
+
+
+  public void setErrorType(JSONErrorType errorType) {
         this.errorType = errorType;
     }
 
@@ -57,6 +71,22 @@ public class JSONError {
         this.endIndex = endIndex;
     }
 
+    public ValidationResultEntry.SEVERITY getSeverity() {
+      return validationResultEntry.getSeverity();
+    }
+
+    public DocLocation getDocLocation() {
+      return validationResultEntry.getDocLocation();
+    }
+
+    public String getPropertyName() {
+      return validationResultEntry.getPropertyName();
+    }
+
+    public String getMessage() {
+      return toString();
+    }
+
     @Override
     public String toString() {
         String error = "";
@@ -66,5 +96,31 @@ public class JSONError {
             error = errorType.toString() + "\n";
         }
         return error;
+    }
+
+    private JSONErrorType convertErrorType(ValidationResultEntry.ErrorType validationErrorType) {
+      switch (validationErrorType) {
+        case INVALID_FORMAT:
+          return JSONErrorType.ERROR_INVALID_FORMAT;
+        case EMPTY_ARRAY:
+          return JSONErrorType.ERROR_EMPTY_ARRAY;
+        case EMPTY_OBJECT:
+          return JSONErrorType.ERROR_EMPTY_DICTIONARY;
+        default: //case NULL_PROPERTY:
+          return JSONErrorType.ERROR_NULL_VALUE;
+      }
+    }
+
+    private String errorType2String(JSONErrorType errorType) {
+      switch (errorType) {
+        case ERROR_NULL_VALUE :
+          return "value is null";
+        case ERROR_EMPTY_ARRAY :
+          return "empty array []";
+        case ERROR_EMPTY_DICTIONARY :
+          return "empty object {}";
+        default:
+          return "unknown";
+      }
     }
 }

@@ -52,7 +52,7 @@ public class ResponseSection extends JSONPanel {
                                 .addComponent(jSeparator1)
                                 .addComponent(jLabel2)
                                 .addComponent(jScrollPane, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
-                                .addComponent(errorMessageField)
+                                .addComponent(errorPanel, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
                         )
         );
         layout.setVerticalGroup(
@@ -63,7 +63,7 @@ public class ResponseSection extends JSONPanel {
                         )
                         .addComponent(jLabel2)
                         .addComponent(jScrollPane, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_TEXTAREA_SIZE, FormConfig.MAX_TEXTAREA_SIZE)
-                        .addComponent(errorMessageField)
+                        .addComponent(errorPanel, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
         );
     }
 
