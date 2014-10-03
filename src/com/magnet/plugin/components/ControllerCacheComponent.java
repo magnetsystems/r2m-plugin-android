@@ -17,12 +17,11 @@
 
 package com.magnet.plugin.components;
 
-import com.intellij.openapi.components.State;
-import com.intellij.openapi.components.Storage;
-import com.intellij.openapi.components.StoragePathMacros;
-import com.intellij.openapi.components.StorageScheme;
+import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
 import com.magnet.plugin.models.ControllerCache;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Manage history
@@ -34,10 +33,37 @@ import com.magnet.plugin.models.ControllerCache;
                 @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/r2mControllerCache.xml", scheme = StorageScheme.DIRECTORY_BASED)
         }
 )
-public class ControllerCacheComponent extends CacheComponent<ControllerCache> {
+public class ControllerCacheComponent implements ProjectComponent, PersistentStateComponent<ControllerCache> {
     public final static String NAME = "ControllerCacheComponent";
 
+    private ControllerCache cache;
+
     public ControllerCacheComponent(Project project) {
-        super(new ControllerCache(project), NAME);
+        this.cache = new ControllerCache(project);
     }
+
+    public void initComponent() {}
+
+    public void disposeComponent() {}
+
+    @NotNull
+    public String getComponentName() {
+        return NAME;
+    }
+
+    public void projectOpened() {}
+
+    public void projectClosed() {}
+
+    @Nullable
+    @Override
+    public ControllerCache getState() {
+        return cache;
+    }
+
+    @Override
+    public void loadState(ControllerCache cache) {
+        this.cache = cache;
+    }
+
 }

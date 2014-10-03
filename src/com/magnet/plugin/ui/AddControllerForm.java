@@ -46,8 +46,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.File;
 import java.util.*;
 import java.util.List;
@@ -56,7 +54,7 @@ import static com.magnet.plugin.helpers.UIHelper.*;
 
 public class AddControllerForm extends FrameWrapper implements CreateMethodCallback, PostGenerateCallback {
     private JPanel contentPane;
-    private ComboBox controllerName;
+    private ComboBox controllerNameBox;
     private JButton generateServiceButton;
     private JTabbedPane tabPanel;
     private JTextField packageNameField;
@@ -77,12 +75,12 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         this.project = project;
 
         Font font = UIHelper.getFont();
-        controllerName.setModel(new DefaultComboBoxModel(ControllerCacheManager.getCachedControllers(project)));
+        controllerNameBox.setModel(new DefaultComboBoxModel(ControllerCacheManager.getCachedControllers(project)));
 //        ObjectToStringConverter converter = new ControllerNameConverter();
-        AutoCompleteDecorator.decorate(controllerName);
-        controllerName.setPrototypeDisplayValue("");
-        controllerName.setFocusable(true);
-        controllerName.setFont(font);
+        AutoCompleteDecorator.decorate(controllerNameBox);
+        controllerNameBox.setPrototypeDisplayValue("");
+        controllerNameBox.setFocusable(true);
+        controllerNameBox.setFont(font);
         generateServiceButton.setFont(font);
         packageNameField.setFont(font);
 
@@ -96,30 +94,14 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
         generateServiceButton.addActionListener(generateListener);
         generateServiceButton.setEnabled(true);
+
+
+
         tabs.add(customTab);
         tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, 1), customTab);
         tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.PLUS_TAB), new JLabel(""));
         tabPanel.addChangeListener(tabListener);
-        controllerName.addFocusListener(new FocusListener() {
-
-            @Override
-            public void focusGained(FocusEvent focusEvent) {
-
-            }
-
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-                String item = getControllerName();
-                if (null == item || item.isEmpty()) {
-                    return;
-                }
-                if (Arrays.asList(ControllerCacheManager.getCachedControllers(project)).contains(item)) {
-                    // populate data
-                    item = item.substring(item.lastIndexOf('.'));
-                }
-                controllerName.getEditor().setItem(VerifyHelper.verifyClassName(item));
-            }
-        });
+        controllerNameBox.getEditor().getEditorComponent().addFocusListener(new ControllerNameBoxFocusListener(project, this));
         setDefaultParameters();
     }
 
@@ -137,7 +119,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         return this.getFrame();
     }
 
-    private void addNewTab(int index) {
+    public void addNewTab(int index) {
         MainPanel customTab = new MainPanel(project, this, tabPanel);
         customTab.setTabRemoveListener(tabRemoveListener);
         customTab.setIndex(index);
@@ -152,7 +134,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         updateRemoveButtons();
     }
 
-    private void removeTab(MainPanel mainPanel) {
+    public void removeTab(MainPanel mainPanel) {
         int tabCount = tabPanel.getTabCount();
         tabs.remove(mainPanel);
         tabPanel.setSelectedIndex(0);
@@ -199,8 +181,19 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
     }
 
 
-    private String getControllerName() {
-        Object item = this.controllerName.getEditor().getItem();
+    public ComboBox getControllerNameBox() {
+        return controllerNameBox;
+    }
+
+    public JTabbedPane getTabPanel() {
+        return tabPanel;
+    }
+    public JTextField getPackageNameField() {
+        return packageNameField;
+    }
+
+    public String getControllerName() {
+        Object item = this.controllerNameBox.getEditor().getItem();
         if (item == null) {
             return null;
         }
