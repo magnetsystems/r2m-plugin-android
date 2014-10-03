@@ -17,56 +17,135 @@
 
 package com.magnet.plugin.ui.tab;
 
-import com.magnet.plugin.constants.Colors;
+import com.magnet.plugin.constants.JSONErrorType;
 import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.constants.PluginIcon;
 import com.magnet.plugin.helpers.FormatHelper;
 import com.magnet.plugin.helpers.JSONValidator;
+import com.magnet.plugin.messages.Rest2MobileMessages;
+import com.magnet.plugin.models.JSONError;
 import org.jdesktop.swingx.JXLabel;
+import org.jdesktop.swingx.JXTable;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.AbstractTableModel;
+import javax.swing.text.BadLocationException;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 
-import static com.magnet.plugin.constants.Colors.BLACK;
-import static com.magnet.plugin.constants.Colors.GREEN;
+import java.util.*;
+import java.util.List;
+
+import static com.magnet.plugin.constants.Colors.*;
 
 public class JSONPanel extends BasePanel {
 
     protected JXLabel errorMessageField;
     protected JTextArea jsonField;
     protected JScrollPane jScrollPane;
+    protected JXTable errorTable;
+    protected JXLabel errorMessageLabel;
+    protected JScrollPane errorTableScrollPane;
+    protected JPanel errorPanel;
 
-    {
+    protected List<JSONError> errors;
 
-
-        errorMessageField = new JXLabel("");
-        errorMessageField.setFont(getFont());
-        errorMessageField.setForeground(Colors.RED);
-        errorMessageField.setIcon(PluginIcon.validIcon);
-        errorMessageField.setVisible(true);
-        errorMessageField.setLineWrap(true);
-
+  {
         jsonField = new JTextArea();
         jsonField.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
         jsonField.setLineWrap(true);
         jsonField.setFont(baseFont);
 
+        errorTable = new JXTable();
+        errorTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
+          @Override
+          public void valueChanged(ListSelectionEvent listSelectionEvent) {
+            int viewRow = errorTable.getSelectedRow();
+            if (viewRow >= 0) {
+              if(null != errors && viewRow < errors.size()) {
+                JSONError error = errors.get(viewRow);
+                if(null != error.getDocLocation() && 0 != error.getDocLocation().getLine()) {
+                  try {
+                    int lineNum = error.getDocLocation().getLine() - 1;
+                    int startIndex = jsonField.getLineStartOffset(lineNum);
+                    int endIndex = jsonField.getLineEndOffset(lineNum);
+                    //Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
+                    //jsonField.getHighlighter().addHighlight(startIndex, endIndex, painter);
+
+                    jsonField.requestFocusInWindow();
+                    Rectangle viewRect = jsonField.modelToView(startIndex);
+                    jsonField.scrollRectToVisible(viewRect);
+                    // Highlight the text
+                    jsonField.setCaretPosition(endIndex);
+                    jsonField.moveCaretPosition(startIndex);
+                  } catch (BadLocationException e) {
+                    e.printStackTrace();
+                  }
+                }
+              }
+
+            } else {
+
+            }
+          }
+        });
+
+        errorMessageLabel = new JXLabel();
+        errorMessageLabel.setLineWrap(true);
+        errorMessageLabel.setFont(getFont());
+
+        errorTableScrollPane = new JScrollPane();
+        errorTableScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        errorTableScrollPane.setViewportView(errorTable);
+
+        errorPanel = new JPanel();
+        GroupLayout jPanel1Layout = new GroupLayout(errorPanel);
+        jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                        .addComponent(errorMessageLabel)
+                        .addComponent(errorTableScrollPane)
+        );
+        jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createSequentialGroup()
+                        .addComponent(errorMessageLabel)
+                        .addComponent(errorTableScrollPane));
+        errorPanel.setLayout(jPanel1Layout);
+
+        errorPanel.setVisible(false);
+        errorTableScrollPane.setVisible(false);
 
         jsonField.getDocument().addDocumentListener(new DocumentListener() {
-
-
-
             private void setFieldColor() {
                 String text = jsonField.getText();
                 resetFields();
                 if (JSONValidator.isJSON(text)) {
-                    setFieldTextColor(BLACK);
-                    JSONValidator.validateJSON(text, errorMessageField, jsonField);
+                  setFieldTextColor(BLACK);
+                  errors = JSONValidator.validateJSON(text, null /* errorMessageField */, jsonField);
+                  if(!errors.isEmpty()) {
+                    errorTable.setModel(new ErrorTableModel(errors));
+
+                    errorPanel.setVisible(true);
+                    errorTableScrollPane.setVisible(true);
+
+                    // is it fatal error ?
+                    if(errors.size() == 1 && errors.get(0).getErrorType() == JSONErrorType.ERROR_INVALID_FORMAT) {
+                      errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
+                      errorMessageLabel.setIcon(PluginIcon.errorIcon);
+                    } else {
+                      errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_MESSAGE));
+                      errorMessageLabel.setIcon(PluginIcon.warningIcon);
+                    }
+                  } else {
+                    //errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
+                    errorMessageLabel.setIcon(PluginIcon.validIcon);
+                    errorPanel.setVisible(true);
+                  }
                 } else {
-                    setFieldTextColor(GREEN);
+                  setFieldTextColor(GREEN);
                 }
             }
 
@@ -76,8 +155,14 @@ public class JSONPanel extends BasePanel {
 
             private void resetFields() {
                 jsonField.getHighlighter().removeAllHighlights();
-                errorMessageField.setIcon(PluginIcon.validIcon);
-                errorMessageField.setText("");
+
+                errorMessageLabel.setIcon(PluginIcon.validIcon);
+                errorMessageLabel.setText("");
+
+                errorTable.setModel(new ErrorTableModel(Collections.EMPTY_LIST));
+
+                errorPanel.setVisible(false);
+                errorTableScrollPane.setVisible(false);
             }
 
             @Override
@@ -123,4 +208,53 @@ public class JSONPanel extends BasePanel {
     public void clearJson() {
         jsonField.setText("");
     }
+
+    public static class ErrorTableModel extends AbstractTableModel {
+        public static final int PROPERTY_INDEX = 0;
+        public static final int ERROR_INDEX = 1;
+        public static final int LOCATION_INDEX = 2;
+
+        public static final String[] columnNames = {"Property", "Error", "Location"};
+
+        private final java.util.List<JSONError> errors;
+
+        public ErrorTableModel(java.util.List<JSONError> errors) {
+          this.errors = errors;
+        }
+
+        @Override
+        public int getRowCount() {
+          return errors.size();
+        }
+
+        @Override
+        public int getColumnCount() {
+          return columnNames.length;
+        }
+
+        @Override
+        public String getColumnName(int column) {
+          return columnNames[column];
+        }
+
+        @Override
+        public Object getValueAt(int row, int column) {
+          JSONError record = errors.get(row);
+          switch (column) {
+            case PROPERTY_INDEX:
+              return record.getPropertyName();
+            case ERROR_INDEX:
+              return record.getErrorTypeAsString();
+            case LOCATION_INDEX:
+              return record.getDocLocation();
+            default:
+              return new Object();
+          }
+        }
+
+        public boolean isCellEditable(int row, int column) {
+          return false;
+        }
+    }
+
 }

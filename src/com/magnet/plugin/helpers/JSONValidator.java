@@ -29,7 +29,9 @@ import javax.swing.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Collections;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -51,28 +53,19 @@ public class JSONValidator {
         return matchCount >= 2;
     }
 
-    public static void validateJSON(String text, JComponent field, JTextArea jsonField) {
+    public static List<JSONError> validateJSON(String text, JComponent field, JTextArea jsonField) {
         BodyValidationResult validationResult = BodyValidator.validateBody(text);
-
         if (validationResult.isValid()) {
-            return;
+          return Collections.EMPTY_LIST;
         }
-        JsonErrorConverter converter = new JsonErrorConverter(text);
-        // Display error messages
-        StringBuilder errorMessage = getErrorMessage(converter, validationResult.getErrors());
-        setMessageToField(field, errorMessage.toString().trim(), !validationResult.isValid());
+
+        JsonErrorConverter jsonErrorConverter = new JsonErrorConverter(text, validationResult.getErrors());
+        List<JSONError> errors = jsonErrorConverter.convert();
+
         // Highlight error in payload
-        highlightErrors(converter, validationResult, jsonField);
-
-    }
-
-    private static void highlightErrors(JsonErrorConverter converter, BodyValidationResult validationResult, JTextArea jsonField) {
-        List<JSONError> errors = new ArrayList<JSONError>();
-        for (ValidationResultEntry entry : validationResult.getErrors()) {
-            errors.add(converter.convert(entry));
-        }
         HighlightHelper.highlightErrors(errors, jsonField);
 
+        return errors;
     }
 
     public static BodyValidationResult validateBody(String text) {
@@ -83,11 +76,10 @@ public class JSONValidator {
         return text.replaceAll(UNUSED_SYMBOLS, " ");
     }
 
-    public static StringBuilder getErrorMessage(JsonErrorConverter jsonErrorConverter, List<ValidationResultEntry> errors) {
-
+    public static StringBuilder getErrorMessage(List<ValidationResultEntry> errors) {
         StringBuilder errorMessage = new StringBuilder();
         for (ValidationResultEntry error : errors) {
-            errorMessage.append(jsonErrorConverter.convert(error));
+            errorMessage.append(error.getMessage()).append("\n");
         }
         return errorMessage;
     }

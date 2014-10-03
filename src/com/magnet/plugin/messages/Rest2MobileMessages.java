@@ -50,8 +50,15 @@ public class Rest2MobileMessages {
     public static final String ERROR_EMPTY_DICTIONARY_TEXT = "ERROR_EMPTY_DICTIONARY_TEXT";
     public static final String ERROR_MISSING_COMMA_TEXT = "ERROR_MISSING_COMMA_TEXT";
     public static final String ERROR_MISSING_QUOTES_TEXT = "ERROR_MISSING_QUOTES_TEXT";
+    public static final String ERROR_INVALID_FORMAT = "ERROR_INVALID_FORMAT";
 
-    /**
+    public static final String VALIDATION_WARNING_MESSAGE = "VALIDATION_WARNING_MESSAGE";
+    public static final String VALIDATION_WARNING_TITLE = "VALIDATION_WARNING_TITLE";
+    public static final String VALIDATION_WARNING_QUESTION = "VALIDATION_WARNING_QUESTION";
+    public static final String VALIDATION_WARNING_CONTINUE = "VALIDATION_WARNING_CONTINUE";
+    public static final String VALIDATION_WARNING_CANCEL = "VALIDATION_WARNING_CANCEL";
+
+  /**
      * @param key  constant identifying L10n message
      * @param args arguments to be expanded in L10n message
      * @return expanded L10n message given its key and arguments

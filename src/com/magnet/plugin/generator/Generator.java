@@ -130,7 +130,12 @@ public class Generator {
             cmdArgs.add(controllerName);
             cmdArgs.add("-o");
             cmdArgs.add(codeDirPath.getAbsolutePath());
-            if (!packageName.trim().isEmpty()) {
+            //empty json property policy
+            cmdArgs.add("-j");
+            cmdArgs.add("ignore");
+            //generate unit test
+            //cmdArgs.add("-u");
+          if (!packageName.trim().isEmpty()) {
                 cmdArgs.add("-p");
                 cmdArgs.add(packageName);
             }
