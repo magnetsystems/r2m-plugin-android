@@ -21,11 +21,11 @@
  */
 package com.magnet.plugin.ui.tab;
 
+import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.helpers.HintHelper;
 import com.magnet.plugin.helpers.UIHelper;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.models.Path;
-import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
 import java.awt.*;
@@ -44,13 +44,13 @@ public class PathPanel extends JPanel {
 
     private String variableNameValue;
 
-    private JPanel parrentPanel;
+    private JPanel parentPanel;
 
     private Path pathModel;
     private boolean isRequiredField = true;
 
-    public PathPanel(JPanel parrentPanel, Path path) {
-        this.parrentPanel = parrentPanel;
+    public PathPanel(JPanel parentPanel, Path path) {
+        this.parentPanel = parentPanel;
         this.pathModel = path;
         variableName.setText(pathModel.getParameterizedVariable());
         variable.setSelected(pathModel.isVariable());
@@ -126,20 +126,20 @@ public class PathPanel extends JPanel {
     }
 
     public void deleteThisPanel() {
-        parrentPanel.remove(this);
-        if (parrentPanel instanceof URLSection) {
-            ((URLSection) parrentPanel).removePath(this);
+        parentPanel.remove(this);
+        if (parentPanel instanceof URLSection) {
+            ((URLSection) parentPanel).removePath(this);
         }
-        parrentPanel.revalidate();
-        parrentPanel.validate();
-        parrentPanel.repaint();
+        parentPanel.revalidate();
+        parentPanel.validate();
+        parentPanel.repaint();
     }
 
     public Path getPath() {
         Path path = new Path();
         path.setPath(this.path.getText());
         path.setVariable(variable.isSelected());
-        path.setVariableName("{" + variableName.getText() + "}");
+        path.setVariableName(VerifyHelper.START_TEMPLATE_VARIABLE + variableName.getText() + VerifyHelper.END_TEMPLATE_VARIABLE);
 
         return path;
     }
@@ -167,4 +167,5 @@ public class PathPanel extends JPanel {
 
         return true;
     }
+
 }

@@ -18,23 +18,23 @@
 package com.magnet.plugin.helpers;
 
 import com.intellij.openapi.project.Project;
-import com.magnet.plugin.components.ControllerCacheComponent;
-import com.magnet.plugin.models.ControllerCache;
+import com.magnet.plugin.components.ControllerHistoryComponent;
+import com.magnet.plugin.models.ControllerHistory;
 
 import java.util.List;
 
 /**
  * Manage access to controller cache
  */
-public class ControllerCacheManager {
+public class ControllerHistoryManager {
 
 
-    private static ControllerCache getCache(Project project) {
+    private static ControllerHistory getCache(Project project) {
         return getComponent(project).getState();
     }
 
-    private static ControllerCacheComponent getComponent(Project project) {
-        return project.getComponent(ControllerCacheComponent.class);
+    private static ControllerHistoryComponent getComponent(Project project) {
+        return project.getComponent(ControllerHistoryComponent.class);
     }
 
     public static String[] getCachedControllers(Project project) {
@@ -46,7 +46,7 @@ public class ControllerCacheManager {
     }
 
     public static void saveController(Project project, String controller) {
-        ControllerCache cache = getCache(project);
+        ControllerHistory cache = getCache(project);
         cache.addController(controller);
     }
 }

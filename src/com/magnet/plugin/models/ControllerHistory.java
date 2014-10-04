@@ -11,11 +11,11 @@ import java.util.List;
 /**
  * Cache holding all controllers used in this project
  */
-public class ControllerCache {
+public class ControllerHistory {
     private final Project project;
     private List<String> controllerNames;
 
-    public ControllerCache(Project project) {
+    public ControllerHistory(Project project) {
         this.project = project;
         reset();
     }

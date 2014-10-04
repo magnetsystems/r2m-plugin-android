@@ -17,9 +17,8 @@
 package com.magnet.plugin.ui;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.util.net.HTTPMethod;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
-import com.magnet.plugin.helpers.ControllerCacheManager;
+import com.magnet.plugin.helpers.ControllerHistoryManager;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.project.CacheManager;
 import com.magnet.plugin.ui.tab.MainPanel;
@@ -96,7 +95,7 @@ public class ControllerNameBoxFocusListener implements FocusListener {
     }
 
     private boolean isCacheController(String entry) {
-        List<String> cachedControllers = Arrays.asList(ControllerCacheManager.getCachedControllers(project));
+        List<String> cachedControllers = Arrays.asList(ControllerHistoryManager.getCachedControllers(project));
         return cachedControllers.contains(entry);
     }
 

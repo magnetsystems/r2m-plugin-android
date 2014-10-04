@@ -37,6 +37,8 @@ public class VerifyHelper {
      */
     private static final String[] SUPPORTED_PROTOCOL_SCHEMES = {"http", "https"};
     private static final long URL_VALIDATION_OPTIONS = UrlValidator.ALLOW_LOCAL_URLS;
+    public static final String END_TEMPLATE_VARIABLE = "}";
+    public static final String START_TEMPLATE_VARIABLE = "{";
     public static final String END_TEMPLATE_VARIABLE_REGEX = "}";
     public static final String START_TEMPLATE_VARIABLE_REGEX = "\\{";
 

@@ -75,7 +75,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         this.project = project;
 
         Font font = UIHelper.getFont();
-        controllerNameBox.setModel(new DefaultComboBoxModel(ControllerCacheManager.getCachedControllers(project)));
+        controllerNameBox.setModel(new DefaultComboBoxModel(ControllerHistoryManager.getCachedControllers(project)));
 //        ObjectToStringConverter converter = new ControllerNameConverter();
         AutoCompleteDecorator.decorate(controllerNameBox);
         controllerNameBox.setPrototypeDisplayValue("");

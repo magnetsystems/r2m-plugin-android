@@ -291,11 +291,11 @@ public class URLSection extends BasePanel implements FocusListener {
         removeAllQueries();
     }
 
-    private String buildUrl(boolean isParameterized) {
+    private String buildUrl(boolean isTemplatized) {
         StringBuilder builder = new StringBuilder(baseUrlField.getText());
         for (PathPanel path : paths) {
             builder.append("/");
-            if (isParameterized) {
+            if (isTemplatized) {
                 builder.append(path.getPath().getParameterizedPath());
             } else {
                 builder.append(path.getPath().getPath());
@@ -321,7 +321,7 @@ public class URLSection extends BasePanel implements FocusListener {
         return buildUrl(false);
     }
 
-    public String getParameterizedUrl() {
+    public String getTemplateUrl() {
         return buildUrl(true);
     }
 

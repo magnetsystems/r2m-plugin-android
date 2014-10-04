@@ -186,9 +186,9 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         return text;
     }
 
-    public String getParameterizedUrl() {
+    public String getTemplateUrl() {
         if (urlDetailsBox.isSelected()) {
-            return urlSection.getParameterizedUrl();
+            return urlSection.getTemplateUrl();
         }
         String text = "";
         if (!getComboBoxEditor().getText().trim().isEmpty()) {

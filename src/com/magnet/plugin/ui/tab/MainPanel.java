@@ -46,7 +46,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.magnet.plugin.helpers.UIHelper.*;
 
@@ -200,6 +204,8 @@ public class MainPanel extends BasePanel {
         }
         ResponseModel responseModel = new ResponseModel(responseSection.getRawPayload());
         apiMethodModel.setResponseModel(responseModel);
+
+        // create method file
         methodCallback.createMethod(apiMethodModel);
         return true;
     }
@@ -246,7 +252,6 @@ public class MainPanel extends BasePanel {
     }
 
     /**
-     *
      * @param url url where path param are expanded (removed "{""}")
      * @return expanded url
      */
@@ -255,6 +260,7 @@ public class MainPanel extends BasePanel {
         url = url.replaceAll(VerifyHelper.END_TEMPLATE_VARIABLE_REGEX, "");
         return url;
     }
+
     public Method makeMethod() {
 
         Method method = new Method();
@@ -274,7 +280,7 @@ public class MainPanel extends BasePanel {
 
     public Method getMethod() {
         Method method = makeMethod();
-        method.setUrl(panel.getParameterizedUrl());
+        method.setUrl(panel.getTemplateUrl());
         return method;
     }
 
@@ -357,7 +363,10 @@ public class MainPanel extends BasePanel {
         panel.getUrlField().getEditor().setItem(expandUrl(url));
 
         // set paths
-        // TODO
+        List<String> pathParams = findVariables(url);
+        if (pathParams.size() > 0) {
+            // TODO: populate the paths
+        }
 
         // Request Headers
         Map<String, String> headers = methodModel.getRequestHeaders();
@@ -372,10 +381,18 @@ public class MainPanel extends BasePanel {
         // Response body
         setSectionBody(responseSection, methodModel.getResponseBody());
 
-        createMethod();
-
-
     }
+
+    public static List<String> findVariables(String templateUrl) {
+        Pattern p = Pattern.compile("\\{\\w+}");
+        Matcher m = p.matcher(templateUrl);
+        List<String> l = new ArrayList<String>();
+        while (m.find()) {
+            l.add(m.group().substring(1, m.group().length() - 1));
+        }
+        return l;
+    }
+
 
     private static void setSectionBody(PayloadPanel payloadPanel, String body) {
         if (body != null && !body.isEmpty()) {
