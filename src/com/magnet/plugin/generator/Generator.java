@@ -161,8 +161,10 @@ public class Generator {
             // copy test files
             File generatedTestFiles = new File(cachedSourceFolder, "src/test/java");
             File targetTestFolder = ProjectManager.getTestSourceFolderFile(project);
-            if(generatedTestFiles.exists() && targetTestFolder.exists()) {
-                FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
+            if(generatedTestFiles.exists()) {
+                if(targetTestFolder.exists()) {
+                    FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
+                }
                 FileUtils.deleteDirectory(generatedTestFiles);
             }
 
