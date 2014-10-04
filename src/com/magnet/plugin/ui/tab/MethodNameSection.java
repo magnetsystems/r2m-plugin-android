@@ -45,7 +45,7 @@ import java.util.List;
 public class MethodNameSection extends BasePanel implements URLFocusListener, PluginIcon {
 
     private JTextField methodName;
-    private JCheckBox advancedBox;
+    private JCheckBox urlDetailsBox;
 
     private ComboBox urlField;
 
@@ -57,7 +57,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         JLabel jLabel1 = new JLabel();
         methodName = new JTextField();
         methodName.setColumns(1);
-        advancedBox = new JCheckBox();
+        urlDetailsBox = new JCheckBox();
         JLabel jLabel2 = new JLabel();
 
 
@@ -83,7 +83,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
 
         Border border = UIManager.getBorder("Button.border");
-        advancedBox.setBorder(border);
+        urlDetailsBox.setBorder(border);
 
         urlSection = new URLSection();
         urlSection.setVisible(false);
@@ -111,7 +111,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         urlField.setFont(baseFont);
 
 
-        advancedBox.addActionListener(new ActionListener() {
+        urlDetailsBox.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -126,7 +126,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
                         .addGap(FormConfig.CUSTOM_GAP)
                         .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(advancedBox).addComponent(jLabel2)))
+                                .addComponent(urlDetailsBox).addComponent(jLabel2)))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(methodName, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
                         .addComponent(urlField, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
@@ -138,14 +138,14 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
                                 .addComponent(jLabel1)
                                 .addComponent(methodName))
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(advancedBox)
+                                .addComponent(urlDetailsBox)
                                 .addComponent(jLabel2)
                                 .addComponent(urlField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(urlSection)));
 
-        advancedBox.setIcon(closeIcon);
-        advancedBox.setSelectedIcon(openIcon);
-        advancedBox.setPressedIcon(getSelectedIcon(advancedBox));
+        urlDetailsBox.setIcon(closeIcon);
+        urlDetailsBox.setSelectedIcon(openIcon);
+        urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));
     }
 
     public void setProject(Project project) {
@@ -158,14 +158,14 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
 
     private void showHideUrlSection(ActionEvent evt) {
-        advancedBox.setPressedIcon(getSelectedIcon(advancedBox));
-        if (advancedBox.isSelected()) {
-//            advancedBox.setIcon(openIcon);
+        urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));
+        if (urlDetailsBox.isSelected()) {
+//            urlDetailsBox.setIcon(openIcon);
             ParsedUrl parsedUrl = QueryParser.parseQuery(getComboBoxEditor().getText());
             urlSection.setParsedQuery(parsedUrl);
             urlSection.setVisible(true);
         } else {
-//            advancedBox.setIcon(closeIcon);
+//            urlDetailsBox.setIcon(closeIcon);
             urlSection.setVisible(false);
         }
     }
@@ -186,9 +186,9 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         return text;
     }
 
-    public String getUrlToFile() {
-        if (advancedBox.isSelected()) {
-            return urlSection.getAdvancedUrlToFile();
+    public String getParameterizedUrl() {
+        if (urlDetailsBox.isSelected()) {
+            return urlSection.getParameterizedUrl();
         }
         String text = "";
         if (!getComboBoxEditor().getText().trim().isEmpty()) {

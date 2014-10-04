@@ -36,6 +36,7 @@ import java.util.List;
 public class TabManager {
     private final Project project;
     private final AddControllerForm form;
+
     private final JTabbedPane tabPanel;
 
     private final List<MainPanel> tabs;
@@ -69,20 +70,33 @@ public class TabManager {
         customTab.setIndex(index);
 
         tabs.add(customTab);
+
+        // now add new tab in panel
+        // clean up first
+        // remove change listener
         tabPanel.removeChangeListener(tabListener);
+
+        // remove "+" tab
         tabPanel.remove(index);
+        // add "method N" tab
         tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, index + 1), customTab);
+        // add "+" tab
         tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.PLUS_TAB), new JLabel(""));
-        tabPanel.setSelectedIndex(0);
+        // set selected index
+        tabPanel.setSelectedIndex(index);
+
+        // add listener back
         tabPanel.addChangeListener(tabListener);
         updateRemoveButtons();
         return customTab;
     }
 
     public void removeAllTabs() {
+        tabPanel.removeChangeListener(tabListener);
         for (MainPanel tab : getTabs() /* use a copy */) {
             removeTab(tab);
         }
+        tabPanel.addChangeListener(tabListener);
     }
 
     public void removeTab(MainPanel mainPanel) {
@@ -95,12 +109,13 @@ public class TabManager {
     private ChangeListener tabListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
-            int index = tabPanel.getSelectedIndex();
-            Logger.info(getClass(), "" + index);
-            if (index == tabPanel.getTabCount() - 1) {
-                addNewTab(index);
+            int lastSelected = tabPanel.getSelectedIndex();
+            Logger.info(getClass(), "" + lastSelected);
+            if (lastSelected == tabPanel.getTabCount() - 1) {  // the last index i.e. "+" button
+                addNewTab(lastSelected);
                 updateRemoveButtons();
-                updateSelectedIndex();
+                tabPanel.revalidate();
+
             }
         }
     };
@@ -127,17 +142,17 @@ public class TabManager {
         }
     }
 
-    private void updateSelectedIndex() {
-        tabPanel.setSelectedIndex(tabPanel.getTabCount() - 2);
-        tabPanel.revalidate();
-    }
-
     /**
      * @return an immutable copy of the tabs list
      */
     public List<MainPanel> getTabs() {
         return Collections.unmodifiableList(Lists.newArrayList(tabs));
     }
+
+    public JTabbedPane getTabPanel() {
+        return tabPanel;
+    }
+
 
 
 }

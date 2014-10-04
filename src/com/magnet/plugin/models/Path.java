@@ -36,14 +36,14 @@ public class Path {
 
     public String getPath() {
 //        if (isVariable) {
-//            return getVariableName();
+//            return getParameterizedVariable();
 //        }
         return path;
     }
 
-    public String getVariablePath() {
+    public String getParameterizedPath() {
         if (isVariable) {
-            return getVariableName();
+            return getParameterizedVariable();
         }
         return path;
     }
@@ -52,7 +52,7 @@ public class Path {
         this.path = path;
     }
 
-    public String getVariableName() {
+    public String getParameterizedVariable() {
         return variableName;
     }
 

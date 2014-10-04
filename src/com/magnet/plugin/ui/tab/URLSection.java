@@ -277,11 +277,11 @@ public class URLSection extends BasePanel implements FocusListener {
         baseUrlField.setText(parsedUrl.getBase());
         List<Path> pathList = parsedUrl.getPaths();
         List<Query> queries = parsedUrl.getQueries();
-        for (int i = 0; i < pathList.size(); i++) {
-            addPath(pathList.get(i));
+        for (Path aPathList : pathList) {
+            addPath(aPathList);
         }
-        for (int i = 0; i < queries.size(); i++) {
-            addQuery(queries.get(i));
+        for (Query query : queries) {
+            addQuery(query);
         }
     }
 
@@ -291,16 +291,22 @@ public class URLSection extends BasePanel implements FocusListener {
         removeAllQueries();
     }
 
-    public String getAdvancedUrl() {
+    private String buildUrl(boolean isParameterized) {
         StringBuilder builder = new StringBuilder(baseUrlField.getText());
-        for (int i = 0; i < paths.size(); i++) {
-            builder.append("/" + paths.get(i).getPath().getPath());
+        for (PathPanel path : paths) {
+            builder.append("/");
+            if (isParameterized) {
+                builder.append(path.getPath().getParameterizedPath());
+            } else {
+                builder.append(path.getPath().getPath());
+            }
         }
+
         if (querys.size() > 0) {
             builder.append("?");
         }
-        for (int i = 0; i < querys.size(); i++) {
-            Query query = querys.get(i).getQuery();
+        for (QueryPanel query1 : querys) {
+            Query query = query1.getQuery();
             String queryString = query.getKey() + "=" + query.getValue() + "&";
             builder.append(queryString);
         }
@@ -309,28 +315,14 @@ public class URLSection extends BasePanel implements FocusListener {
         }
         Logger.info(getClass(), builder.toString());
         return builder.toString();
-
     }
 
-    public String getAdvancedUrlToFile() {
-        StringBuilder builder = new StringBuilder(baseUrlField.getText());
-        for (int i = 0; i < paths.size(); i++) {
-            builder.append("/" + paths.get(i).getPath().getVariablePath());
-        }
-        if (querys.size() > 0) {
-            builder.append("?");
-        }
-        for (int i = 0; i < querys.size(); i++) {
-            Query query = querys.get(i).getQuery();
-            String queryString = query.getKey() + "=" + query.getValue() + "&";
-            builder.append(queryString);
-        }
-        if (querys.size() > 0) {
-            builder.deleteCharAt(builder.length() - 1);
-        }
-        Logger.info(getClass(), builder.toString());
-        return builder.toString();
+    public String getExpandedUrl() {
+        return buildUrl(false);
+    }
 
+    public String getParameterizedUrl() {
+        return buildUrl(true);
     }
 
     public boolean checkRequirementFields() {
@@ -358,7 +350,7 @@ public class URLSection extends BasePanel implements FocusListener {
         for (PathPanel pathPanel : paths) {
             pathPanel.invalidateField();
         }
-        focusListener.onFocusChange(getAdvancedUrl());
+        focusListener.onFocusChange(getExpandedUrl());
     }
 
     public void setFocusListener(URLFocusListener focusListener) {

@@ -52,7 +52,7 @@ public class PathPanel extends JPanel {
     public PathPanel(JPanel parrentPanel, Path path) {
         this.parrentPanel = parrentPanel;
         this.pathModel = path;
-        variableName.setText(pathModel.getVariableName());
+        variableName.setText(pathModel.getParameterizedVariable());
         variable.setSelected(pathModel.isVariable());
         this.path.setText(path.getPath());
     }

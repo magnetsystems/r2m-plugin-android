@@ -31,8 +31,10 @@ import java.awt.event.ActionListener;
 
 public class MethodTypeSection extends BasePanel {
 
-    private JLabel jLabel1;
-    private JSeparator jSeparator1;
+    public static final String LABEL_GET = "GET";
+    public static final String LABEL_POST = "POST";
+    public static final String LABEL_PUT = "PUT";
+    public static final String LABEL_DELETE = "DELETE";
 
     private JRadioButton buttonGETRequest;
     private JRadioButton buttonPOSTRequest;
@@ -43,7 +45,31 @@ public class MethodTypeSection extends BasePanel {
 
     private RequestPayloadSection requestPayloadSection;
 
-    private ButtonGroup buttonGroup;
+    public void selectVerb(HTTPMethod verb) {
+        switch (verb) {
+            case GET:
+                buttonGETRequest.setSelected(true);
+                requestPayloadSection.setVisible(false);
+                requestPayloadSection.clearPayload();
+                break;
+            case POST:
+                buttonPOSTRequest.setSelected(true);
+                requestPayloadSection.setVisible(true);
+                break;
+            case DELETE:
+                buttonDELETERequest.setSelected(true);
+                requestPayloadSection.setVisible(true);
+                break;
+            case PUT:
+                buttonPUTRequest.setSelected(true);
+                requestPayloadSection.setVisible(true);
+                break;
+            default:
+                throw new IllegalArgumentException("unsupported method " + verb);
+        }
+        httpMethod = verb;
+
+    }
 
     public MethodTypeSection(RequestPayloadSection requestPayloadSection) {
         this.requestPayloadSection = requestPayloadSection;
@@ -51,15 +77,15 @@ public class MethodTypeSection extends BasePanel {
     }
 
     {
-        jLabel1 = new JLabel("Method Type");
+        JLabel jLabel1 = new JLabel("Method Type");
 
-        jSeparator1 = new JSeparator();
+        JSeparator jSeparator1 = new JSeparator();
         jSeparator1.setOpaque(false);
 
-        buttonGETRequest = new JRadioButton("GET");
-        buttonPOSTRequest = new JRadioButton("POST");
-        buttonPUTRequest = new JRadioButton("PUT");
-        buttonDELETERequest = new JRadioButton("DELETE");
+        buttonGETRequest = new JRadioButton(LABEL_GET);
+        buttonPOSTRequest = new JRadioButton(LABEL_POST);
+        buttonPUTRequest = new JRadioButton(LABEL_PUT);
+        buttonDELETERequest = new JRadioButton(LABEL_DELETE);
 
         buttonGETRequest.setSelected(true);
 
@@ -70,7 +96,7 @@ public class MethodTypeSection extends BasePanel {
         buttonPUTRequest.setFont(baseFont);
         buttonDELETERequest.setFont(baseFont);
 
-        buttonGroup = new ButtonGroup();
+        ButtonGroup buttonGroup = new ButtonGroup();
         buttonGroup.add(buttonGETRequest);
         buttonGroup.add(buttonPOSTRequest);
         buttonGroup.add(buttonPUTRequest);
@@ -91,14 +117,14 @@ public class MethodTypeSection extends BasePanel {
         buttonGETRequest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 requestPayloadSection.setVisible(false);
-                requestPayloadSection.clearJson();
+                requestPayloadSection.clearPayload();
                 httpMethod = HTTPMethod.GET;
             }
         });
         buttonDELETERequest.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 requestPayloadSection.setVisible(false);
-                requestPayloadSection.clearJson();
+                requestPayloadSection.clearPayload();
                 httpMethod = HTTPMethod.DELETE;
             }
         });

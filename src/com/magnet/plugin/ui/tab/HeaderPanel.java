@@ -23,6 +23,7 @@ package com.magnet.plugin.ui.tab;
 
 import com.magnet.plugin.api.models.RequestHeaderModel;
 import com.magnet.plugin.constants.FormConfig;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -37,10 +38,10 @@ public class HeaderPanel extends BasePanel {
     private JButton delete;
 
     public ExtendedJPanel getParentPanel() {
-        return parrentPanel;
+        return parentPanel;
     }
 
-    private ExtendedJPanel parrentPanel;
+    private ExtendedJPanel parentPanel;
 
     private final RequestHeaderModel header;
 
@@ -56,9 +57,9 @@ public class HeaderPanel extends BasePanel {
 
     private ActionListener listener;
 
-    public HeaderPanel(ExtendedJPanel parrentPanel, RequestHeaderModel header) {
-        this.parrentPanel = parrentPanel;
-        this.parrentPanel.addPanel(this);
+    public HeaderPanel(ExtendedJPanel parentPanel, RequestHeaderModel header) {
+        this.parentPanel = parentPanel;
+        this.parentPanel.addPanel(this);
         this.header = header;
     }
 
@@ -66,7 +67,7 @@ public class HeaderPanel extends BasePanel {
     {
         key = new JTextField();
         value = new JTextField();
-        delete = new JButton("X");
+        delete = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.HEADER_SECTION_DELETE));
 
         delete.addActionListener(listener);
 
@@ -97,5 +98,10 @@ public class HeaderPanel extends BasePanel {
         header.setValue(value.getText());
         header.setName(key.getText());
         return header;
+    }
+
+    public void setHeader(String key, String value) {
+        this.value.setText(value);
+        this.key.setText(key);
     }
 }

@@ -19,12 +19,17 @@ package com.magnet.plugin.project;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
+import com.magnet.langpack.builder.rest.parser.ExampleParser;
+import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.helpers.FileHelper;
 import com.magnet.plugin.helpers.Logger;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -127,6 +132,23 @@ public class CacheManager {
         }
 
         return Arrays.asList(names);
+    }
+
+    public List<RestExampleModel> getControllerMethodsModel() {
+        ExampleParser parser = new ExampleParser();
+        List<RestExampleModel> methodModels = new ArrayList<RestExampleModel>();
+        List<String> methodNames = getControllerMethodNames();
+        for (String name: methodNames) {
+            File file = getControllerMethodExample(name);
+            try {
+                URL url = file.toURI().toURL();
+                methodModels.add(parser.parse(url));
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+                // should not happen
+            }
+        }
+        return methodModels;
     }
 
     /**

@@ -17,8 +17,12 @@
 package com.magnet.plugin.ui;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.util.net.HTTPMethod;
+import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.helpers.ControllerCacheManager;
 import com.magnet.plugin.helpers.VerifyHelper;
+import com.magnet.plugin.project.CacheManager;
+import com.magnet.plugin.ui.tab.MainPanel;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -51,13 +55,13 @@ public class ControllerNameBoxFocusListener implements FocusListener {
         }
 
         String name = populateControllerPackageAndName(entry);
-        populatePayloads(entry);
+        populateMethodsDetails(entry);
 
 
         form.getControllerNameBox().getEditor().setItem(VerifyHelper.verifyClassName(name));
     }
 
-    private void populatePayloads(String entry) {
+    private void populateMethodsDetails(String entry) {
         int index = entry.lastIndexOf('.');
         if (index <= 0) {
             return;
@@ -67,19 +71,16 @@ public class ControllerNameBoxFocusListener implements FocusListener {
         }
 
         // first remove all tabs
-//        form.getTabManager().removeAllTabs();
+        form.getTabManager().removeAllTabs();
 
-//
-//        String packageName = entry.substring(0, index);
-//        String controllerName = entry.substring(index + 1);
-//        CacheManager cache = new CacheManager(project, packageName, controllerName);
-//        List<String> methodNames = cache.getControllerMethodNames().toArray(new String[methodNames.size()]);
-//        for (int i = 0; i < methodNames.size(); i++) {
-//            MainPanel panel = form.getTabManager().addNewTab(i);
-//            panel.createMethod();
-//            panel.getPanel().getMethodNamePanel().setText(methodNames[i]);
-//            panel.getPanel().getUrlField().getEditor().setItem("http://blah.com");
-//        }
+        String packageName = entry.substring(0, index);
+        String controllerName = entry.substring(index + 1);
+        CacheManager cache = new CacheManager(project, packageName, controllerName);
+        List<RestExampleModel> methodModels = cache.getControllerMethodsModel();
+        for (int i = 0; i < methodModels.size(); i++) {
+            MainPanel panel = form.getTabManager().addNewTab(i);
+            panel.createMethodFromExample(methodModels.get(i));
+        }
 
     }
 

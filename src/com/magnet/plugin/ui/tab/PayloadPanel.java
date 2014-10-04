@@ -17,8 +17,10 @@
 
 package com.magnet.plugin.ui.tab;
 
-import com.magnet.plugin.constants.JSONErrorType;
+import com.magnet.langpack.builder.rest.RestContentType;
+import com.magnet.langpack.builder.rest.parser.ExampleParser;
 import com.magnet.plugin.constants.FormConfig;
+import com.magnet.plugin.constants.JSONErrorType;
 import com.magnet.plugin.constants.PluginIcon;
 import com.magnet.plugin.helpers.FormatHelper;
 import com.magnet.plugin.helpers.JSONValidator;
@@ -27,24 +29,23 @@ import com.magnet.plugin.models.JSONError;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXTable;
 
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.text.BadLocationException;
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import java.awt.*;
-
-import java.util.*;
+import java.util.Collections;
 import java.util.List;
 
-import static com.magnet.plugin.constants.Colors.*;
+import static com.magnet.plugin.constants.Colors.BLACK;
+import static com.magnet.plugin.constants.Colors.GREEN;
 
-public class JSONPanel extends BasePanel {
+public class PayloadPanel extends BasePanel {
 
-    protected JXLabel errorMessageField;
-    protected JTextArea jsonField;
+    protected JTextArea payloadField;
     protected JScrollPane jScrollPane;
     protected JXTable errorTable;
     protected JXLabel errorMessageLabel;
@@ -54,10 +55,10 @@ public class JSONPanel extends BasePanel {
     protected List<JSONError> errors;
 
   {
-        jsonField = new JTextArea();
-        jsonField.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
-        jsonField.setLineWrap(true);
-        jsonField.setFont(baseFont);
+        payloadField = new JTextArea();
+        payloadField.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
+        payloadField.setLineWrap(true);
+        payloadField.setFont(baseFont);
 
         errorTable = new JXTable();
         errorTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
@@ -71,17 +72,17 @@ public class JSONPanel extends BasePanel {
                 if(null != error.getDocLocation() && 0 != error.getDocLocation().getLine()) {
                   try {
                     int lineNum = error.getDocLocation().getLine() - 1;
-                    int startIndex = jsonField.getLineStartOffset(lineNum);
-                    int endIndex = jsonField.getLineEndOffset(lineNum);
+                    int startIndex = payloadField.getLineStartOffset(lineNum);
+                    int endIndex = payloadField.getLineEndOffset(lineNum);
                     //Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
-                    //jsonField.getHighlighter().addHighlight(startIndex, endIndex, painter);
+                    //payloadField.getHighlighter().addHighlight(startIndex, endIndex, painter);
 
-                    jsonField.requestFocusInWindow();
-                    Rectangle viewRect = jsonField.modelToView(startIndex);
-                    jsonField.scrollRectToVisible(viewRect);
+                    payloadField.requestFocusInWindow();
+                    Rectangle viewRect = payloadField.modelToView(startIndex);
+                    payloadField.scrollRectToVisible(viewRect);
                     // Highlight the text
-                    jsonField.setCaretPosition(endIndex);
-                    jsonField.moveCaretPosition(startIndex);
+                    payloadField.setCaretPosition(endIndex);
+                    payloadField.moveCaretPosition(startIndex);
                   } catch (BadLocationException e) {
                     e.printStackTrace();
                   }
@@ -118,13 +119,13 @@ public class JSONPanel extends BasePanel {
         errorPanel.setVisible(false);
         errorTableScrollPane.setVisible(false);
 
-        jsonField.getDocument().addDocumentListener(new DocumentListener() {
+        payloadField.getDocument().addDocumentListener(new DocumentListener() {
             private void setFieldColor() {
-                String text = jsonField.getText();
+                String text = payloadField.getText();
                 resetFields();
                 if (JSONValidator.isJSON(text)) {
                   setFieldTextColor(BLACK);
-                  errors = JSONValidator.validateJSON(text, null /* errorMessageField */, jsonField);
+                  errors = JSONValidator.validateJSON(text, null /* errorMessageField */, payloadField);
                   if(!errors.isEmpty()) {
                     errorTable.setModel(new ErrorTableModel(errors));
 
@@ -150,11 +151,11 @@ public class JSONPanel extends BasePanel {
             }
 
             private void setFieldTextColor(Color color) {
-                jsonField.setForeground(color);
+                payloadField.setForeground(color);
             }
 
             private void resetFields() {
-                jsonField.getHighlighter().removeAllHighlights();
+                payloadField.getHighlighter().removeAllHighlights();
 
                 errorMessageLabel.setIcon(PluginIcon.validIcon);
                 errorMessageLabel.setText("");
@@ -184,29 +185,42 @@ public class JSONPanel extends BasePanel {
 
         jScrollPane = new JScrollPane();
         jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane.setViewportView(jsonField);
+        jScrollPane.setViewportView(payloadField);
 
     }
 
-    public String getUnformattedJson() {
-        return FormatHelper.unformatJSONCode(getJson());
+    public String getRawPayload() {
+        String payload = getPayload();
+        RestContentType type = ExampleParser.guessContentType(payload);
+        if (type == RestContentType.JSON) {
+            payload = FormatHelper.unformatJSONCode(getPayload());
+        }
+        return payload;
     }
 
-    public void setJson(String response) {
-        jsonField.setText(FormatHelper.formatJSONCode(response));
+    public void setPayload(String payload) {
+        if (payload == null || payload.isEmpty()) {
+            return;
+        }
+        RestContentType type = ExampleParser.guessContentType(payload);
+        if (type == RestContentType.JSON) {
+            payload = FormatHelper.formatJSONCode(payload);
+        }
+        payloadField.setText(payload);
+
     }
 
 
-    public JTextArea getJsonField() {
-        return jsonField;
+    public JTextArea getPayloadField() {
+        return payloadField;
     }
 
-    public String getJson() {
-        return jsonField.getText();
+    public String getPayload() {
+        return payloadField.getText();
     }
 
-    public void clearJson() {
-        jsonField.setText("");
+    public void clearPayload() {
+        payloadField.setText("");
     }
 
     public static class ErrorTableModel extends AbstractTableModel {

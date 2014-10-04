@@ -17,6 +17,8 @@
 
 package com.magnet.plugin.api.requests.abs;
 
+import com.magnet.langpack.builder.rest.RestContentType;
+import com.magnet.langpack.builder.rest.parser.ExampleParser;
 import com.magnet.plugin.api.mock.WorkerCallback;
 import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.api.models.RequestHeaderModel;
@@ -61,9 +63,9 @@ public abstract class BaseRequest extends AbstractRequest<ApiMethodModel> {
             // Add the header here so the request is successful.
             if (request.getHeaders(ContentTypeHelper.CONTENT_TYPE_HEADER) == null ||
                     request.getHeaders(ContentTypeHelper.CONTENT_TYPE_HEADER).length == 0) {
-                String type = ContentTypeHelper.guessContentType(requestModel.getRequest());
+                RestContentType type = ExampleParser.guessContentType(requestModel.getRequest());
                 if (null != type) {
-                    request.setHeader(ContentTypeHelper.CONTENT_TYPE_HEADER, type);
+                    request.setHeader(ContentTypeHelper.CONTENT_TYPE_HEADER, type.getName());
                 }
             }
             // check if content-type is parameterized
