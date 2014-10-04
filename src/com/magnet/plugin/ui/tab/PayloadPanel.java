@@ -44,14 +44,17 @@ import java.util.List;
 
 import static com.magnet.plugin.constants.Colors.*;
 
+/**
+ * Panel for either request or response payload
+ */
 public class PayloadPanel extends BasePanel {
 
-    protected JTextArea payloadField;
-    protected JScrollPane jScrollPane;
-    protected JXTable errorTable;
-    protected JXLabel errorMessageLabel;
-    protected JScrollPane errorTableScrollPane;
-    protected JPanel errorPanel;
+    protected final JTextArea payloadField;
+    protected final JScrollPane jScrollPane;
+    protected final JXTable errorTable;
+    protected final JXLabel errorMessageLabel;
+    protected final JScrollPane errorTableScrollPane;
+    protected final JPanel errorPanel;
 
     protected List<JSONError> errors;
 
@@ -89,8 +92,6 @@ public class PayloadPanel extends BasePanel {
                   }
                 }
               }
-
-            } else {
 
             }
           }
@@ -169,7 +170,7 @@ public class PayloadPanel extends BasePanel {
                 errorMessageLabel.setIcon(PluginIcon.validIcon);
                 errorMessageLabel.setText("");
 
-                errorTable.setModel(new ErrorTableModel(Collections.EMPTY_LIST));
+                errorTable.setModel(new ErrorTableModel(Collections.<JSONError>emptyList()));
 
                 errorPanel.setVisible(false);
                 errorTableScrollPane.setVisible(false);
