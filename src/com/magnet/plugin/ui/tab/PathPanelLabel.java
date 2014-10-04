@@ -22,39 +22,36 @@
 package com.magnet.plugin.ui.tab;
 
 import com.magnet.plugin.constants.FormConfig;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 
 import javax.swing.*;
 
 public class PathPanelLabel extends BasePanel {
 
-    private JLabel path;
-    private JLabel variable;
-    private JLabel variableName;
-
     {
-        path = new JLabel();
-        variable = new JLabel();
-        variableName = new JLabel();
+        JLabel path = new JLabel();
+        JLabel variableLabel = new JLabel();
+        JLabel variableNameLabel = new JLabel();
 
-        path.setText("Path");
-        variable.setText("Variable?");
-        variableName.setText("Variable Name");
+        path.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_PART_NAME));
+        variableLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_VARIABLE_CHECKBOX_NAME));
+        variableNameLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_VARIABLE_NAME));
 
         path.setFont(baseFont);
-        variable.setFont(baseFont);
-        variableName.setFont(baseFont);
+        variableLabel.setFont(baseFont);
+        variableNameLabel.setFont(baseFont);
 
         GroupLayout jPanel2Layout = new GroupLayout(this);
         this.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
                 jPanel2Layout.createSequentialGroup()
                 .addComponent(path, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_PREF_SIZE, Short.MAX_VALUE)
-                .addComponent(variable, GroupLayout.DEFAULT_SIZE, FormConfig.PATH_CHECKBOX_PREF_SIZE, FormConfig.PATH_CHECKBOX_MAX_SIZE)
-                .addComponent(variableName, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_PREF_SIZE, Short.MAX_VALUE));
+                .addComponent(variableLabel, GroupLayout.DEFAULT_SIZE, FormConfig.PATH_CHECKBOX_PREF_SIZE, FormConfig.PATH_CHECKBOX_MAX_SIZE)
+                .addComponent(variableNameLabel, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_PREF_SIZE, Short.MAX_VALUE));
         jPanel2Layout.setVerticalGroup(
                 jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                 .addComponent(path)
-                .addComponent(variable)
-                .addComponent(variableName));
+                .addComponent(variableLabel)
+                .addComponent(variableNameLabel));
     }
 }

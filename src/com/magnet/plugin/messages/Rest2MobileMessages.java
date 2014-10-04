@@ -63,9 +63,13 @@ public class Rest2MobileMessages {
     public static final String HEADER_SECTION_ADD_NEW = "HEADER_SECTION_ADD_NEW";
     public static final String HEADER_SECTION_PLUS = "HEADER_SECTION_PLUS";
     public static final String HEADER_SECTION_DELETE = "HEADER_SECTION_DELETE";
+    // Path part labels
+    public static final String PATH_PART_NAME = "PATH_PART_NAME";
+    public static final String PATH_VARIABLE_CHECKBOX_NAME = "PATH_VARIABLE_CHECKBOX_NAME";
+    public static final String PATH_VARIABLE_NAME = "PATH_VARIABLE_NAME";
 
 
-  /**
+    /**
      * @param key  constant identifying L10n message
      * @param args arguments to be expanded in L10n message
      * @return expanded L10n message given its key and arguments
