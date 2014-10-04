@@ -35,6 +35,7 @@ import com.magnet.plugin.helpers.UIHelper;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.listeners.CreateMethodCallback;
 import com.magnet.plugin.listeners.TabRemoveListener;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.Method;
 import com.magnet.plugin.constants.FormConfig;
 
@@ -319,7 +320,7 @@ public class MainPanel extends BasePanel {
             if (!getMethodTabName().isEmpty()) {
                 tabPanel.setTitleAt(getIndex(), getMethodTabName());
             } else {
-                tabPanel.setTitleAt(getIndex(), "Method " + (index + 1));
+                tabPanel.setTitleAt(getIndex(), Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, index + 1));
             }
         }
     }
