@@ -40,6 +40,7 @@ The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services in
                 - Lax URL validation (Issue #1)
                 Add table view for the validation errors and click to navigate to the line.
                 Support generating code even there is validation error.
+                Generate controller test stub.
 
     ]]>
     </change-notes>

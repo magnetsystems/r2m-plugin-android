@@ -40,53 +40,59 @@ public class ProjectManager {
     public static String getSourceFolder(Project project) {
         String result;
         VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentSourceRoots();
-        if ((result = getGradle(vFiles, "java")) == null) {
-            result = getNonGradle(vFiles, "src");
+        if ((result = findFile(vFiles, "main", "java")) == null) {
+            result = findFile(vFiles, "src");
         }
 
         return result;
     }
 
     public static File getSourceFolderFile(Project project) {
-        return new File(getSourceFolder(project));
+      String path = getSourceFolder(project);
+      return null != path ? new File(path) : null;
     }
 
-    private static String getGradle(VirtualFile[] vFiles, String folder) {
-        String result = null;
-        for (VirtualFile file : vFiles) {
-            String filePath = file.getCanonicalPath();
-            String[] path = filePath.split("/");
-            String template = "";
+    public static String getTestSourceFolder(Project project) {
+      String result;
+      VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentSourceRoots();
+      if ((result = findFile(vFiles, "androidTest", "java")) == null) {
+        result = findFile(vFiles, "src", "test", "java");
+      }
 
-            if (path.length >= 2) {
-                template = path[path.length - 2] + File.separator + path[path.length - 1];
-            }
-
-            if (template.contains("main" + File.separator + folder)) {
-                result = filePath;
-                break;
-            }
-        }
-        return result;
+      return result;
     }
 
-    private static String getNonGradle(VirtualFile[] vFiles, String folder) {
-        String result = null;
-        for (VirtualFile file : vFiles) {
-            String filePath = file.getCanonicalPath();
-            String[] path = filePath.split("/");
-            String template = "";
+    public static File getTestSourceFolderFile(Project project) {
+      String path = getTestSourceFolder(project);
+      return null != path ? new File(path) : null;
+    }
 
-            if (path.length >= 1) {
-                template = path[path.length - 1];
-            }
+  /**
+   * Find the file in the list which ends with the paths given
+   * @param vFiles
+   * @param paths
+   * @return
+   */
+    private static String findFile(VirtualFile[] vFiles, String... paths) {
+      String result = null;
+      for (VirtualFile file : vFiles) {
+        String filePath = file.getCanonicalPath();
 
-            if (template.contains(folder)) {
-                result = filePath;
-                break;
-            }
+        if (filePath.contains(buildPath(paths))) {
+          result = filePath;
+          break;
         }
-        return result;
+      }
+      return result;
+    }
+
+    private static String buildPath(String[] paths) {
+      StringBuilder sb = new StringBuilder();
+      for(String s : paths) {
+        sb.append(File.separator).append(s);
+      }
+
+      return sb.toString();
     }
 
     private static String getManifestPath(Project project) {

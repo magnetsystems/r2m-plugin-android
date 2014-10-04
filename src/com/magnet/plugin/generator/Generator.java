@@ -158,6 +158,18 @@ public class Generator {
         try {
             displayIndicatorMessage(progressIndicator, "Removed temporary files...", 10);
             File cachedSourceFolder = cacheManager.getControllerSourceFolder();
+
+            // copy test files
+            File generatedTestFiles = new File(cachedSourceFolder, "src/test/java");
+            File targetTestFolder = ProjectManager.getTestSourceFolderFile(project);
+            if(generatedTestFiles.exists()) {
+                if(targetTestFolder.exists()) {
+                    FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
+                }
+                FileUtils.deleteDirectory(generatedTestFiles);
+            }
+
+            // copy others
             FileUtils.copyDirectory(cachedSourceFolder, ProjectManager.getSourceFolderFile(project));
             ControllerHistoryManager.saveController(project, cacheManager.getControllerFolder().getName());
             displayIndicatorMessage(progressIndicator, "Completed generation", 100);
