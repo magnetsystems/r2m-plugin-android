@@ -17,42 +17,38 @@
 
 package com.magnet.plugin.models;
 
-public class Path {
+public class PathPart {
 
-    private String path = "";
-    private String variableName = "";
-    private boolean isVariable;
+    private String pathPart;
+    private String variableName;
+    private boolean templatized;
 
-    public Path() {
-        this.path = "";
-        variableName = "";
-        isVariable = false;
+    public PathPart() {
+        this("");
     }
 
-    public Path(String string) {
-        path = string;
-        isVariable = false;
+    public PathPart(String pathPart) {
+        this.pathPart = pathPart;
+        this.variableName = "";
+        this.templatized = false;
     }
 
-    public String getPath() {
-//        if (isVariable) {
-//            return getParameterizedVariable();
-//        }
-        return path;
+    public String getPathPart() {
+        return pathPart;
     }
 
-    public String getParameterizedPath() {
-        if (isVariable) {
-            return getParameterizedVariable();
+    public String getTemplatizedPath() {
+        if (templatized) {
+            return getTemplateVariable();
         }
-        return path;
+        return pathPart;
     }
 
-    public void setPath(String path) {
-        this.path = path;
+    public void setPathPart(String pathPart) {
+        this.pathPart = pathPart;
     }
 
-    public String getParameterizedVariable() {
+    public String getTemplateVariable() {
         return variableName;
     }
 
@@ -60,20 +56,20 @@ public class Path {
         this.variableName = variableName;
     }
 
-    public boolean isVariable() {
-        return isVariable;
+    public boolean isTemplatized() {
+        return templatized;
     }
 
-    public void setVariable(boolean isVariable) {
-        this.isVariable = isVariable;
+    public void setTemplatized(boolean templatized) {
+        this.templatized = templatized;
     }
 
     @Override
     public String toString() {
-        return "Path{" +
-                "path='" + path + '\'' +
+        return "PathPart{" +
+                "pathPart='" + pathPart + '\'' +
                 ", variableName='" + variableName + '\'' +
-                ", isVariable=" + isVariable +
+                ", templatized=" + templatized +
                 '}';
     }
 }

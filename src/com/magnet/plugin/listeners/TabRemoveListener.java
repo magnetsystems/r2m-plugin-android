@@ -17,8 +17,8 @@
 
 package com.magnet.plugin.listeners;
 
-import com.magnet.plugin.ui.tab.MainPanel;
+import com.magnet.plugin.ui.tab.MethodTabPanel;
 
 public interface TabRemoveListener {
-    void removeCurrentPanel(MainPanel mainPanel);
+    void removeCurrentPanel(MethodTabPanel methodTabPanel);
 }

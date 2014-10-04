@@ -39,13 +39,13 @@ public class TabManager {
 
     private final JTabbedPane tabPanel;
 
-    private final List<MainPanel> tabs;
+    private final List<MethodTabPanel> tabs;
 
     public TabManager(Project project, AddControllerForm form, JTabbedPane tabPanel) {
         this.project = project;
         this.form = form;
         this.tabPanel = tabPanel;
-        this.tabs = new ArrayList<MainPanel>();
+        this.tabs = new ArrayList<MethodTabPanel>();
 
         init();
 
@@ -55,7 +55,7 @@ public class TabManager {
      * Initialize the tabs
      */
     private void init() {
-        MainPanel customTab = new MainPanel(project, form, tabPanel);
+        MethodTabPanel customTab = new MethodTabPanel(project, form, tabPanel);
         customTab.setTabRemoveListener(tabRemoveListener);
         customTab.setIndex(0);
         tabs.add(customTab);
@@ -64,8 +64,8 @@ public class TabManager {
         tabPanel.addChangeListener(tabListener);
     }
 
-    public MainPanel addNewTab(int index) {
-        MainPanel customTab = new MainPanel(project, form, tabPanel);
+    public MethodTabPanel addNewTab(int index) {
+        MethodTabPanel customTab = new MethodTabPanel(project, form, tabPanel);
         customTab.setTabRemoveListener(tabRemoveListener);
         customTab.setIndex(index);
 
@@ -93,16 +93,16 @@ public class TabManager {
 
     public void removeAllTabs() {
         tabPanel.removeChangeListener(tabListener);
-        for (MainPanel tab : getTabs() /* use a copy */) {
+        for (MethodTabPanel tab : getTabs() /* use a copy */) {
             removeTab(tab);
         }
         tabPanel.addChangeListener(tabListener);
     }
 
-    public void removeTab(MainPanel mainPanel) {
-        tabs.remove(mainPanel);
+    public void removeTab(MethodTabPanel methodTabPanel) {
+        tabs.remove(methodTabPanel);
         tabPanel.setSelectedIndex(0);
-        tabPanel.remove(mainPanel);
+        tabPanel.remove(methodTabPanel);
         tabPanel.invalidate();
     }
 
@@ -122,9 +122,9 @@ public class TabManager {
 
     private TabRemoveListener tabRemoveListener = new TabRemoveListener() {
         @Override
-        public void removeCurrentPanel(MainPanel mainPanel) {
+        public void removeCurrentPanel(MethodTabPanel methodTabPanel) {
             if (tabPanel.getTabCount() > 2) {
-                removeTab(mainPanel);
+                removeTab(methodTabPanel);
                 // do not delete the method example file.
                 // Users will be asked whether they want to keep it on or not at generation time.
                 updateRemoveButtons();
@@ -137,7 +137,7 @@ public class TabManager {
         for (int i = 0; i < tabs.size(); i++) {
             tabs.get(i).setIndex(i);
         }
-        for (MainPanel panel : tabs) {
+        for (MethodTabPanel panel : tabs) {
             panel.enableRemoveButton(tabs.size() > 1);
         }
     }
@@ -145,7 +145,7 @@ public class TabManager {
     /**
      * @return an immutable copy of the tabs list
      */
-    public List<MainPanel> getTabs() {
+    public List<MethodTabPanel> getTabs() {
         return Collections.unmodifiableList(Lists.newArrayList(tabs));
     }
 

@@ -36,14 +36,14 @@ public class MethodTypeSection extends BasePanel {
     public static final String LABEL_PUT = "PUT";
     public static final String LABEL_DELETE = "DELETE";
 
-    private JRadioButton buttonGETRequest;
-    private JRadioButton buttonPOSTRequest;
-    private JRadioButton buttonPUTRequest;
-    private JRadioButton buttonDELETERequest;
+    private final JRadioButton buttonGETRequest;
+    private final JRadioButton buttonPOSTRequest;
+    private final JRadioButton buttonPUTRequest;
+    private final JRadioButton buttonDELETERequest;
 
     private HTTPMethod httpMethod = HTTPMethod.GET;
 
-    private RequestPayloadSection requestPayloadSection;
+    private final RequestPayloadSection requestPayloadSection;
 
     public void selectVerb(HTTPMethod verb) {
         switch (verb) {

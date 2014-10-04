@@ -31,10 +31,7 @@ import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.api.models.RequestModel;
 import com.magnet.plugin.api.models.ResponseModel;
 import com.magnet.plugin.api.requests.abs.BaseRequest;
-import com.magnet.plugin.helpers.Logger;
-import com.magnet.plugin.helpers.ResponseHelper;
-import com.magnet.plugin.helpers.UIHelper;
-import com.magnet.plugin.helpers.VerifyHelper;
+import com.magnet.plugin.helpers.*;
 import com.magnet.plugin.listeners.CreateMethodCallback;
 import com.magnet.plugin.listeners.TabRemoveListener;
 import com.magnet.plugin.messages.Rest2MobileMessages;
@@ -54,19 +51,19 @@ import java.util.regex.Pattern;
 
 import static com.magnet.plugin.helpers.UIHelper.*;
 
-public class MainPanel extends BasePanel {
+public class MethodTabPanel extends BasePanel {
 
-    private MethodNameSection panel;
-    private MethodTypeSection type;
-    private HeaderSection header;
-    private RequestPayloadSection requestPayloadSection;
-    private ResponseSection responseSection;
-    private ButtonsSection buttons;
+    private final MethodNameSection panel;
+    private final MethodTypeSection type;
+    private final HeaderSection header;
+    private final RequestPayloadSection requestPayloadSection;
+    private final ResponseSection responseSection;
+    private final ButtonsSection buttons;
 
-    private CreateMethodCallback methodCallback;
+    private final CreateMethodCallback methodCallback;
+    private final JTabbedPane tabPanel;
+
     private TabRemoveListener tabRemoveListener;
-    private JTabbedPane tabPanel;
-
     private ApiMethodModel apiMethodModel = null;
 
     private int index = -1;
@@ -225,7 +222,7 @@ public class MainPanel extends BasePanel {
         }
     }
 
-    public MainPanel(Project project, CreateMethodCallback methodCallback, JTabbedPane tabPanel) {
+    public MethodTabPanel(Project project, CreateMethodCallback methodCallback, JTabbedPane tabPanel) {
         this.methodCallback = methodCallback;
         this.tabPanel = tabPanel;
         panel.setProject(project);
@@ -239,7 +236,7 @@ public class MainPanel extends BasePanel {
         return responseSection.getRawPayload();
     }
 
-    private MainPanel getCurrentPanel() {
+    private MethodTabPanel getCurrentPanel() {
         return this;
     }
 
@@ -256,8 +253,8 @@ public class MainPanel extends BasePanel {
      * @return expanded url
      */
     private static String expandUrl(String url) {
-        url = url.replaceAll(VerifyHelper.START_TEMPLATE_VARIABLE_REGEX, "");
-        url = url.replaceAll(VerifyHelper.END_TEMPLATE_VARIABLE_REGEX, "");
+        url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX, "");
+        url = url.replaceAll(Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, "");
         return url;
     }
 
@@ -266,7 +263,7 @@ public class MainPanel extends BasePanel {
         Method method = new Method();
         method.setMethodName(panel.getMethodName());
         method.setUrl(panel.getUrl());
-        method.setPaths(panel.getPaths());
+        method.setPathParts(panel.getPaths());
         method.setQueries(panel.getQueries());
         method.setHttpMethod(type.getHttpMethod());
         method.setHeaders(header.getHeaders());
@@ -289,7 +286,7 @@ public class MainPanel extends BasePanel {
         public void onSuccess(ApiMethodModel methodModel) {
             apiMethodModel = methodModel;
             String entity = ResponseHelper.processResponse(methodModel);
-            MainPanel.this.responseSection.setPayload(entity);
+            MethodTabPanel.this.responseSection.setPayload(entity);
             buttons.getCreateMethodButton().setEnabled(true);
         }
 
@@ -363,8 +360,9 @@ public class MainPanel extends BasePanel {
         panel.getUrlField().getEditor().setItem(expandUrl(url));
 
         // set paths
-        List<String> pathParams = findVariables(url);
+        List<String> pathParams = findPathVariables(url);
         if (pathParams.size() > 0) {
+
             // TODO: populate the paths
         }
 
@@ -383,8 +381,13 @@ public class MainPanel extends BasePanel {
 
     }
 
-    public static List<String> findVariables(String templateUrl) {
-        Pattern p = Pattern.compile("\\{\\w+}");
+    /**
+     * Find path variables in template url. Variables are identified by <code>{var}</code>
+     * @param templateUrl template url
+     * @return list of path param variable name in url
+     */
+    private static List<String> findPathVariables(String templateUrl) {
+        Pattern p = Pattern.compile(Rest2MobileConstants.TEMPLATE_VARIABLE_REGEX);
         Matcher m = p.matcher(templateUrl);
         List<String> l = new ArrayList<String>();
         while (m.find()) {

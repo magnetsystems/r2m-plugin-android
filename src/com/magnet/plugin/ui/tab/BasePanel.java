@@ -24,5 +24,5 @@ import java.awt.*;
 
 public class BasePanel extends JPanel {
 
-    protected final Font baseFont= UIHelper.getFont();
+    protected final Font baseFont = UIHelper.getFont();
 }

@@ -36,7 +36,7 @@ import com.magnet.plugin.listeners.generator.PostGenerateCallback;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.project.CacheManager;
 import com.magnet.plugin.project.ProjectManager;
-import com.magnet.plugin.ui.tab.MainPanel;
+import com.magnet.plugin.ui.tab.MethodTabPanel;
 import com.magnet.plugin.ui.tab.TabManager;
 import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
@@ -190,12 +190,12 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
         private boolean checkResponse() {
             boolean result = true;
-            for (MainPanel mainPanel : tabManager.getTabs()) {
+            for (MethodTabPanel methodTabPanel : tabManager.getTabs()) {
                 // Revalidate the payload before generation
-                String text = mainPanel.getResponse();
+                String text = methodTabPanel.getResponse();
                 BodyValidationResult validationResult = JSONValidator.validateBody(text);
                 if (!validationResult.isValid()) {
-                    int okCancelResult = Messages.showOkCancelDialog(mainPanel, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
+                    int okCancelResult = Messages.showOkCancelDialog(methodTabPanel, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
                             Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_TITLE),
                             Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CONTINUE),
                             Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
@@ -218,8 +218,8 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
             // methods from tabs
             Set<String> methodsToGenerate = new HashSet<String>();
-            for (MainPanel mainPanel : tabManager.getTabs()) {
-                methodsToGenerate.add(mainPanel.getMethodTabName());
+            for (MethodTabPanel methodTabPanel : tabManager.getTabs()) {
+                methodsToGenerate.add(methodTabPanel.getMethodTabName());
             }
 
             // methods from cache
@@ -255,9 +255,9 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         private boolean checkAllMethodNames() {
             boolean result;
             Set<String> strings = new HashSet<String>();
-            List<MainPanel> tabs = tabManager.getTabs();
-            for (MainPanel mainPanel : tabs) {
-                strings.add(mainPanel.getMethodTabName());
+            List<MethodTabPanel> tabs = tabManager.getTabs();
+            for (MethodTabPanel methodTabPanel : tabs) {
+                strings.add(methodTabPanel.getMethodTabName());
             }
             result = (strings.size() == tabs.size());
             if (!result) {
@@ -281,7 +281,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
         private boolean checkMainPanels() {
             boolean result = true;
-            for (MainPanel tab : tabManager.getTabs()) {
+            for (MethodTabPanel tab : tabManager.getTabs()) {
                 result = tab.createMethod();
                 if (!result) {
                     break;

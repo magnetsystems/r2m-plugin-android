@@ -17,13 +17,9 @@
 
 package com.magnet.plugin.helpers;
 
-import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
-import com.magnet.langpack.builder.rest.parser.validation.BodyValidator;
-import com.magnet.langpack.builder.rest.parser.validation.ValidationResultEntry;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import org.apache.commons.validator.routines.UrlValidator;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -37,10 +33,6 @@ public class VerifyHelper {
      */
     private static final String[] SUPPORTED_PROTOCOL_SCHEMES = {"http", "https"};
     private static final long URL_VALIDATION_OPTIONS = UrlValidator.ALLOW_LOCAL_URLS;
-    public static final String END_TEMPLATE_VARIABLE = "}";
-    public static final String START_TEMPLATE_VARIABLE = "{";
-    public static final String END_TEMPLATE_VARIABLE_REGEX = "}";
-    public static final String START_TEMPLATE_VARIABLE_REGEX = "\\{";
 
     public static final List<String> KEYWORDS = new ArrayList<String>(
             Arrays.asList(new String[]{
@@ -89,8 +81,8 @@ public class VerifyHelper {
 
     public static boolean isValidUrl(String url) {
         String templateURL = url;
-        templateURL = templateURL.replaceAll(START_TEMPLATE_VARIABLE_REGEX, "");
-        templateURL = templateURL.replaceAll(END_TEMPLATE_VARIABLE_REGEX, "");
+        templateURL = templateURL.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX, "");
+        templateURL = templateURL.replaceAll(Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, "");
         UrlValidator urlValidator = new UrlValidator(SUPPORTED_PROTOCOL_SCHEMES, URL_VALIDATION_OPTIONS);
         return urlValidator.isValid(templateURL);
     }

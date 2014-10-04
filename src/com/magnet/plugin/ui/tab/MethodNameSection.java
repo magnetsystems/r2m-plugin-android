@@ -28,7 +28,7 @@ import com.magnet.plugin.helpers.QueryParser;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.listeners.URLFocusListener;
 import com.magnet.plugin.models.ParsedUrl;
-import com.magnet.plugin.models.Path;
+import com.magnet.plugin.models.PathPart;
 import com.magnet.plugin.models.Query;
 import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.constants.PluginIcon;
@@ -44,13 +44,11 @@ import java.util.List;
 
 public class MethodNameSection extends BasePanel implements URLFocusListener, PluginIcon {
 
-    private JTextField methodName;
-    private JCheckBox urlDetailsBox;
+    private final JTextField methodName;
+    private final JCheckBox urlDetailsBox;
 
-    private ComboBox urlField;
-
-
-    private URLSection urlSection;
+    private final ComboBox urlField;
+    private final URLSection urlSection;
 
     {
 
@@ -197,13 +195,13 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         return text;
     }
 
-    public List<Path> getPaths() {
-        List<Path> pathList = new ArrayList<Path>();
-        for (PathPanel panel : urlSection.getPathPanels()) {
-            pathList.add(panel.getPath());
+    public List<PathPart> getPaths() {
+        List<PathPart> pathPartList = new ArrayList<PathPart>();
+        for (PathPartPanel panel : urlSection.getPathPanels()) {
+            pathPartList.add(panel.getPathPartField());
         }
 
-        return pathList;
+        return pathPartList;
     }
 
     public List<Query> getQueries() {

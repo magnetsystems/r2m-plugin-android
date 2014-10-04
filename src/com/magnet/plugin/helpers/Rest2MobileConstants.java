@@ -54,4 +54,13 @@ public interface Rest2MobileConstants {
      * Default documentation
      */
     String DOCUMENTATION_URL = "https://github.com/magnetsystems/rest2mobile/wiki";
+
+    //
+    // Path variables
+    //
+    String END_TEMPLATE_VARIABLE = "}";
+    String START_TEMPLATE_VARIABLE = "{";
+    String END_TEMPLATE_VARIABLE_REGEX = "}";
+    String START_TEMPLATE_VARIABLE_REGEX = "\\{";
+    String TEMPLATE_VARIABLE_REGEX = "\\{\\w+}";
 }

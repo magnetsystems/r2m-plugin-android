@@ -21,15 +21,15 @@
  */
 package com.magnet.plugin.ui.tab;
 
+import com.intellij.ui.JBColor;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.listeners.URLFocusListener;
 import com.magnet.plugin.models.ParsedUrl;
-import com.magnet.plugin.models.Path;
+import com.magnet.plugin.models.PathPart;
 import com.magnet.plugin.models.Query;
 import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -37,35 +37,28 @@ import java.awt.event.FocusListener;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Panel implementing the URL section details with path and query params
+ */
 public class URLSection extends BasePanel implements FocusListener {
 
-    private JButton pathButton;
-    private JLabel jLabel3;
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JSeparator jSeparator1;
-    private JTextField baseUrlField;
+    private final JTextField baseUrlField;
 
-    private JLabel jLabel6;
-    private JLabel jLabel7;
-    private JSeparator jSeparator2;
-    private JButton queryButton;
+    private final PathPanelLabel pathPanelLabel;
+    private final QueryPanelLabel queryPanelLabel;
 
-    private PathPanelLabel pathPanelLabel;
-    private QueryPanelLabel queryPanelLabel;
+    private final GroupLayout.ParallelGroup customPathGroupHorizontal;
+    private final GroupLayout.SequentialGroup customPathGroupVertical;
 
-    private GroupLayout.ParallelGroup customPathGroupHorizontal;
-    private GroupLayout.SequentialGroup customPathGroupVertical;
-
-    private GroupLayout.ParallelGroup customQueryGroupHorizontal;
-    private GroupLayout.SequentialGroup customQueryGroupVertical;
+    private final GroupLayout.ParallelGroup customQueryGroupHorizontal;
+    private final GroupLayout.SequentialGroup customQueryGroupVertical;
 
     private static volatile int pathCount;
     private static volatile int queryCount;
 
     private URLFocusListener focusListener;
 
-    public List<PathPanel> getPathPanels() {
+    public List<PathPartPanel> getPathPanels() {
         return paths;
     }
 
@@ -77,19 +70,19 @@ public class URLSection extends BasePanel implements FocusListener {
         return queries;
     }
 
-    private volatile List<PathPanel> paths = new ArrayList<PathPanel>();
+    private volatile List<PathPartPanel> paths = new ArrayList<PathPartPanel>();
     private volatile List<QueryPanel> querys = new ArrayList<QueryPanel>();
 
 
     {
-        jLabel3 = new JLabel();
+        JLabel jLabel3 = new JLabel();
         baseUrlField = new JTextField();
 
-        jLabel4 = new JLabel();
-        jSeparator1 = new JSeparator();
+        JLabel jLabel4 = new JLabel();
+        JSeparator jSeparator1 = new JSeparator();
         jSeparator1.setOpaque(false);
-        jLabel5 = new JLabel();
-        pathButton = new JButton();
+        JLabel jLabel5 = new JLabel();
+        JButton pathButton = new JButton();
 
         pathPanelLabel = new PathPanelLabel();
         queryPanelLabel = new QueryPanelLabel();
@@ -97,14 +90,14 @@ public class URLSection extends BasePanel implements FocusListener {
         pathPanelLabel.setVisible(false);
         queryPanelLabel.setVisible(false);
 
-        jLabel6 = new JLabel();
-        jSeparator2 = new JSeparator();
+        JLabel jLabel6 = new JLabel();
+        JSeparator jSeparator2 = new JSeparator();
         jSeparator2.setOpaque(false);
-        jLabel7 = new JLabel();
-        queryButton = new JButton();
+        JLabel jLabel7 = new JLabel();
+        JButton queryButton = new JButton();
 
-        jSeparator1.setForeground(Color.lightGray);
-        jSeparator2.setForeground(Color.lightGray);
+        jSeparator1.setForeground(JBColor.LIGHT_GRAY);
+        jSeparator2.setForeground(JBColor.LIGHT_GRAY);
 
 
         jLabel3.setText("Base URL");
@@ -121,7 +114,7 @@ public class URLSection extends BasePanel implements FocusListener {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                addPath(new Path());
+                addPath(new PathPart());
             }
         });
 
@@ -206,7 +199,7 @@ public class URLSection extends BasePanel implements FocusListener {
         );
     }
 
-    public void removePath(PathPanel path) {
+    public void removePath(PathPartPanel path) {
         pathCount--;
         paths.remove(path);
         if (pathCount == 0) {
@@ -223,8 +216,8 @@ public class URLSection extends BasePanel implements FocusListener {
     }
 
 
-    private void addPath(Path path) {
-        PathPanel panel = new PathPanel(this, path);
+    private void addPath(PathPart pathPart) {
+        PathPartPanel panel = new PathPartPanel(this, pathPart);
         panel.setFocusListener(this);
         paths.add(panel);
         pathPanelLabel.setVisible(true);
@@ -275,10 +268,10 @@ public class URLSection extends BasePanel implements FocusListener {
         clearFields();
 
         baseUrlField.setText(parsedUrl.getBase());
-        List<Path> pathList = parsedUrl.getPaths();
+        List<PathPart> pathPartList = parsedUrl.getPathParts();
         List<Query> queries = parsedUrl.getQueries();
-        for (Path aPathList : pathList) {
-            addPath(aPathList);
+        for (PathPart aPathPartList : pathPartList) {
+            addPath(aPathPartList);
         }
         for (Query query : queries) {
             addQuery(query);
@@ -293,12 +286,12 @@ public class URLSection extends BasePanel implements FocusListener {
 
     private String buildUrl(boolean isTemplatized) {
         StringBuilder builder = new StringBuilder(baseUrlField.getText());
-        for (PathPanel path : paths) {
+        for (PathPartPanel path : paths) {
             builder.append("/");
             if (isTemplatized) {
-                builder.append(path.getPath().getParameterizedPath());
+                builder.append(path.getPathPartField().getTemplatizedPath());
             } else {
-                builder.append(path.getPath().getPath());
+                builder.append(path.getPathPartField().getPathPart());
             }
         }
 
@@ -326,8 +319,8 @@ public class URLSection extends BasePanel implements FocusListener {
     }
 
     public boolean checkRequirementFields() {
-        for (PathPanel pathPanel : paths) {
-            if (!pathPanel.checkRequirementField()) {
+        for (PathPartPanel pathPartPanel : paths) {
+            if (!pathPartPanel.checkRequirementField()) {
                 return false;
             }
         }
@@ -347,8 +340,8 @@ public class URLSection extends BasePanel implements FocusListener {
 
     @Override
     public void focusLost(FocusEvent focusEvent) {
-        for (PathPanel pathPanel : paths) {
-            pathPanel.invalidateField();
+        for (PathPartPanel pathPartPanel : paths) {
+            pathPartPanel.invalidateField();
         }
         focusListener.onFocusChange(getExpandedUrl());
     }
@@ -358,7 +351,7 @@ public class URLSection extends BasePanel implements FocusListener {
     }
 
     public void revalidateSection() {
-        for (PathPanel panel : paths) {
+        for (PathPartPanel panel : paths) {
             panel.invalidate();
         }
 

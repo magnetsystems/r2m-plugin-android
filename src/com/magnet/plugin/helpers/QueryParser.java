@@ -18,7 +18,7 @@
 package com.magnet.plugin.helpers;
 
 import com.magnet.plugin.models.ParsedUrl;
-import com.magnet.plugin.models.Path;
+import com.magnet.plugin.models.PathPart;
 import com.magnet.plugin.models.Query;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URLEncodedUtils;
@@ -30,7 +30,7 @@ import java.util.List;
 
 public class QueryParser {
     public static ParsedUrl parseQuery(String url) {
-        List<Path> paths = new ArrayList<Path>();
+        List<PathPart> pathParts = new ArrayList<PathPart>();
         List<Query> queries = new ArrayList<Query>();
         ParsedUrl parsedUrl = null;
         String base;
@@ -53,10 +53,10 @@ public class QueryParser {
             String[] pathStrings = path.split("/");
             for (String string : pathStrings) {
                 if (!string.isEmpty()) {
-                    paths.add(new Path(string));
+                    pathParts.add(new PathPart(string));
                 }
             }
-            parsedUrl.setPaths(paths);
+            parsedUrl.setPathParts(pathParts);
         } catch (Exception ex) {
             return null;
         }

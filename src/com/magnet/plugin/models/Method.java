@@ -28,7 +28,7 @@ public class Method {
     private String methodName;
     private String url;
     private List<RequestHeaderModel> headers = new ArrayList<RequestHeaderModel>();
-    private List<Path> paths = new ArrayList<Path>();
+    private List<PathPart> pathParts = new ArrayList<PathPart>();
     private List<Query> queries = new ArrayList<Query>();
 
     private String payload;
@@ -59,13 +59,13 @@ public class Method {
         this.headers = headers;
     }
 
-    public List<Path> getPaths() {
-        List<Path> pathList = new ArrayList<Path>();
-        return pathList;
+    public List<PathPart> getPathParts() {
+        List<PathPart> pathPartList = new ArrayList<PathPart>();
+        return pathPartList;
     }
 
-    public void setPaths(List<Path> paths) {
-        this.paths = paths;
+    public void setPathParts(List<PathPart> pathParts) {
+        this.pathParts = pathParts;
     }
 
     public List<Query> getQueries() {
@@ -106,7 +106,7 @@ public class Method {
                 "methodName='" + methodName + '\'' +
                 "\n, url='" + url + '\'' +
                 "\n, headers=" + headers +
-                "\n, paths=" + paths +
+                "\n, paths=" + pathParts +
                 "\n, queries=" + queries +
                 "\n, payload='" + payload + '\'' +
                 "\n, httpMethod=" + httpMethod +

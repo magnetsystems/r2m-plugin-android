@@ -22,16 +22,16 @@ import java.util.List;
 
 public class ParsedUrl {
 
-    List<Path> paths=new ArrayList<Path>();
+    List<PathPart> pathParts =new ArrayList<PathPart>();
     List<Query> queries=new ArrayList<Query>();
     String base;
 
-    public List<Path> getPaths() {
-        return paths;
+    public List<PathPart> getPathParts() {
+        return pathParts;
     }
 
-    public void setPaths(List<Path> paths) {
-        this.paths = paths;
+    public void setPathParts(List<PathPart> pathParts) {
+        this.pathParts = pathParts;
     }
 
     public List<Query> getQueries() {

@@ -21,7 +21,7 @@ import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.helpers.ControllerHistoryManager;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.project.CacheManager;
-import com.magnet.plugin.ui.tab.MainPanel;
+import com.magnet.plugin.ui.tab.MethodTabPanel;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
@@ -77,7 +77,7 @@ public class ControllerNameBoxFocusListener implements FocusListener {
         CacheManager cache = new CacheManager(project, packageName, controllerName);
         List<RestExampleModel> methodModels = cache.getControllerMethodsModel();
         for (int i = 0; i < methodModels.size(); i++) {
-            MainPanel panel = form.getTabManager().addNewTab(i);
+            MethodTabPanel panel = form.getTabManager().addNewTab(i);
             panel.createMethodFromExample(methodModels.get(i));
         }
 
