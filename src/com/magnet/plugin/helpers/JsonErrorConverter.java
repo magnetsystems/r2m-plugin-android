@@ -16,6 +16,7 @@
  */
 package com.magnet.plugin.helpers;
 
+import com.magnet.langpack.builder.rest.parser.validation.DocLocation;
 import com.magnet.langpack.builder.rest.parser.validation.ValidationResultEntry;
 import com.magnet.plugin.constants.JSONErrorType;
 import com.magnet.plugin.models.JSONError;
@@ -53,49 +54,66 @@ public class JsonErrorConverter {
       int startIndex = 0;
       int endIndex = 0;
       if (null != errorEntry.getDocLocation()) {
-        startIndex = getLineStartIndex(errorEntry.getDocLocation().getLine()) + errorEntry.getDocLocation().getCol() - 1;
-        switch (errorEntry.getErrorType()) {
-          case INVALID_FORMAT:
-            startIndex = startIndex - 1;
+        if(errorEntry.getDocLocation().getLine() > lines.size()) { // line number out of bound
+          int lastLineNum = lines.size() - 1;
+          startIndex = getLineStartIndex(lines.size());
+          endIndex = startIndex + lines.get(lastLineNum).length();
+          // Reset location since it seems out of bound
+          errorEntry = new ValidationResultEntry(errorEntry.getPropertyName(), errorEntry.getErrorType(),
+                  new DocLocation(lines.size(), lines.get(lastLineNum).length()), errorEntry.getMessage());
+        } else if(errorEntry.getDocLocation().getCol() > lines.get(errorEntry.getDocLocation().getLine() - 1).length()) { // column out of bound
+          startIndex = getLineStartIndex(errorEntry.getDocLocation().getLine()) + lines.get(errorEntry.getDocLocation().getLine() - 1).length() -1;
+          endIndex = startIndex + 1;
 
-            Integer nextQuota = text.indexOf("\"", startIndex) + 1;
-            Integer nextComma = text.indexOf(",", startIndex) + 1;
-            Integer endOfLine = currentIndex + lines.get(currentLine).length() + 1;
-            if (nextQuota != 0 && nextQuota < nextComma) {
-              endIndex = nextQuota;
-              int possibleStartIndex = text.lastIndexOf("\"", startIndex);
-              if (possibleStartIndex > 0) {
-                startIndex = possibleStartIndex;
-              }
-            } else if (nextComma != 0 && nextQuota < endOfLine) {
-              endIndex = nextComma;
-              int possibleStartIndex = startIndex = text.lastIndexOf(":", endIndex);
-              if (possibleStartIndex > 0) {
-                startIndex = possibleStartIndex + 1;
-              }
-            } else if (endOfLine < text.length()) {
-              endIndex = endOfLine;
-              startIndex = currentIndex;
-            } else {
-              endIndex = startIndex + 1;
+          // Reset location since it seems out of bound
+          errorEntry = new ValidationResultEntry(errorEntry.getPropertyName(), errorEntry.getErrorType(),
+                  new DocLocation(errorEntry.getDocLocation().getLine(), lines.get(errorEntry.getDocLocation().getLine() - 1).length()),
+                  errorEntry.getMessage());
+        } else {
+            startIndex = getLineStartIndex(errorEntry.getDocLocation().getLine()) + errorEntry.getDocLocation().getCol() - 1;
+            switch (errorEntry.getErrorType()) {
+              case INVALID_FORMAT:
+                startIndex = startIndex - 1;
+
+                Integer nextQuota = text.indexOf("\"", startIndex) + 1;
+                Integer nextComma = text.indexOf(",", startIndex) + 1;
+                Integer endOfLine = currentIndex + lines.get(currentLine).length() + 1;
+                if (nextQuota != 0 && nextQuota < nextComma) {
+                  endIndex = nextQuota;
+                  int possibleStartIndex = text.lastIndexOf("\"", startIndex);
+                  if (possibleStartIndex > 0) {
+                    startIndex = possibleStartIndex;
+                  }
+                } else if (nextComma != 0 && nextQuota < endOfLine) {
+                  endIndex = nextComma;
+                  int possibleStartIndex = startIndex = text.lastIndexOf(":", endIndex);
+                  if (possibleStartIndex > 0) {
+                    startIndex = possibleStartIndex + 1;
+                  }
+                } else if (endOfLine < text.length()) {
+                  endIndex = endOfLine;
+                  startIndex = currentIndex;
+                } else {
+                  endIndex = startIndex + 1;
+                }
+                break;
+              case EMPTY_ARRAY:
+                startIndex = startIndex - 1;
+                endIndex = text.indexOf("]", startIndex) + 1;
+                break;
+              case EMPTY_OBJECT:
+                startIndex = startIndex - 1;
+                endIndex = text.indexOf("}", startIndex) + 1;
+                break;
+              default: //case NULL_PROPERTY:
+                endIndex = startIndex + 4;
             }
-            break;
-          case EMPTY_ARRAY:
-            startIndex = startIndex - 1;
-            endIndex = text.indexOf("]", startIndex) + 1;
-            break;
-          case EMPTY_OBJECT:
-            startIndex = startIndex - 1;
-            endIndex = text.indexOf("}", startIndex) + 1;
-            break;
-          default: //case NULL_PROPERTY:
-            endIndex = startIndex + 4;
+          }
         }
-      }
 
-      result.add(new JSONError(errorEntry, startIndex, endIndex));
-    }
-    return result;
+        result.add(new JSONError(errorEntry, startIndex, endIndex));
+      }
+      return result;
   }
 
   private int getLineStartIndex(int lineRequested) {

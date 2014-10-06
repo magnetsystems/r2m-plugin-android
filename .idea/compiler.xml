@@ -15,7 +15,7 @@
     </wildcardResourcePatterns>
     <annotationProcessing>
       <profile default="$R2M_KEEP_TEMP_FILES$" name="Default" enabled="false">
-        <processorPath useClasspath="$R2M_KEEP_TEMP_FILES$" />
+       <processorPath useClasspath="$R2M_KEEP_TEMP_FILES$" />
       </profile>
     </annotationProcessing>
   </component>

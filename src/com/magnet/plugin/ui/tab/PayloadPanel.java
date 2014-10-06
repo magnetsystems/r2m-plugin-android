@@ -29,19 +29,20 @@ import com.magnet.plugin.models.JSONError;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXTable;
 
-import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.text.BadLocationException;
+import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import java.awt.*;
-import java.util.Collections;
+
+import java.util.*;
 import java.util.List;
 
-import static com.magnet.plugin.constants.Colors.BLACK;
-import static com.magnet.plugin.constants.Colors.GREEN;
+import static com.magnet.plugin.constants.Colors.*;
 
 public class PayloadPanel extends BasePanel {
 
@@ -131,6 +132,14 @@ public class PayloadPanel extends BasePanel {
 
                     errorPanel.setVisible(true);
                     errorTableScrollPane.setVisible(true);
+
+                    errorTable.setModel(new ErrorTableModel(errors));
+                    errorTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+                    Dimension tableSize =  errorTableScrollPane.getPreferredSize();
+                    errorTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+                    errorTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+                    errorTable.getColumnModel().getColumn(2).setCellRenderer(new TableCellLongTextRenderer());
+                    errorTable.getColumnModel().getColumn(2).setMinWidth(300);
 
                     // is it fatal error ?
                     if(errors.size() == 1 && errors.get(0).getErrorType() == JSONErrorType.ERROR_INVALID_FORMAT) {
@@ -225,10 +234,10 @@ public class PayloadPanel extends BasePanel {
 
     public static class ErrorTableModel extends AbstractTableModel {
         public static final int PROPERTY_INDEX = 0;
-        public static final int ERROR_INDEX = 1;
-        public static final int LOCATION_INDEX = 2;
+        public static final int LOCATION_INDEX = 1;
+        public static final int ERROR_INDEX = 2;
 
-        public static final String[] columnNames = {"Property", "Error", "Location"};
+        public static final String[] columnNames = {"Property", "Location", "Error"};
 
         private final java.util.List<JSONError> errors;
 
@@ -257,10 +266,10 @@ public class PayloadPanel extends BasePanel {
           switch (column) {
             case PROPERTY_INDEX:
               return record.getPropertyName();
-            case ERROR_INDEX:
-              return record.getErrorTypeAsString();
             case LOCATION_INDEX:
-              return record.getDocLocation();
+              return null != record.getDocLocation() ? record.getDocLocation().toString() : "";
+            case ERROR_INDEX:
+              return JSONErrorType.ERROR_INVALID_FORMAT != record.getErrorType() ? record.getErrorTypeAsString() : record.getMessage();
             default:
               return new Object();
           }
@@ -269,6 +278,35 @@ public class PayloadPanel extends BasePanel {
         public boolean isCellEditable(int row, int column) {
           return false;
         }
+    }
+
+  /**
+   * Customized TableCellRenderer for possible long error message
+   */
+    public class TableCellLongTextRenderer extends JTextArea implements TableCellRenderer {
+
+      @Override
+      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+        this.setText((String)value);
+        this.setWrapStyleWord(true);
+        this.setLineWrap(true);
+
+        //set the JTextArea to the width of the table column
+        setSize(table.getColumnModel().getColumn(column).getWidth(),getPreferredSize().height);
+        if (table.getRowHeight(row) != getPreferredSize().height) {
+          //set the height of the table row to the calculated height of the JTextArea
+          table.setRowHeight(row, getPreferredSize().height);
+        }
+
+        if(isSelected){
+          this.setBackground((Color)UIManager.get("Table.selectionBackground"));
+          this.setForeground((Color)UIManager.get("Table.selectionForeground"));
+          this.selectAll();
+        }
+
+        return this;
+      }
+
     }
 
 }

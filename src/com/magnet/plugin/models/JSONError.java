@@ -35,13 +35,6 @@ public class JSONError {
       this.errorType = convertErrorType(validationResultEntry.getErrorType());
     }
 
-
-    public JSONError(JSONErrorType errorType, int startIndex, int endIndex) {
-        this.errorType = errorType;
-        this.startIndex = startIndex;
-        this.endIndex = endIndex;
-    }
-
     public JSONErrorType getErrorType() {
         return errorType;
     }
@@ -84,7 +77,7 @@ public class JSONError {
     }
 
     public String getMessage() {
-      return toString();
+      return validationResultEntry.getMessage();
     }
 
     @Override
@@ -119,6 +112,8 @@ public class JSONError {
           return "empty array []";
         case ERROR_EMPTY_DICTIONARY :
           return "empty object {}";
+        case ERROR_INVALID_FORMAT:
+          return "invalid format";
         default:
           return "unknown";
       }
