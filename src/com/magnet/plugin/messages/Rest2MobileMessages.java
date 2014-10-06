@@ -58,6 +58,13 @@ public class Rest2MobileMessages {
     public static final String VALIDATION_WARNING_CONTINUE = "VALIDATION_WARNING_CONTINUE";
     public static final String VALIDATION_WARNING_CANCEL = "VALIDATION_WARNING_CANCEL";
 
+    // Headers
+    public static final String HEADER_SECTION_NAME = "HEADER_SECTION_NAME";
+    public static final String HEADER_SECTION_ADD_NEW = "HEADER_SECTION_ADD_NEW";
+    public static final String HEADER_SECTION_PLUS = "HEADER_SECTION_PLUS";
+    public static final String HEADER_SECTION_DELETE = "HEADER_SECTION_DELETE";
+
+
   /**
      * @param key  constant identifying L10n message
      * @param args arguments to be expanded in L10n message

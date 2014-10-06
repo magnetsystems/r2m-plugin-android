@@ -22,6 +22,7 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.io.FileUtil;
 import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.api.models.RequestHeaderModel;
+import com.magnet.plugin.helpers.ControllerHistoryManager;
 import com.magnet.plugin.helpers.FileHelper;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.RestByExampleKeywords;
@@ -170,6 +171,7 @@ public class Generator {
 
             // copy others
             FileUtils.copyDirectory(cachedSourceFolder, ProjectManager.getSourceFolderFile(project));
+            ControllerHistoryManager.saveController(project, cacheManager.getControllerFolder().getName());
             displayIndicatorMessage(progressIndicator, "Completed generation", 100);
         } catch (Exception e) {
             e.printStackTrace();

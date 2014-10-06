@@ -21,31 +21,29 @@ import com.intellij.ide.SaveAndSyncHandlerImpl;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ex.ProjectManagerEx;
+import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.FrameWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFileManager;
 import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
 import com.magnet.plugin.api.models.ApiMethodModel;
+import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.generator.Generator;
 import com.magnet.plugin.helpers.*;
 import com.magnet.plugin.listeners.ControllerActionCallback;
 import com.magnet.plugin.listeners.CreateMethodCallback;
-import com.magnet.plugin.listeners.TabRemoveListener;
 import com.magnet.plugin.listeners.generator.PostGenerateCallback;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.project.CacheManager;
 import com.magnet.plugin.project.ProjectManager;
-import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.ui.tab.MainPanel;
+import com.magnet.plugin.ui.tab.TabManager;
+import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -56,19 +54,19 @@ import static com.magnet.plugin.helpers.UIHelper.*;
 
 public class AddControllerForm extends FrameWrapper implements CreateMethodCallback, PostGenerateCallback {
     private JPanel contentPane;
-    private JTextField controllerName;
+    private ComboBox controllerNameBox;
     private JButton generateServiceButton;
     private JTabbedPane tabPanel;
     private JTextField packageNameField;
     private ControllerActionCallback actionCallback;
+    private final TabManager tabManager;
 
-    private List<MainPanel> tabs = new ArrayList<MainPanel>();
 
     private final Project project;
 
     private final AnActionEvent anAction;
 
-    public AddControllerForm(Project project, AnActionEvent anAction, boolean canBeParent, ControllerActionCallback actionCallback) {
+    public AddControllerForm(final Project project, AnActionEvent anAction, boolean canBeParent, ControllerActionCallback actionCallback) {
 //        super(project, canBeParent);
         super(project);
 
@@ -77,37 +75,26 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         this.project = project;
 
         Font font = UIHelper.getFont();
-        controllerName.setFont(font);
+        controllerNameBox.setModel(new DefaultComboBoxModel(ControllerHistoryManager.getCachedControllers(project)));
+//        ObjectToStringConverter converter = new ControllerNameConverter();
+        AutoCompleteDecorator.decorate(controllerNameBox);
+        controllerNameBox.setPrototypeDisplayValue("");
+        controllerNameBox.setFocusable(true);
+        controllerNameBox.setFont(font);
         generateServiceButton.setFont(font);
         packageNameField.setFont(font);
 
 //        setResizable(true);
         setTitle(Rest2MobileMessages.getMessage(Rest2MobileMessages.WINDOW_TITLE));
         packageNameField.setText(ProjectManager.getPackageName(project));
-        MainPanel customTab = new MainPanel(project, this, tabPanel);
-        customTab.setTabRemoveListener(tabRemoveListener);
-        customTab.setIndex(0);
-
 
         generateServiceButton.addActionListener(generateListener);
         generateServiceButton.setEnabled(true);
-        tabs.add(customTab);
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, 1), customTab);
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.PLUS_TAB), new JLabel(""));
-        tabPanel.addChangeListener(tabListener);
-        controllerName.addFocusListener(new FocusListener() {
 
-            @Override
-            public void focusGained(FocusEvent focusEvent) {
 
-            }
 
-            @Override
-            public void focusLost(FocusEvent focusEvent) {
-                controllerName.setText(VerifyHelper.verifyClassName(controllerName.getText()));
-            }
-        });
-//        init();
+        tabManager = new TabManager(project, this, tabPanel);
+        controllerNameBox.getEditor().getEditorComponent().addFocusListener(new ControllerNameBoxFocusListener(project, this));
         setDefaultParameters();
     }
 
@@ -124,68 +111,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
     public Window getThis() {
         return this.getFrame();
     }
-
-    private void addNewTab(int index) {
-        MainPanel customTab = new MainPanel(project, this, tabPanel);
-        customTab.setTabRemoveListener(tabRemoveListener);
-        customTab.setIndex(index);
-
-//        scrollPane.setViewportView(customTab);
-        tabs.add(customTab);
-        tabPanel.removeChangeListener(tabListener);
-        tabPanel.remove(index);
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, index + 1), customTab);
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.PLUS_TAB), new JLabel(""));
-        tabPanel.setSelectedIndex(0);
-        tabPanel.addChangeListener(tabListener);
-        updateRemoveButtons();
-    }
-
-    private void removeTab(MainPanel mainPanel) {
-        int tabCount = tabPanel.getTabCount();
-        tabs.remove(mainPanel);
-        tabPanel.setSelectedIndex(0);
-        tabPanel.remove(mainPanel);
-        tabCount = tabPanel.getTabCount();
-        tabPanel.invalidate();
-    }
-
-//    @Nullable
-//    @Override
-//    protected JComponent createCenterPanel() {
-//        contentPane.setSize(FormConfig.SCREEN_DIMENSION);
-//        contentPane.setMinimumSize(FormConfig.SCREEN_DIMENSION);
-////        contentPane.setMaximumSize(FormConfig.SCREEN_DIMENSION);
-////        contentPane.setPreferredSize(FormConfig.SCREEN_DIMENSION);
-//        return contentPane;
-//    }
-
-//    @NotNull
-//     @Override
-//     protected Action[] createActions() {
-//        return new Action[0];
-//    }
-
-//    @NotNull
-//    @Override
-//    protected Action[] createLeftSideActions() {
-//        return super.createLeftSideActions();
-//    }
-
-    private ChangeListener tabListener = new ChangeListener() {
-        @Override
-        public void stateChanged(ChangeEvent e) {
-            int index = tabPanel.getSelectedIndex();
-            Logger.info(getClass(), "" + index);
-            if (index == tabPanel.getTabCount() - 1) {
-                addNewTab(index);
-                updateRemoveButtons();
-                updateSelectedIndex();
-            }
-
-        }
-    };
-
 
     private void createUIComponents() {
         // TODO: place custom component creation code here
@@ -210,8 +135,24 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
     }
 
 
-    private String getControllerName() {
-        return this.controllerName.getText().trim();
+    public ComboBox getControllerNameBox() {
+        return controllerNameBox;
+    }
+
+    public JTextField getPackageNameField() {
+        return packageNameField;
+    }
+
+    public TabManager getTabManager() {
+        return tabManager;
+    }
+
+    public String getControllerName() {
+        Object item = this.controllerNameBox.getEditor().getItem();
+        if (item == null) {
+            return null;
+        }
+        return item.toString().trim();
     }
 
     private String getPackageName() {
@@ -223,34 +164,9 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         UIHelper.showErrorMessage(message);
     }
 
-    private void updateRemoveButtons() {
-        for (int i = 0; i < tabs.size(); i++) {
-            tabs.get(i).setIndex(i);
-        }
-        for (MainPanel panel : tabs) {
-            panel.enableRemoveButton(tabs.size() > 1);
-        }
-    }
-
-    private void updateSelectedIndex() {
-        tabPanel.setSelectedIndex(tabPanel.getTabCount() - 2);
-        tabPanel.revalidate();
-    }
-
     /*
     =======================LISTENERS SECTION=========================
      */
-    private TabRemoveListener tabRemoveListener = new TabRemoveListener() {
-        @Override
-        public void removeCurrentPanel(MainPanel mainPanel) {
-            if (tabPanel.getTabCount() > 2) {
-                removeTab(mainPanel);
-                // do not delete the method example file.
-                // Users will be asked whether they want to keep it on or not at generation time.
-                updateRemoveButtons();
-            }
-        }
-    };
 
     /**
      * Listener triggered upon "Generate"
@@ -274,7 +190,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
         private boolean checkResponse() {
             boolean result = true;
-            for (MainPanel mainPanel : tabs) {
+            for (MainPanel mainPanel : tabManager.getTabs()) {
                 // Revalidate the payload before generation
                 String text = mainPanel.getResponse();
                 BodyValidationResult validationResult = JSONValidator.validateBody(text);
@@ -302,7 +218,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
             // methods from tabs
             Set<String> methodsToGenerate = new HashSet<String>();
-            for (MainPanel mainPanel : tabs) {
+            for (MainPanel mainPanel : tabManager.getTabs()) {
                 methodsToGenerate.add(mainPanel.getMethodTabName());
             }
 
@@ -337,8 +253,9 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
          * @return true if no duplicate, false otherwise
          */
         private boolean checkAllMethodNames() {
-            boolean result = true;
+            boolean result;
             Set<String> strings = new HashSet<String>();
+            List<MainPanel> tabs = tabManager.getTabs();
             for (MainPanel mainPanel : tabs) {
                 strings.add(mainPanel.getMethodTabName());
             }
@@ -350,7 +267,9 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         }
 
         private boolean checkControllerName() {
-            if (controllerName.getText().trim().isEmpty()) {
+            String name = getControllerName();
+
+            if (name == null || name.isEmpty()) {
                 showErrorMessage(ERROR_SERVICE_NAME);
                 return false;
             } else if (packageNameField.getText().trim().isEmpty()) {
@@ -362,7 +281,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
         private boolean checkMainPanels() {
             boolean result = true;
-            for (MainPanel tab : tabs) {
+            for (MainPanel tab : tabManager.getTabs()) {
                 result = tab.createMethod();
                 if (!result) {
                     break;

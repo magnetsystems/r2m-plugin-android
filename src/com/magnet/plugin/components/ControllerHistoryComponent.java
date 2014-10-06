@@ -15,11 +15,11 @@
  * permissions and limitations under the License.
  */
 
-package com.magnet.plugin.actions;
+package com.magnet.plugin.components;
 
 import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
-import com.magnet.plugin.models.History;
+import com.magnet.plugin.models.ControllerHistory;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -27,48 +27,43 @@ import org.jetbrains.annotations.Nullable;
  * Manage history
  */
 @State(
-        name = "HistoryComponent",
+        name = ControllerHistoryComponent.NAME,
         storages = {
                 @Storage(id = "default", file = StoragePathMacros.WORKSPACE_FILE),
-                @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/r2murlcache.xml", scheme = StorageScheme.DIRECTORY_BASED)
+                @Storage(id = "dir", file = StoragePathMacros.PROJECT_CONFIG_DIR + "/r2mControllerCache.xml", scheme = StorageScheme.DIRECTORY_BASED)
         }
 )
-public class HistoryComponent implements ProjectComponent, PersistentStateComponent<History> {
+public class ControllerHistoryComponent implements ProjectComponent, PersistentStateComponent<ControllerHistory> {
+    public final static String NAME = "ControllerCacheComponent";
 
-    private History history;
+    private ControllerHistory cache;
 
-    public HistoryComponent(Project project) {
-        history=new History(new String[0]);
+    public ControllerHistoryComponent(Project project) {
+        this.cache = new ControllerHistory(project);
     }
 
-    public void initComponent() {
-        // TODO: insert component initialization logic here
-    }
+    public void initComponent() {}
 
-    public void disposeComponent() {
-        // TODO: insert component disposal logic here
-    }
+    public void disposeComponent() {}
 
     @NotNull
     public String getComponentName() {
-        return "HistoryComponent";
+        return NAME;
     }
 
-    public void projectOpened() {
-    }
+    public void projectOpened() {}
 
-    public void projectClosed() {
-        // called when project is being closed
-    }
+    public void projectClosed() {}
 
     @Nullable
     @Override
-    public History getState() {
-        return history;
+    public ControllerHistory getState() {
+        return cache;
     }
 
     @Override
-    public void loadState(History history) {
-        this.history=history;
+    public void loadState(ControllerHistory cache) {
+        this.cache = cache;
     }
+
 }

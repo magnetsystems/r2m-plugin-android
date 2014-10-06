@@ -22,6 +22,9 @@
 package com.magnet.plugin.ui.tab;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.ui.components.JBScrollPane;
+import com.intellij.util.net.HTTPMethod;
+import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.api.core.RequestFactory;
 import com.magnet.plugin.api.mock.WorkerCallback;
 import com.magnet.plugin.api.models.ApiMethodModel;
@@ -34,6 +37,7 @@ import com.magnet.plugin.helpers.UIHelper;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.listeners.CreateMethodCallback;
 import com.magnet.plugin.listeners.TabRemoveListener;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.Method;
 import com.magnet.plugin.constants.FormConfig;
 
@@ -42,6 +46,11 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.magnet.plugin.helpers.UIHelper.*;
 
@@ -50,12 +59,9 @@ public class MainPanel extends BasePanel {
     private MethodNameSection panel;
     private MethodTypeSection type;
     private HeaderSection header;
-    private RequestPayloadSection payload;
+    private RequestPayloadSection requestPayloadSection;
     private ResponseSection responseSection;
     private ButtonsSection buttons;
-
-    private JScrollPane jScrollPane;
-    private JPanel jPanel1;
 
     private CreateMethodCallback methodCallback;
     private TabRemoveListener tabRemoveListener;
@@ -65,20 +71,18 @@ public class MainPanel extends BasePanel {
 
     private int index = -1;
 
-    private Project project = null;
-
 
     {
         this.setOpaque(false);
         panel = new MethodNameSection();
         header = new HeaderSection();
-        payload = new RequestPayloadSection();
-        type = new MethodTypeSection(payload);
+        requestPayloadSection = new RequestPayloadSection();
+        type = new MethodTypeSection(requestPayloadSection);
         responseSection = new ResponseSection();
         buttons = new ButtonsSection();
 
-        jScrollPane = new JScrollPane();
-        jPanel1 = new JPanel();
+        JScrollPane jScrollPane = new JBScrollPane();
+        JPanel jPanel1 = new JPanel();
 
 
         DocumentListener createMethodButtonUpdater = new DocumentListener() {
@@ -99,7 +103,7 @@ public class MainPanel extends BasePanel {
             }
         };
 
-        responseSection.getJsonField().getDocument().addDocumentListener(createMethodButtonUpdater);
+        responseSection.getPayloadField().getDocument().addDocumentListener(createMethodButtonUpdater);
         ((JTextField) (panel.getUrlField().getEditor().getEditorComponent())).getDocument().addDocumentListener(createMethodButtonUpdater);
 
         panel.getMethodNamePanel().getDocument().addDocumentListener(new DocumentListener() {
@@ -127,7 +131,7 @@ public class MainPanel extends BasePanel {
                         .addComponent(panel)
                         .addComponent(type)
                         .addComponent(header)
-                        .addComponent(payload)
+                        .addComponent(requestPayloadSection)
                         .addComponent(responseSection)
         );
         jPanel1Layout.setVerticalGroup(
@@ -135,7 +139,7 @@ public class MainPanel extends BasePanel {
                         .addComponent(panel)
                         .addComponent(type)
                         .addComponent(header)
-                        .addComponent(payload)
+                        .addComponent(requestPayloadSection)
                         .addComponent(responseSection));
         jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setViewportView(jPanel1);
@@ -181,7 +185,7 @@ public class MainPanel extends BasePanel {
 
     public boolean createMethod() {
 
-        Method method = getMethodToFile();
+        Method method = getMethod();
         if (!VerifyHelper.isValidUrl(method.getUrl())) {
             showErrorMessage(ERROR_INVALID_URL);
             return false;
@@ -198,15 +202,17 @@ public class MainPanel extends BasePanel {
             RequestModel requestModel = new RequestModel(method);
             apiMethodModel.setRequestModel(requestModel);
         }
-        ResponseModel responseModel = new ResponseModel(responseSection.getUnformattedJson());
+        ResponseModel responseModel = new ResponseModel(responseSection.getRawPayload());
         apiMethodModel.setResponseModel(responseModel);
+
+        // create method file
         methodCallback.createMethod(apiMethodModel);
         return true;
     }
 
     private void testApi() {
         if (panel.checkRequirementFields()) {
-            Method method = getMethod();
+            Method method = makeMethod();
             if (!VerifyHelper.isValidUrlWithoutPerformance(method.getUrl())) {
                 showErrorMessage(ERROR_INVALID_URL);
             }
@@ -222,16 +228,15 @@ public class MainPanel extends BasePanel {
     public MainPanel(Project project, CreateMethodCallback methodCallback, JTabbedPane tabPanel) {
         this.methodCallback = methodCallback;
         this.tabPanel = tabPanel;
-        this.project = project;
         panel.setProject(project);
     }
 
-    public String getPayload() {
-        return payload.getJson();
+    public String getRequestPayload() {
+        return requestPayloadSection.getPayload();
     }
 
     public String getResponse() {
-        return responseSection.getUnformattedJson();
+        return responseSection.getRawPayload();
     }
 
     private MainPanel getCurrentPanel() {
@@ -246,7 +251,17 @@ public class MainPanel extends BasePanel {
         return panel.getMethodNamePanel().getText();
     }
 
-    public Method getMethod() {
+    /**
+     * @param url url where path param are expanded (removed "{""}")
+     * @return expanded url
+     */
+    private static String expandUrl(String url) {
+        url = url.replaceAll(VerifyHelper.START_TEMPLATE_VARIABLE_REGEX, "");
+        url = url.replaceAll(VerifyHelper.END_TEMPLATE_VARIABLE_REGEX, "");
+        return url;
+    }
+
+    public Method makeMethod() {
 
         Method method = new Method();
         method.setMethodName(panel.getMethodName());
@@ -255,17 +270,17 @@ public class MainPanel extends BasePanel {
         method.setQueries(panel.getQueries());
         method.setHttpMethod(type.getHttpMethod());
         method.setHeaders(header.getHeaders());
-        method.setResponse(responseSection.getUnformattedJson());
+        method.setResponse(responseSection.getRawPayload());
 
-        String payload = getPayload();
+        String payload = getRequestPayload();
         method.setPayload(payload);
 
         return method;
     }
 
-    public Method getMethodToFile() {
-        Method method = getMethod();
-        method.setUrl(panel.getUrlToFile());
+    public Method getMethod() {
+        Method method = makeMethod();
+        method.setUrl(panel.getTemplateUrl());
         return method;
     }
 
@@ -274,7 +289,7 @@ public class MainPanel extends BasePanel {
         public void onSuccess(ApiMethodModel methodModel) {
             apiMethodModel = methodModel;
             String entity = ResponseHelper.processResponse(methodModel);
-            MainPanel.this.responseSection.setJson(entity);
+            MainPanel.this.responseSection.setPayload(entity);
             buttons.getCreateMethodButton().setEnabled(true);
         }
 
@@ -289,10 +304,6 @@ public class MainPanel extends BasePanel {
         }
     };
 
-    public TabRemoveListener getTabRemoveListener() {
-        return tabRemoveListener;
-    }
-
     public void setTabRemoveListener(TabRemoveListener tabRemoveListener) {
         this.tabRemoveListener = tabRemoveListener;
     }
@@ -303,7 +314,7 @@ public class MainPanel extends BasePanel {
     }
 
     private void updateCreateMethodButton() {
-        boolean isResponseEmpty = responseSection.getUnformattedJson().isEmpty();
+        boolean isResponseEmpty = responseSection.getRawPayload().isEmpty();
         boolean isUrlEmpty = panel.getUrl().isEmpty();
         boolean needEnable = !isResponseEmpty && !isUrlEmpty;
         buttons.enableCreateMethodButton(needEnable);
@@ -328,8 +339,66 @@ public class MainPanel extends BasePanel {
             if (!getMethodTabName().isEmpty()) {
                 tabPanel.setTitleAt(getIndex(), getMethodTabName());
             } else {
-                tabPanel.setTitleAt(getIndex(), "Method " + (index + 1));
+                tabPanel.setTitleAt(getIndex(), Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, index + 1));
             }
         }
+    }
+
+    public void createMethodFromExample(RestExampleModel methodModel) {
+        // method name
+        String methodName = methodModel.getName();
+        panel.getMethodNamePanel().setText(methodName);
+
+        // verb
+        String urlWithVerb = methodModel.getRequestUrl();
+        String[] parts = urlWithVerb.split(" ");
+        HTTPMethod verb = HTTPMethod.GET;
+        if (parts.length > 1) {
+            verb = HTTPMethod.valueOf(parts[0]);
+        }
+        type.selectVerb(verb);
+
+        // URL
+        String url = parts[parts.length - 1];
+        panel.getUrlField().getEditor().setItem(expandUrl(url));
+
+        // set paths
+        List<String> pathParams = findVariables(url);
+        if (pathParams.size() > 0) {
+            // TODO: populate the paths
+        }
+
+        // Request Headers
+        Map<String, String> headers = methodModel.getRequestHeaders();
+        if (headers != null && !headers.isEmpty()) {
+            header.setEnabled(true);
+            for (Map.Entry<String, String> e : headers.entrySet()) {
+                header.addHeader(e.getKey(), e.getValue());
+            }
+        }
+        // Request body
+        setSectionBody(requestPayloadSection, methodModel.getRequestBody());
+        // Response body
+        setSectionBody(responseSection, methodModel.getResponseBody());
+
+    }
+
+    public static List<String> findVariables(String templateUrl) {
+        Pattern p = Pattern.compile("\\{\\w+}");
+        Matcher m = p.matcher(templateUrl);
+        List<String> l = new ArrayList<String>();
+        while (m.find()) {
+            l.add(m.group().substring(1, m.group().length() - 1));
+        }
+        return l;
+    }
+
+
+    private static void setSectionBody(PayloadPanel payloadPanel, String body) {
+        if (body != null && !body.isEmpty()) {
+            payloadPanel.setEnabled(true);
+            payloadPanel.setPayload(body);
+        }
+
     }
 }

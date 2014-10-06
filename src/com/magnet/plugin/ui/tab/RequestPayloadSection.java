@@ -26,18 +26,14 @@ import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
 
-public class RequestPayloadSection extends JSONPanel {
-
-    private JLabel jLabel1;
-    private JSeparator jSeparator1;
-    private JLabel jLabel2;
+public class RequestPayloadSection extends PayloadPanel {
 
     {
-        jLabel1 = new JLabel("Request Payload");
+        JLabel jLabel1 = new JLabel("Request Payload");
         jLabel1.setFont(baseFont);
-        jSeparator1 = new JSeparator();
+        JSeparator jSeparator1 = new JSeparator();
         jSeparator1.setOpaque(false);
-        jLabel2 = new JLabel("Raw");
+        JLabel jLabel2 = new JLabel("Raw");
         jLabel2.setFont(baseFont);
 
         GroupLayout layout = new GroupLayout(this);

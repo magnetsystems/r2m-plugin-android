@@ -26,7 +26,7 @@ import com.magnet.plugin.constants.FormConfig;
 
 import javax.swing.*;
 
-public class ResponseSection extends JSONPanel {
+public class ResponseSection extends PayloadPanel {
 
     private JLabel jLabel1;
     private JSeparator jSeparator1;

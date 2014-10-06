@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QueryParser {
-    public static ParsedUrl parseQuerry(String url) {
+    public static ParsedUrl parseQuery(String url) {
         List<Path> paths = new ArrayList<Path>();
         List<Query> queries = new ArrayList<Query>();
         ParsedUrl parsedUrl = null;

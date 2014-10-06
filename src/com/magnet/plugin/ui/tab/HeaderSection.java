@@ -24,6 +24,7 @@ package com.magnet.plugin.ui.tab;
 
 import com.magnet.plugin.api.models.RequestHeaderModel;
 import com.magnet.plugin.constants.FormConfig;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -32,11 +33,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HeaderSection extends ExtendedJPanel {
-
-    private JLabel jLabel4;
-    private JLabel jLabel5;
-    private JSeparator jSeparator1;
-    private JButton jButton1;
 
     public List<RequestHeaderModel> getHeaders() {
         List<RequestHeaderModel> headerList = new ArrayList<RequestHeaderModel>();
@@ -52,17 +48,17 @@ public class HeaderSection extends ExtendedJPanel {
     private GroupLayout.SequentialGroup customGroupVertical;
 
     {
-        jLabel4 = new JLabel();
-        jSeparator1 = new JSeparator();
+        JLabel jLabel4 = new JLabel();
+        JSeparator jSeparator1 = new JSeparator();
         jSeparator1.setOpaque(false);
-        jLabel5 = new JLabel();
-        jButton1 = new JButton();
+        JLabel jLabel5 = new JLabel();
+        JButton jButton1 = new JButton();
 
         setLabelPanel(new HeaderPanelLabel());
 
-        jLabel4.setText("Header");
-        jLabel5.setText("Add new");
-        jButton1.setText("+");
+        jLabel4.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.HEADER_SECTION_NAME));
+        jLabel5.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.HEADER_SECTION_ADD_NEW));
+        jButton1.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.HEADER_SECTION_PLUS));
 
         jLabel4.setFont(baseFont);
         jLabel5.setFont(baseFont);
@@ -110,9 +106,17 @@ public class HeaderSection extends ExtendedJPanel {
     }
 
     private void addHeader(ActionEvent evt) {
+        addHeader(null, null);
+    }
+
+    public void addHeader(String key, String value) {
         RequestHeaderModel header = new RequestHeaderModel();
         HeaderPanel panel = new HeaderPanel(this, header);
         headers.add(panel);
+        if (key != null && !key.isEmpty()) {
+            panel.setHeader(key, value);
+        }
+        
         ActionListener listener = new HeaderAction(panel);
         panel.setListener(listener);
 
