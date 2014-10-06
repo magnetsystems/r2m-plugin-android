@@ -32,6 +32,7 @@ import org.jdesktop.swingx.JXTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.text.BadLocationException;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -43,7 +44,7 @@ import java.util.List;
 
 import static com.magnet.plugin.constants.Colors.*;
 
-public class JSONPanel extends BasePanel {
+public class PayloadPanel extends BasePanel {
 
     protected JTextArea payloadField;
     protected JScrollPane jScrollPane;
@@ -295,6 +296,12 @@ public class JSONPanel extends BasePanel {
         if (table.getRowHeight(row) != getPreferredSize().height) {
           //set the height of the table row to the calculated height of the JTextArea
           table.setRowHeight(row, getPreferredSize().height);
+        }
+
+        if(isSelected){
+          this.setBackground((Color)UIManager.get("Table.selectionBackground"));
+          this.setForeground((Color)UIManager.get("Table.selectionForeground"));
+          this.selectAll();
         }
 
         return this;
