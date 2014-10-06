@@ -38,7 +38,7 @@ repositories {
     mavenCentral()
 }
 dependencies {
-    compile("com.magnet:r2m-sdk-android:1.0.0@aar") {
+    compile("com.magnet:r2m-sdk-android:1.1.0@aar") {
         transitive = true
     }
 }
