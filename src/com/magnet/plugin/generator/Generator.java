@@ -42,7 +42,6 @@ import java.util.List;
  * Captures all generation operation
  */
 public class Generator {
-    private static final String MAPPING_FILE = "magnet_type_mapper.xml";
 
     private final Project project;
     private final String packageName;
@@ -163,7 +162,7 @@ public class Generator {
             File generatedTestFiles = new File(cachedSourceFolder, "src/test/java");
             File targetTestFolder = ProjectManager.getTestSourceFolderFile(project);
             if(generatedTestFiles.exists()) {
-                if(targetTestFolder.exists()) {
+                if(targetTestFolder != null && targetTestFolder.exists()) {
                     FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
                 }
                 FileUtils.deleteDirectory(generatedTestFiles);
@@ -177,20 +176,6 @@ public class Generator {
             e.printStackTrace();
         }
 
-    }
-
-    private static void copyMappings(File sourcePath, File resFolder) {
-        File mappingsFile = new File(sourcePath, MAPPING_FILE);
-        File resFile = new File(resFolder, "xml");
-        resFile.mkdirs();
-        if (mappingsFile.exists() && !mappingsFile.isDirectory()) {
-            try {
-                FileUtil.copy(mappingsFile, resFile);
-//                FileUtil.delete(mappingsFile);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
     }
 
     private static void displayIndicatorMessage(ProgressIndicator progressIndicator,
