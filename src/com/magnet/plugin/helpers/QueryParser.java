@@ -27,20 +27,22 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class QueryParser {
     public static ParsedUrl parseQuery(String url) {
         List<PathPart> pathParts = new ArrayList<PathPart>();
         List<Query> queries = new ArrayList<Query>();
-        ParsedUrl parsedUrl = null;
+        ParsedUrl parsedUrl;
         String base;
 
         try {
-            URL aURL=new URL(url);
-            base =  aURL.getAuthority();
-            String protocol=aURL.getProtocol();
+            URL aURL = new URL(url);
+            base = aURL.getAuthority();
+            String protocol = aURL.getProtocol();
             parsedUrl = new ParsedUrl();
-            parsedUrl.setBase(protocol+"://"+base);
+            parsedUrl.setBase(protocol + "://" + base);
             List<NameValuePair> pairs = URLEncodedUtils.parse(aURL.getQuery(),
                     Charset.defaultCharset());
             for (NameValuePair pair : pairs) {
@@ -53,13 +55,45 @@ public class QueryParser {
             String[] pathStrings = path.split("/");
             for (String string : pathStrings) {
                 if (!string.isEmpty()) {
-                    pathParts.add(new PathPart(string));
+                    List<String> params = findPathVariables(string);
+                    if (params == null || params.isEmpty()) {
+                        pathParts.add(new PathPart(string));
+                    } else {
+                        String param = params.get(0); // assuming only one param
+                        pathParts.add(new PathPart(param, param));
+                    }
                 }
             }
             parsedUrl.setPathParts(pathParts);
         } catch (Exception ex) {
+            Logger.error(QueryParser.class, "Can't parse URL " + url);
             return null;
         }
         return parsedUrl;
+    }
+
+    /**
+     * Find path variables in template url. Variables are identified by <code>{var}</code>
+     * @param templateUrl template url
+     * @return list of path param variable name in url
+     */
+    public static List<String> findPathVariables(String templateUrl) {
+        Pattern p = Pattern.compile(Rest2MobileConstants.TEMPLATE_VARIABLE_REGEX);
+        Matcher m = p.matcher(templateUrl);
+        List<String> l = new ArrayList<String>();
+        while (m.find()) {
+            l.add(m.group().substring(1, m.group().length() - 1));
+        }
+        return l;
+    }
+
+    /**
+     * @param url url where path param are expanded (removed "{""}")
+     * @return expanded url
+     */
+    public static String expandUrl(String url) {
+        url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX, "");
+        url = url.replaceAll(Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, "");
+        return url;
     }
 }

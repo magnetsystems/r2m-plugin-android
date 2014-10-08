@@ -34,6 +34,15 @@ public class ParsedUrl {
         this.pathParts = pathParts;
     }
 
+    public boolean hasPathParams() {
+        for (PathPart part: pathParts) {
+            if (part.isTemplatized()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public List<Query> getQueries() {
         return queries;
     }

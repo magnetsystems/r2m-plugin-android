@@ -57,8 +57,8 @@ public class HeaderSection extends ExtendedJPanel {
         setLabelPanel(new HeaderPanelLabel());
 
         jLabel4.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.HEADER_SECTION_NAME));
-        jLabel5.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.HEADER_SECTION_ADD_NEW));
-        jButton1.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.HEADER_SECTION_PLUS));
+        jLabel5.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_ADD_NEW));
+        jButton1.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_PLUS));
 
         jLabel4.setFont(baseFont);
         jLabel5.setFont(baseFont);

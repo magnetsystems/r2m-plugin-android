@@ -113,7 +113,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                showHideUrlSection(evt);
+                showOrHideUrlSection(evt);
             }
         });
 
@@ -155,7 +155,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
 
 
-    private void showHideUrlSection(ActionEvent evt) {
+    private void showOrHideUrlSection(ActionEvent evt) {
         urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));
         if (urlDetailsBox.isSelected()) {
 //            urlDetailsBox.setIcon(openIcon);
@@ -224,14 +224,6 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         return urlField;
     }
 
-    private List<String> getURLs() {
-        List<String> urls = new ArrayList<String>();
-        for (int i = 0; i < urlField.getItemCount(); i++) {
-            urls.add(urlField.getItemAt(i).toString());
-        }
-        return urls;
-    }
-
     private JTextField getComboBoxEditor() {
         return (JTextField) urlField.getEditor().getEditorComponent();
     }
@@ -241,6 +233,25 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
             return openIconPressed;
         } else {
             return closeIconPressed;
+        }
+    }
+
+    /**
+     * Populate the url section with url details given a templatized urls
+     * @param templatizedUrl templatized url ,with path param variables (if any), e.g http://host.com/a/b/c/{id}/{id2}
+     */
+    public void populateUrlDetails(String templatizedUrl) {
+        urlField.getEditor().setItem(QueryParser.expandUrl(templatizedUrl));
+
+        ParsedUrl parsedUrl = QueryParser.parseQuery(templatizedUrl);
+        urlSection.setParsedQuery(parsedUrl);
+
+        // expand url details if there are path params
+        if (parsedUrl.hasPathParams()) {
+            urlDetailsBox.setSelected(true);
+            urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));
+            urlSection.setVisible(true);
+
         }
     }
 

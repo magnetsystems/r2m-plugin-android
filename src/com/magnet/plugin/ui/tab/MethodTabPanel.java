@@ -53,7 +53,7 @@ import static com.magnet.plugin.helpers.UIHelper.*;
 
 public class MethodTabPanel extends BasePanel {
 
-    private final MethodNameSection panel;
+    private final MethodNameSection methodNameSection;
     private final MethodTypeSection type;
     private final HeaderSection header;
     private final RequestPayloadSection requestPayloadSection;
@@ -71,7 +71,7 @@ public class MethodTabPanel extends BasePanel {
 
     {
         this.setOpaque(false);
-        panel = new MethodNameSection();
+        methodNameSection = new MethodNameSection();
         header = new HeaderSection();
         requestPayloadSection = new RequestPayloadSection();
         type = new MethodTypeSection(requestPayloadSection);
@@ -101,9 +101,9 @@ public class MethodTabPanel extends BasePanel {
         };
 
         responseSection.getPayloadField().getDocument().addDocumentListener(createMethodButtonUpdater);
-        ((JTextField) (panel.getUrlField().getEditor().getEditorComponent())).getDocument().addDocumentListener(createMethodButtonUpdater);
+        ((JTextField) (methodNameSection.getUrlField().getEditor().getEditorComponent())).getDocument().addDocumentListener(createMethodButtonUpdater);
 
-        panel.getMethodNamePanel().getDocument().addDocumentListener(new DocumentListener() {
+        methodNameSection.getMethodNamePanel().getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
             public void insertUpdate(DocumentEvent e) {
@@ -125,7 +125,7 @@ public class MethodTabPanel extends BasePanel {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
                 jPanel1Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                        .addComponent(panel)
+                        .addComponent(methodNameSection)
                         .addComponent(type)
                         .addComponent(header)
                         .addComponent(requestPayloadSection)
@@ -133,7 +133,7 @@ public class MethodTabPanel extends BasePanel {
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createSequentialGroup()
-                        .addComponent(panel)
+                        .addComponent(methodNameSection)
                         .addComponent(type)
                         .addComponent(header)
                         .addComponent(requestPayloadSection)
@@ -208,7 +208,7 @@ public class MethodTabPanel extends BasePanel {
     }
 
     private void testApi() {
-        if (panel.checkRequirementFields()) {
+        if (methodNameSection.checkRequirementFields()) {
             Method method = makeMethod();
             if (!VerifyHelper.isValidUrlWithoutPerformance(method.getUrl())) {
                 showErrorMessage(ERROR_INVALID_URL);
@@ -225,7 +225,7 @@ public class MethodTabPanel extends BasePanel {
     public MethodTabPanel(Project project, CreateMethodCallback methodCallback, JTabbedPane tabPanel) {
         this.methodCallback = methodCallback;
         this.tabPanel = tabPanel;
-        panel.setProject(project);
+        methodNameSection.setProject(project);
     }
 
     public String getRequestPayload() {
@@ -241,30 +241,20 @@ public class MethodTabPanel extends BasePanel {
     }
 
     public String getMethodName() {
-        return panel.getMethodName();
+        return methodNameSection.getMethodName();
     }
 
     public String getMethodTabName() {
-        return panel.getMethodNamePanel().getText();
-    }
-
-    /**
-     * @param url url where path param are expanded (removed "{""}")
-     * @return expanded url
-     */
-    private static String expandUrl(String url) {
-        url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX, "");
-        url = url.replaceAll(Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, "");
-        return url;
+        return methodNameSection.getMethodNamePanel().getText();
     }
 
     public Method makeMethod() {
 
         Method method = new Method();
-        method.setMethodName(panel.getMethodName());
-        method.setUrl(panel.getUrl());
-        method.setPathParts(panel.getPaths());
-        method.setQueries(panel.getQueries());
+        method.setMethodName(methodNameSection.getMethodName());
+        method.setUrl(methodNameSection.getUrl());
+        method.setPathParts(methodNameSection.getPaths());
+        method.setQueries(methodNameSection.getQueries());
         method.setHttpMethod(type.getHttpMethod());
         method.setHeaders(header.getHeaders());
         method.setResponse(responseSection.getRawPayload());
@@ -277,7 +267,7 @@ public class MethodTabPanel extends BasePanel {
 
     public Method getMethod() {
         Method method = makeMethod();
-        method.setUrl(panel.getTemplateUrl());
+        method.setUrl(methodNameSection.getTemplateUrl());
         return method;
     }
 
@@ -312,7 +302,7 @@ public class MethodTabPanel extends BasePanel {
 
     private void updateCreateMethodButton() {
         boolean isResponseEmpty = responseSection.getRawPayload().isEmpty();
-        boolean isUrlEmpty = panel.getUrl().isEmpty();
+        boolean isUrlEmpty = methodNameSection.getUrl().isEmpty();
         boolean needEnable = !isResponseEmpty && !isUrlEmpty;
         buttons.enableCreateMethodButton(needEnable);
     }
@@ -344,9 +334,9 @@ public class MethodTabPanel extends BasePanel {
     public void createMethodFromExample(RestExampleModel methodModel) {
         // method name
         String methodName = methodModel.getName();
-        panel.getMethodNamePanel().setText(methodName);
+        methodNameSection.getMethodNamePanel().setText(methodName);
 
-        // verb
+        // set verb
         String urlWithVerb = methodModel.getRequestUrl();
         String[] parts = urlWithVerb.split(" ");
         HTTPMethod verb = HTTPMethod.GET;
@@ -355,16 +345,9 @@ public class MethodTabPanel extends BasePanel {
         }
         type.selectVerb(verb);
 
-        // URL
-        String url = parts[parts.length - 1];
-        panel.getUrlField().getEditor().setItem(expandUrl(url));
-
-        // set paths
-        List<String> pathParams = findPathVariables(url);
-        if (pathParams.size() > 0) {
-
-            // TODO: populate the paths
-        }
+        // set url details (paths/queries
+        String templatizedUrl = parts[parts.length - 1];
+        methodNameSection.populateUrlDetails(templatizedUrl);
 
         // Request Headers
         Map<String, String> headers = methodModel.getRequestHeaders();
@@ -379,21 +362,6 @@ public class MethodTabPanel extends BasePanel {
         // Response body
         setSectionBody(responseSection, methodModel.getResponseBody());
 
-    }
-
-    /**
-     * Find path variables in template url. Variables are identified by <code>{var}</code>
-     * @param templateUrl template url
-     * @return list of path param variable name in url
-     */
-    private static List<String> findPathVariables(String templateUrl) {
-        Pattern p = Pattern.compile(Rest2MobileConstants.TEMPLATE_VARIABLE_REGEX);
-        Matcher m = p.matcher(templateUrl);
-        List<String> l = new ArrayList<String>();
-        while (m.find()) {
-            l.add(m.group().substring(1, m.group().length() - 1));
-        }
-        return l;
     }
 
 

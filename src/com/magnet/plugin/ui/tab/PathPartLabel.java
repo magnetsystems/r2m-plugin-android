@@ -26,7 +26,7 @@ import com.magnet.plugin.messages.Rest2MobileMessages;
 
 import javax.swing.*;
 
-public class PathPanelLabel extends BasePanel {
+public class PathPartLabel extends BasePanel {
 
     {
         JLabel path = new JLabel();

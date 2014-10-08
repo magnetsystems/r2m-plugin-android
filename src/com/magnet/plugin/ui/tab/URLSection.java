@@ -24,6 +24,7 @@ package com.magnet.plugin.ui.tab;
 import com.intellij.ui.JBColor;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.listeners.URLFocusListener;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.ParsedUrl;
 import com.magnet.plugin.models.PathPart;
 import com.magnet.plugin.models.Query;
@@ -44,7 +45,7 @@ public class URLSection extends BasePanel implements FocusListener {
 
     private final JTextField baseUrlField;
 
-    private final PathPanelLabel pathPanelLabel;
+    private final PathPartLabel pathPartLabel;
     private final QueryPanelLabel queryPanelLabel;
 
     private final GroupLayout.ParallelGroup customPathGroupHorizontal;
@@ -84,10 +85,10 @@ public class URLSection extends BasePanel implements FocusListener {
         JLabel jLabel5 = new JLabel();
         JButton pathButton = new JButton();
 
-        pathPanelLabel = new PathPanelLabel();
+        pathPartLabel = new PathPartLabel();
         queryPanelLabel = new QueryPanelLabel();
 
-        pathPanelLabel.setVisible(false);
+        pathPartLabel.setVisible(false);
         queryPanelLabel.setVisible(false);
 
         JLabel jLabel6 = new JLabel();
@@ -100,15 +101,15 @@ public class URLSection extends BasePanel implements FocusListener {
         jSeparator2.setForeground(JBColor.LIGHT_GRAY);
 
 
-        jLabel3.setText("Base URL");
+        jLabel3.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.BASE_URL_SECTION_NAME));
 
-        jLabel4.setText("Path");
-        jLabel5.setText("Add new");
-        pathButton.setText("+");
+        jLabel4.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_SECTION_NAME));
+        jLabel5.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_ADD_NEW));
+        pathButton.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_PLUS));
 
-        jLabel6.setText("Query");
-        jLabel7.setText("Add new");
-        queryButton.setText("+");
+        jLabel6.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.QUERY_SECTION_NAME));
+        jLabel7.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_ADD_NEW));
+        queryButton.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_PLUS));
 
         pathButton.addActionListener(new ActionListener() {
 
@@ -165,7 +166,7 @@ public class URLSection extends BasePanel implements FocusListener {
                                         .addComponent(jLabel7)
                                         .addComponent(queryButton)
                         )
-                        .addComponent(pathPanelLabel, GroupLayout.Alignment.CENTER)
+                        .addComponent(pathPartLabel, GroupLayout.Alignment.CENTER)
                         .addGroup(customPathGroupHorizontal)
                         .addComponent(queryPanelLabel, GroupLayout.Alignment.CENTER)
                         .addGroup(customQueryGroupHorizontal)));
@@ -183,7 +184,7 @@ public class URLSection extends BasePanel implements FocusListener {
                                                         .addComponent(pathButton)
                                         )
                                         .addGroup(layout.createSequentialGroup()
-                                                        .addComponent(pathPanelLabel)
+                                                        .addComponent(pathPartLabel)
                                                         .addGroup(customPathGroupVertical)
                                         )
                                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
@@ -203,7 +204,7 @@ public class URLSection extends BasePanel implements FocusListener {
         pathCount--;
         paths.remove(path);
         if (pathCount == 0) {
-            pathPanelLabel.setVisible(false);
+            pathPartLabel.setVisible(false);
         }
     }
 
@@ -220,7 +221,7 @@ public class URLSection extends BasePanel implements FocusListener {
         PathPartPanel panel = new PathPartPanel(this, pathPart);
         panel.setFocusListener(this);
         paths.add(panel);
-        pathPanelLabel.setVisible(true);
+        pathPartLabel.setVisible(true);
         pathCount++;
 
         customPathGroupHorizontal.addComponent(panel);
@@ -270,8 +271,8 @@ public class URLSection extends BasePanel implements FocusListener {
         baseUrlField.setText(parsedUrl.getBase());
         List<PathPart> pathPartList = parsedUrl.getPathParts();
         List<Query> queries = parsedUrl.getQueries();
-        for (PathPart aPathPartList : pathPartList) {
-            addPath(aPathPartList);
+        for (PathPart aPathPart : pathPartList) {
+            addPath(aPathPart);
         }
         for (Query query : queries) {
             addQuery(query);

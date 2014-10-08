@@ -26,6 +26,7 @@ import com.magnet.plugin.helpers.HintHelper;
 import com.magnet.plugin.helpers.Rest2MobileConstants;
 import com.magnet.plugin.helpers.UIHelper;
 import com.magnet.plugin.helpers.VerifyHelper;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.PathPart;
 
 import javax.swing.*;
@@ -38,14 +39,14 @@ import static com.magnet.plugin.helpers.UIHelper.ERROR_REQUIRED_FIELD;
 
 public class PathPartPanel extends JPanel {
 
-    private JTextField pathPartField;
-    private JCheckBox isVariableCheckBox;
-    private JTextField variableNameField;
-    private JButton deleteButton;
+    private final JTextField pathPartField;
+    private final JCheckBox isVariableCheckBox;
+    private final JTextField variableNameField;
+    private final JButton deleteButton;
 
     private String variableNameValue;
 
-    private JPanel parentPanel;
+    private final JPanel parentPanel;
 
     public PathPartPanel(JPanel parentPanel, PathPart pathPartPartField) {
         this.parentPanel = parentPanel;
@@ -59,7 +60,7 @@ public class PathPartPanel extends JPanel {
         pathPartField = new JTextField();
         isVariableCheckBox = new JCheckBox();
         variableNameField = new JTextField();
-        deleteButton = new JButton("X");
+        deleteButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
 
         variableNameValue = "";
 
@@ -152,7 +153,7 @@ public class PathPartPanel extends JPanel {
     }
 
     public boolean checkRequirementField() {
-        if (pathPartField.getText().toString().trim().equalsIgnoreCase("")) {
+        if (pathPartField.getText().trim().equalsIgnoreCase("")) {
             return false;
         }
 

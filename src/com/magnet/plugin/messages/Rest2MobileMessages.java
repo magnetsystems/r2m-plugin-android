@@ -60,9 +60,19 @@ public class Rest2MobileMessages {
 
     // Headers
     public static final String HEADER_SECTION_NAME = "HEADER_SECTION_NAME";
-    public static final String HEADER_SECTION_ADD_NEW = "HEADER_SECTION_ADD_NEW";
-    public static final String HEADER_SECTION_PLUS = "HEADER_SECTION_PLUS";
-    public static final String HEADER_SECTION_DELETE = "HEADER_SECTION_DELETE";
+    // Query
+    public static final String QUERY_SECTION_NAME = "QUERY_SECTION_NAME";
+
+    // Path
+    public static final String PATH_SECTION_NAME = "PATH_SECTION_NAME";
+
+    // Base URL
+    public static final String BASE_URL_SECTION_NAME = "BASE_URL_SECTION_NAME";
+
+    // Common to sections
+    public static final String SECTION_ADD_NEW = "SECTION_ADD_NEW";
+    public static final String SECTION_PLUS = "SECTION_PLUS";
+    public static final String SECTION_DELETE = "SECTION_DELETE";
     // Path part labels
     public static final String PATH_PART_NAME = "PATH_PART_NAME";
     public static final String PATH_VARIABLE_CHECKBOX_NAME = "PATH_VARIABLE_CHECKBOX_NAME";

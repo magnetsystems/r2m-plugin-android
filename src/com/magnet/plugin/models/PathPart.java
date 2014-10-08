@@ -28,9 +28,17 @@ public class PathPart {
     }
 
     public PathPart(String pathPart) {
+        this(pathPart, "", false);
+    }
+
+    public PathPart(String pathPart, String variableName) {
+        this(pathPart, variableName, true);
+    }
+
+    private PathPart(String pathPart, String variableName, boolean templatized) {
         this.pathPart = pathPart;
-        this.variableName = "";
-        this.templatized = false;
+        this.variableName = variableName;
+        this.templatized = templatized;
     }
 
     public String getPathPart() {
