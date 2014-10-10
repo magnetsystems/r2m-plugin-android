@@ -53,45 +53,32 @@ public class ControllerNameBoxFocusListener implements FocusListener {
             return;
         }
 
-        String name = populateControllerPackageAndName(entry);
-        populateMethodsDetails(entry);
-
-
-        form.getControllerNameBox().getEditor().setItem(VerifyHelper.verifyClassName(name));
+        String packageName = null;
+        String controllerName;
+        if (entry.lastIndexOf('.') <= 0) {
+            controllerName = entry;
+            form.populateMethods(controllerName, null, null);
+        } else {
+            packageName = entry.substring(0, entry.lastIndexOf('.'));
+            controllerName = VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
+            form.populateMethods(controllerName, packageName, getMethodsFromCache(entry));
+        }
     }
 
-    private void populateMethodsDetails(String entry) {
+    private List<RestExampleModel> getMethodsFromCache(String entry) {
         int index = entry.lastIndexOf('.');
         if (index <= 0) {
-            return;
-        }
-        if (!isCacheController(entry)) {
-            return;
+            return null;
         }
 
-        // first remove all tabs
-        form.getTabManager().removeAllTabs();
+        if (!isCacheController(entry)) {
+            return null;
+        }
 
         String packageName = entry.substring(0, index);
         String controllerName = entry.substring(index + 1);
         CacheManager cache = new CacheManager(project, packageName, controllerName);
-        List<RestExampleModel> methodModels = cache.getControllerMethodsModel();
-        for (int i = 0; i < methodModels.size(); i++) {
-            MethodTabPanel panel = form.getTabManager().addNewTab(i);
-            panel.createMethodFromExample(methodModels.get(i));
-        }
-
-    }
-
-    private String populateControllerPackageAndName(String entry) {
-        if (entry.lastIndexOf('.') <= 0) {
-            return entry;
-        }
-
-        String packageName = entry.substring(0, entry.lastIndexOf('.'));
-        // populate package name
-        form.getPackageNameField().setText(packageName);
-        return entry.substring(entry.lastIndexOf('.') + 1);
+        return cache.getControllerMethodsModel();
     }
 
     private boolean isCacheController(String entry) {

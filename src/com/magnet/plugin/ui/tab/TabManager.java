@@ -133,7 +133,7 @@ public class TabManager {
     };
 
 
-    private void updateRemoveButtons() {
+    public void updateRemoveButtons() {
         for (int i = 0; i < tabs.size(); i++) {
             tabs.get(i).setIndex(i);
         }

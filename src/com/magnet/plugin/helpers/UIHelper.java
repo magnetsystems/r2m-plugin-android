@@ -43,10 +43,8 @@ public class UIHelper {
     public static final String MESSAGE_GENERATING_SERVICE = Rest2MobileMessages.getMessage(Rest2MobileMessages.GENERATING_MESSAGE_SERVICE);
 
 
-    public static RequestModel openAPIDialog(Project project, AnActionEvent anAction) {
-        final AddControllerForm chooser = Application.getApplication().getCurrentForm(project, anAction, false);
-//        chooser.getExitCode();
-        return null;
+    public static void openAPIDialog(Project project, AnActionEvent anAction) {
+        Application.getApplication().getCurrentForm(project, anAction, false);
     }
 
     public static void showErrorMessage(String message) {

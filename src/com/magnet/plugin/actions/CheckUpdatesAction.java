@@ -34,6 +34,7 @@ import com.intellij.util.text.VersionComparatorUtil;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.Rest2MobileConstants;
 import com.magnet.plugin.helpers.UIHelper;
+import com.magnet.plugin.helpers.URLHelper;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 
 import java.io.IOException;
@@ -57,7 +58,7 @@ public class CheckUpdatesAction extends AnAction {
 
         String url = Rest2MobileConstants.PUBLIC_VERSION_URL;
         try {
-            infoStream = loadVersionInfo(url);
+            infoStream = URLHelper.loadUrl(url);
             updatesInfo.load(infoStream);
         } catch (Exception ex) {
             UIHelper.showErrorMessage("Couldn't access version URL: " + Rest2MobileConstants.PUBLIC_VERSION_URL);
@@ -88,50 +89,6 @@ public class CheckUpdatesAction extends AnAction {
 
     private static String getInstalledVersion() {
         return PluginManager.getPlugin(PluginId.getId(Rest2MobileConstants.PUBLIC_TOOL_PACKAGE)).getVersion();
-    }
-
-    private static InputStream loadVersionInfo(final String url) throws Exception {
-        final InputStream[] inputStreams = new InputStream[]{null};
-        final Exception[] exception = new Exception[]{null};
-        Future<?> downloadThreadFuture = ApplicationManager.getApplication().executeOnPooledThread(new Runnable() {
-            public void run() {
-                try {
-                    final String urlToCheck;
-                    if (!StandardFileSystems.FILE_PROTOCOL.equals(new URL(url).getProtocol())) {
-                        urlToCheck = url + (url.contains("?") ? "&" : "?") + "build=" + ApplicationInfo.getInstance().getBuild().asString();
-                    } else {
-                        urlToCheck = url;
-                    }
-
-                    HttpURLConnection connection;
-                    if (ApplicationManager.getApplication() != null) {
-                        connection = HttpConfigurable.getInstance().openHttpConnection(urlToCheck);
-                    } else {
-                        connection = (HttpURLConnection) new URL(urlToCheck).openConnection();
-                        connection.setReadTimeout(Rest2MobileConstants.CONNECTION_TIMEOUT);
-                        connection.setConnectTimeout(Rest2MobileConstants.CONNECTION_TIMEOUT);
-                    }
-                    connection.connect();
-
-                    inputStreams[0] = connection.getInputStream();
-                } catch (IOException e) {
-                    exception[0] = e;
-                }
-            }
-        });
-
-        try {
-            downloadThreadFuture.get(5, TimeUnit.SECONDS);
-        } catch (TimeoutException ignored) {
-        }
-
-        if (!downloadThreadFuture.isDone()) {
-            downloadThreadFuture.cancel(true);
-            throw new ConnectionException(IdeBundle.message("updates.timeout.error"));
-        }
-
-        if (exception[0] != null) throw exception[0];
-        return inputStreams[0];
     }
 
     private static void showUpdatesAvailableDialog(Project project, String installedVersion, Properties info) {

@@ -21,10 +21,11 @@ import com.intellij.ide.SaveAndSyncHandlerImpl;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ex.ProjectManagerEx;
-import com.intellij.openapi.ui.ComboBox;
 import com.intellij.openapi.ui.FrameWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
+import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
 import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.constants.FormConfig;
@@ -36,9 +37,9 @@ import com.magnet.plugin.listeners.generator.PostGenerateCallback;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.project.CacheManager;
 import com.magnet.plugin.project.ProjectManager;
+import com.magnet.plugin.ui.chooser.ExampleChooserHelper;
 import com.magnet.plugin.ui.tab.MethodTabPanel;
 import com.magnet.plugin.ui.tab.TabManager;
-import org.jdesktop.swingx.autocomplete.AutoCompleteDecorator;
 
 import javax.swing.*;
 import java.awt.*;
@@ -54,8 +55,8 @@ import static com.magnet.plugin.helpers.UIHelper.*;
 
 public class AddControllerForm extends FrameWrapper implements CreateMethodCallback, PostGenerateCallback {
     private JPanel contentPane;
-    private ComboBox controllerNameBox;
-    private JButton generateServiceButton;
+    private TextFieldWithHistoryWithBrowseButton controllerNameBox;
+    private JButton generateButton;
     private JTabbedPane tabPanel;
     private JTextField packageNameField;
     private ControllerActionCallback actionCallback;
@@ -75,26 +76,25 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         this.project = project;
 
         Font font = UIHelper.getFont();
-        controllerNameBox.setModel(new DefaultComboBoxModel(ControllerHistoryManager.getCachedControllers(project)));
-//        ObjectToStringConverter converter = new ControllerNameConverter();
-        AutoCompleteDecorator.decorate(controllerNameBox);
-        controllerNameBox.setPrototypeDisplayValue("");
+        controllerNameBox.getChildComponent().setModel(new DefaultComboBoxModel(ControllerHistoryManager.getCachedControllers(project)));
         controllerNameBox.setFocusable(true);
         controllerNameBox.setFont(font);
-        generateServiceButton.setFont(font);
+        generateButton.setFont(font);
         packageNameField.setFont(font);
+
 
 //        setResizable(true);
         setTitle(Rest2MobileMessages.getMessage(Rest2MobileMessages.WINDOW_TITLE));
         packageNameField.setText(ProjectManager.getPackageName(project));
 
-        generateServiceButton.addActionListener(generateListener);
-        generateServiceButton.setEnabled(true);
-
+        generateButton.addActionListener(generateListener);
+        generateButton.setEnabled(true);
 
 
         tabManager = new TabManager(project, this, tabPanel);
-        controllerNameBox.getEditor().getEditorComponent().addFocusListener(new ControllerNameBoxFocusListener(project, this));
+        controllerNameBox.getChildComponent().getEditor().getEditorComponent().addFocusListener(new ControllerNameBoxFocusListener(project, this));
+        //controllerNameBox.addBrowseFolderListener("Choose a File", "Load an example", project, FileChooserDescriptorBuilder.filesAndFolders().build(), ExampleComponentAccessor.ACCESSOR);
+        controllerNameBox.addActionListener(browseListener);
         setDefaultParameters();
     }
 
@@ -131,11 +131,11 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
     @Override
     public void canGenerate(boolean canGenerate) {
-        generateServiceButton.setEnabled(true);
+        generateButton.setEnabled(true);
     }
 
 
-    public ComboBox getControllerNameBox() {
+    public TextFieldWithHistoryWithBrowseButton getControllerNameBox() {
         return controllerNameBox;
     }
 
@@ -143,12 +143,8 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         return packageNameField;
     }
 
-    public TabManager getTabManager() {
-        return tabManager;
-    }
-
     public String getControllerName() {
-        Object item = this.controllerNameBox.getEditor().getItem();
+        Object item = this.controllerNameBox.getChildComponent().getEditor().getItem();
         if (item == null) {
             return null;
         }
@@ -167,6 +163,21 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
     /*
     =======================LISTENERS SECTION=========================
      */
+
+    /**
+     * Listener triggered upon clicking on browse buttong
+     */
+    private final ActionListener browseListener = new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent actionEvent) {
+            String controllerName = ExampleChooserHelper.showExamplesDialog();
+            if (null == controllerName) {
+                return;
+            }
+            List<RestExampleModel> methods = ExampleChooserHelper.getControllersMethodsByName(controllerName);
+            populateMethods(VerifyHelper.verifyClassName(controllerName), "com.magnetapi.examples", methods);
+        }
+    };
 
     /**
      * Listener triggered upon "Generate"
@@ -296,7 +307,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             if (controllerName.isEmpty()) {
                 showErrorMessage(ERROR_SERVICE_NAME);
             } else {
-                generateServiceButton.setEnabled(true);
+                generateButton.setEnabled(true);
                 getAsyncHelper().runGenerateTask();
             }
         }
@@ -375,5 +386,29 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             dispose();
         }
     }
+
+    public void populateMethods(String controllerName, String packageName, List<RestExampleModel> methodModels) {
+        if (null != controllerName) {
+            getControllerNameBox().getChildComponent().getEditor().setItem(controllerName);
+        }
+
+        if (null != packageName) {
+            getPackageNameField().setText(packageName);
+        }
+
+        // first remove all tabs
+
+        if (null != methodModels) {
+            tabManager.removeAllTabs();
+            for (int i = 0; i < methodModels.size(); i++) {
+                MethodTabPanel panel = tabManager.addNewTab(i);
+                panel.createMethodFromExample(methodModels.get(i));
+            }
+            tabManager.updateRemoveButtons();
+        }
+    }
+
+
+
 
 }

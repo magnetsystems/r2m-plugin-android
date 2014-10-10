@@ -25,15 +25,13 @@
         </properties>
         <border type="none"/>
         <children>
-          <component id="5677e" class="com.intellij.openapi.ui.ComboBox" binding="controllerNameBox">
+          <component id="5677e" class="com.intellij.ui.TextFieldWithHistoryWithBrowseButton" binding="controllerNameBox">
             <constraints>
               <grid row="0" column="2" row-span="1" col-span="1" vsize-policy="7" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
                 <preferred-size width="300" height="-1"/>
               </grid>
             </constraints>
             <properties>
-              <columns value="1"/>
-              <editable value="true"/>
               <opaque value="false"/>
             </properties>
           </component>
@@ -47,14 +45,14 @@
               <text value="     Class Name"/>
             </properties>
           </component>
-          <hspacer id="f2838">
-            <constraints>
-              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </hspacer>
           <hspacer id="8a760">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="62257">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
         </children>
@@ -70,7 +68,7 @@
         <border type="none"/>
         <children/>
       </tabbedpane>
-      <component id="7801c" class="javax.swing.JButton" binding="generateServiceButton" default-binding="true">
+      <component id="7801c" class="javax.swing.JButton" binding="generateButton" default-binding="true">
         <constraints>
           <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="1" fill="1" indent="0" use-parent-layout="false">
             <preferred-size width="150" height="-1"/>
@@ -117,11 +115,6 @@
               <opaque value="false"/>
             </properties>
           </component>
-          <hspacer id="f0cb3">
-            <constraints>
-              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </hspacer>
           <component id="e0487" class="javax.swing.JLabel">
             <constraints>
               <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
@@ -135,6 +128,11 @@
           <hspacer id="d1153">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
+          <hspacer id="9b382">
+            <constraints>
+              <grid row="0" column="3" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
           </hspacer>
         </children>
