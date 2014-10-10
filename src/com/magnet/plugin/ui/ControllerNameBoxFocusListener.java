@@ -53,7 +53,7 @@ public class ControllerNameBoxFocusListener implements FocusListener {
             return;
         }
 
-        String packageName = null;
+        String packageName;
         String controllerName;
         if (entry.lastIndexOf('.') <= 0) {
             controllerName = entry;

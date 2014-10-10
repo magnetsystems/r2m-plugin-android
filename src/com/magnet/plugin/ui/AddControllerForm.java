@@ -174,8 +174,25 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             if (null == controllerName) {
                 return;
             }
+
+            controllerName = controllerName.trim();
+
             List<RestExampleModel> methods = ExampleChooserHelper.getControllersMethodsByName(controllerName);
-            populateMethods(VerifyHelper.verifyClassName(controllerName), "com.magnetapi.examples", methods);
+            if (methods != null && !methods.isEmpty()) {
+                populateMethods(VerifyHelper.verifyClassName(controllerName), "com.magnetapi.examples", methods);
+                return;
+
+            }
+            // check for file
+            try {
+                File file = URLHelper.getFileFromURL(controllerName);
+                methods = ExampleChooserHelper.getControllersMethodsByFile(file);
+                populateMethods("", "", methods);
+
+            } catch (Exception e) {
+                Messages.showErrorDialog("Resource " + controllerName + " cannot be found", "Error");
+            }
+
         }
     };
 
@@ -407,8 +424,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             tabManager.updateRemoveButtons();
         }
     }
-
-
 
 
 }

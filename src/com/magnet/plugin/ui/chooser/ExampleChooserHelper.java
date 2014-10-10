@@ -84,12 +84,18 @@ public class ExampleChooserHelper {
 
     public static List<RestExampleModel> getControllersMethodsByName(String name) {
         String url = getExampleUrlByName(name);
+        if (null == url) {
+            return null;
+        }
         return getControllersMethodsByUrl(url);
     }
 
     private static String getExampleUrlByName(String name) {
         ExamplesManifest manifest = getManifest();
         ExampleResource example = manifest.getExample(name);
+        if (null == example) {
+            return null;
+        }
         return example.getUrl();
 
     }
@@ -101,11 +107,36 @@ public class ExampleChooserHelper {
             URL url = new URL(urlString);
             methodModels.add(parser.parse(url));
         } catch (MalformedURLException e) {
+            return null;
+        }
+        return methodModels;
+    }
+
+    public static List<RestExampleModel> getControllersMethodsByFile(File file) {
+        List<RestExampleModel> methodModels = new ArrayList<RestExampleModel>();
+        try {
+            if (file.isFile()) {
+                return getControllersMethodsByUrl(file.toURI().toURL().toString());
+            }
+            if (file.isDirectory()) {
+                File[] files = file.listFiles(new FileFilter() {
+                    @Override
+                    public boolean accept(File file) {
+                        return file.isFile() && !file.getName().startsWith(".");
+                    }
+                });
+                if (files != null && files.length > 0) {
+                    for (File f: files) {
+                        methodModels.addAll(getControllersMethodsByUrl(f.toURI().toURL().toString()));
+                    }
+                }
+
+            }
+        } catch (MalformedURLException e) {
             e.printStackTrace();
             // should not happen
         }
         return methodModels;
     }
-
 
 }
