@@ -303,6 +303,9 @@ public class PayloadPanel extends BasePanel {
           this.setBackground((Color)UIManager.get("Table.selectionBackground"));
           this.setForeground((Color)UIManager.get("Table.selectionForeground"));
           this.selectAll();
+        } else {
+          this.setBackground((Color)UIManager.get("Table.background"));
+          this.setForeground((Color)UIManager.get("Table.foreground"));
         }
 
         return this;
