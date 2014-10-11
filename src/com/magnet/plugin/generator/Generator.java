@@ -141,7 +141,7 @@ public class Generator {
             }
             cmdArgs.add("android");
 
-            displayIndicatorMessage(progressIndicator, "Generating code...", 40);
+            //displayIndicatorMessage(progressIndicator, "Generating code...", 40);
             StringBuilder sb = new SimpleGenCommand().execute(cmdArgs);
             Logger.info(FileHelper.class, sb.toString());
         } catch (Exception e) {
@@ -155,7 +155,7 @@ public class Generator {
     public void makeFilePerformance(ProgressIndicator progressIndicator) {
         progressIndicator.setFraction(0.1);
         try {
-            displayIndicatorMessage(progressIndicator, "Removed temporary files...", 10);
+            //displayIndicatorMessage(progressIndicator, "Removed temporary files...", 10);
             File cachedSourceFolder = cacheManager.getControllerSourceFolder();
 
             // copy test files
@@ -171,13 +171,15 @@ public class Generator {
             // copy others
             FileUtils.copyDirectory(cachedSourceFolder, ProjectManager.getSourceFolderFile(project));
             ControllerHistoryManager.saveController(project, cacheManager.getControllerFolder().getName());
-            displayIndicatorMessage(progressIndicator, "Completed generation", 100);
+            //displayIndicatorMessage(progressIndicator, "Completed generation", 100);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
 
+    // TODO: disabled wherever we call it, somehow the progress indicator is not showing up,
+    // TODO: but that's alright because generation is quasi instantaneous
     private static void displayIndicatorMessage(ProgressIndicator progressIndicator,
                                                 String message,
                                                 int value)
