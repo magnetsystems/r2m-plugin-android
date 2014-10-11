@@ -93,7 +93,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
         tabManager = new TabManager(project, this, tabPanel);
         controllerNameBox.getChildComponent().getEditor().getEditorComponent().addFocusListener(new ControllerNameBoxFocusListener(project, this));
-        //controllerNameBox.addBrowseFolderListener("Choose a File", "Load an example", project, FileChooserDescriptorBuilder.filesAndFolders().build(), ExampleComponentAccessor.ACCESSOR);
         controllerNameBox.addActionListener(browseListener);
         setDefaultParameters();
     }
@@ -170,6 +169,9 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
     private final ActionListener browseListener = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent actionEvent) {
+            if (ExampleChooserHelper.isExamplesDialogUp()) {
+                return;
+            }
             String controllerName = ExampleChooserHelper.showExamplesDialog();
             if (null == controllerName) {
                 return;
@@ -181,7 +183,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             if (methods != null && !methods.isEmpty()) {
                 populateMethods(VerifyHelper.verifyClassName(controllerName), "com.magnetapi.examples", methods);
                 return;
-
             }
             // check for file
             try {

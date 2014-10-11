@@ -43,6 +43,7 @@ The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services in
                <br>- Generate controller test stub.
                <br>- Controller history
                <br>- Load REST examples from github
+               <br>- Support for loading examples defining multiple methods
 
     ]]>
     </change-notes>

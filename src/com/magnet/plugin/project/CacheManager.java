@@ -142,7 +142,7 @@ public class CacheManager {
             File file = getControllerMethodExample(name);
             try {
                 URL url = file.toURI().toURL();
-                methodModels.add(parser.parse(url));
+                methodModels.addAll(parser.parseExample(url));
             } catch (MalformedURLException e) {
                 e.printStackTrace();
                 // should not happen

@@ -77,6 +77,9 @@ public class Rest2MobileMessages {
     public static final String PATH_PART_NAME = "PATH_PART_NAME";
     public static final String PATH_VARIABLE_CHECKBOX_NAME = "PATH_VARIABLE_CHECKBOX_NAME";
     public static final String PATH_VARIABLE_NAME = "PATH_VARIABLE_NAME";
+    public static final String CHOOSE_EXAMPLE_LABEL = "CHOOSE_EXAMPLE_LABEL";
+    public static final String CHOOSE_EXAMPLE_TITLE = "CHOOSE_EXAMPLE_TITLE";
+    public static final String CHOOSE_EXAMPLE_DEFAULT_VALUE = "CHOOSE_EXAMPLE_DEFAULT_VALUE";
 
 
     /**

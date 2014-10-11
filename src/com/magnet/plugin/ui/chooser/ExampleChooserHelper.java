@@ -24,15 +24,18 @@ import com.magnet.plugin.helpers.IOUtils;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.UIHelper;
 import com.magnet.plugin.helpers.URLHelper;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.ExampleResource;
 import com.magnet.plugin.models.ExamplesManifest;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Helper for REST example chooser
@@ -43,17 +46,28 @@ public class ExampleChooserHelper {
 
     private static ExamplesManifest EXAMPLES_MANIFEST = null;
 
+    private static volatile boolean EXAMPLES_DIALOG_UP = false;
+
+    public static synchronized boolean isExamplesDialogUp() {
+        return EXAMPLES_DIALOG_UP;
+    }
+
     public static String showExamplesDialog() {
-        Map<String, ExampleResource> examples = getManifest().getExamples();
-        String[] values = examples.keySet().toArray(new String[examples.size()]);
-        String response = Messages.showEditableChooseDialog(
-                "Enter a URL, path, or Github example",
-                "Choose an REST example",
-                Messages.getQuestionIcon(),
-                values,
-                "GoogleDistance",
-                null);
-        return response;
+
+        EXAMPLES_DIALOG_UP = true;
+        try {
+            List<String> examples = getManifest().getExamplesList();
+            String response = Messages.showEditableChooseDialog(
+                    Rest2MobileMessages.getMessage(Rest2MobileMessages.CHOOSE_EXAMPLE_LABEL),
+                    Rest2MobileMessages.getMessage(Rest2MobileMessages.CHOOSE_EXAMPLE_TITLE),
+                    Messages.getQuestionIcon(),
+                    examples.toArray(new String[examples.size()]),
+                    Rest2MobileMessages.getMessage(Rest2MobileMessages.CHOOSE_EXAMPLE_DEFAULT_VALUE),
+                    null);
+            return response == null ? null : response.split(ExamplesManifest.DESCRIPTION_SEPARATOR_KEY)[0];
+        } finally {
+            EXAMPLES_DIALOG_UP = false;
+        }
     }
 
 
@@ -105,7 +119,7 @@ public class ExampleChooserHelper {
         List<RestExampleModel> methodModels = new ArrayList<RestExampleModel>();
         try {
             URL url = new URL(urlString);
-            methodModels.add(parser.parse(url));
+            methodModels.addAll(parser.parseExample(url));
         } catch (MalformedURLException e) {
             return null;
         }

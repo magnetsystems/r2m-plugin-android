@@ -21,19 +21,18 @@ import com.google.gson.stream.JsonReader;
 
 import java.io.IOException;
 import java.io.StringReader;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Model for example manifest from r2m-examples
  */
 public class ExamplesManifest {
+    public static final String DESCRIPTION_SEPARATOR_KEY = " - ";
 
-    private final Map<String, ExampleResource> examples;
     private static final String FILE_KEY = "file";
     private static final String DESCRIPTION_KEY = "description";
 
+    private final Map<String, ExampleResource> examples;
 
     public ExamplesManifest(String json) throws IOException {
         this.examples = new HashMap<String, ExampleResource>();
@@ -61,8 +60,10 @@ public class ExamplesManifest {
 
     }
 
-    public Map<String, ExampleResource> getExamples() {
-        return Collections.unmodifiableMap(examples);
+    public List<String> getExamplesList() {
+        List<String> list = new ArrayList<String>(examples.keySet());
+        Collections.sort(list);
+        return list;
     }
 
     public ExampleResource getExample(String name) {
