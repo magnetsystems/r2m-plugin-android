@@ -224,7 +224,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
                 String text = methodTabPanel.getResponse();
                 BodyValidationResult validationResult = JSONValidator.validateBody(text);
                 if (!validationResult.isValid()) {
-                    int okCancelResult = Messages.showOkCancelDialog(methodTabPanel, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
+                    int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
                             Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_TITLE),
                             Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CONTINUE),
                             Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
