@@ -219,8 +219,10 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
         private boolean checkResponse() {
             boolean result = true;
-            for (MethodTabPanel methodTabPanel : tabManager.getTabs()) {
+            List<MethodTabPanel> tabs = tabManager.getTabs();
+            for (int i = 0; i < tabs.size(); i++) {
                 // Revalidate the payload before generation
+                MethodTabPanel methodTabPanel = tabs.get(i);
                 String text = methodTabPanel.getResponse();
                 BodyValidationResult validationResult = JSONValidator.validateBody(text);
                 if (!validationResult.isValid()) {
@@ -230,6 +232,11 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
                             Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
                             null);
                     result = okCancelResult == 0;
+
+                    //switch to the the method tab has validation warning
+                    if(!result) {
+                      tabManager.selectTab(i);
+                    }
 
                     break;
                 }
