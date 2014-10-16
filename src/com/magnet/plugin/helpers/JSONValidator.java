@@ -79,7 +79,7 @@ public class JSONValidator {
     public static StringBuilder getErrorMessage(List<ValidationResultEntry> errors) {
         StringBuilder errorMessage = new StringBuilder();
         for (ValidationResultEntry error : errors) {
-            errorMessage.append(error.getMessage()).append("\n");
+            errorMessage.append(null != error.getMessage() ? error.getMessage() : error.toString()).append("\n");
         }
         return errorMessage;
     }
