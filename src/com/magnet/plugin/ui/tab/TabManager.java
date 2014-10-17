@@ -106,6 +106,12 @@ public class TabManager {
         tabPanel.invalidate();
     }
 
+    public void selectTab(int index) {
+      if(index >= 0 && index < tabs.size()) {
+        tabPanel.setSelectedIndex(index);
+      }
+    }
+
     private ChangeListener tabListener = new ChangeListener() {
         @Override
         public void stateChanged(ChangeEvent e) {
