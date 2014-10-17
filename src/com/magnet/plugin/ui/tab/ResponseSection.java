@@ -22,10 +22,6 @@
  */
 package com.magnet.plugin.ui.tab;
 
-import com.magnet.plugin.constants.FormConfig;
-
-import javax.swing.*;
-
 public class ResponseSection extends PayloadPanel {
     private static final String _TYPE = "Response";
 
