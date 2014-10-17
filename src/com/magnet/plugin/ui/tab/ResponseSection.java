@@ -27,50 +27,9 @@ import com.magnet.plugin.constants.FormConfig;
 import javax.swing.*;
 
 public class ResponseSection extends PayloadPanel {
+    private static final String _TYPE = "Response";
 
-    private JLabel jLabel1;
-    private JSeparator jSeparator1;
-    private JLabel jLabel2;
-
-    {
-        jLabel1 = new JLabel("Response");
-        jLabel1.setFont(baseFont);
-        jSeparator1 = new JSeparator();
-        jSeparator1.setOpaque(false);
-        jLabel2 = new JLabel("Raw (editable)");
-        jLabel2.setFont(baseFont);
-
-        GroupLayout layout = new GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addGap(FormConfig.CUSTOM_GAP)
-                                .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
-                        )
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                .addComponent(jSeparator1)
-                                .addComponent(jLabel2)
-                                .addComponent(jScrollPane, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
-                                .addComponent(errorPanel, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
-                        )
-        );
-        layout.setVerticalGroup(
-                layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                .addComponent(jLabel1)
-                                .addComponent(jSeparator1, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE)
-                        )
-                        .addComponent(jLabel2)
-                        .addComponent(jScrollPane, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_TEXTAREA_SIZE, FormConfig.MAX_TEXTAREA_SIZE)
-                        .addComponent(errorPanel, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
-        );
+    protected String getType() {
+      return _TYPE;
     }
-
-
-
-
-
-
-
 }

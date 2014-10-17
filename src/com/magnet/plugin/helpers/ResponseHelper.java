@@ -29,10 +29,12 @@ public class ResponseHelper {
 
     public static String processResponse(ApiMethodModel methodModel){
         String entity = "";
-        try {
+        if(null != methodModel.getHttpResponse().getEntity()) {
+          try {
             entity = IOUtils.toString(methodModel.getHttpResponse().getEntity().getContent());
-        } catch (IOException e) {
+          } catch (IOException e) {
             e.printStackTrace();
+          }
         }
 
         Logger.info(ResponseHelper.class, Arrays.asList(methodModel.getRequestHeaders()).toString());

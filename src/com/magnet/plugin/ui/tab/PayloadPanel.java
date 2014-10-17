@@ -17,6 +17,7 @@
 
 package com.magnet.plugin.ui.tab;
 
+import com.intellij.ui.JBSplitter;
 import com.magnet.langpack.builder.rest.RestContentType;
 import com.magnet.langpack.builder.rest.parser.ExampleParser;
 import com.magnet.plugin.constants.FormConfig;
@@ -47,24 +48,38 @@ import static com.magnet.plugin.constants.Colors.*;
 /**
  * Panel for either request or response payload
  */
-public class PayloadPanel extends BasePanel {
+public abstract class PayloadPanel extends BasePanel {
 
-    protected final JTextArea payloadField;
-    protected final JScrollPane jScrollPane;
+    protected final JTextArea payloadTextField;
+    protected final JScrollPane payloadTextScrollPane;
     protected final JXTable errorTable;
     protected final JXLabel errorMessageLabel;
     protected final JScrollPane errorTableScrollPane;
     protected final JPanel errorPanel;
+    //protected final JScrollPane errorScrollPane;
+    protected final JBSplitter jSplitPane;
+//    protected final JPanel payloadTextPanel;
+//    protected final JScrollPane payloadScrollPane;
+
+
+    abstract protected String getType();
 
     protected List<JSONError> errors;
 
   {
-        payloadField = new JTextArea();
-        payloadField.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
-        payloadField.setLineWrap(true);
-        payloadField.setFont(baseFont);
+        payloadTextField = new JTextArea();
+        payloadTextField.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
+        payloadTextField.setLineWrap(true);
+        payloadTextField.setFont(baseFont);
+
+        payloadTextScrollPane = new JScrollPane();
+        payloadTextScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+        payloadTextScrollPane.setViewportView(payloadTextField);
+        //payloadTextPanel = new JPanel(new BorderLayout());
+        //payloadTextPanel.add(payloadTextScrollPane, BorderLayout.CENTER);
 
         errorTable = new JXTable();
+        errorTable.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
         errorTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
           @Override
@@ -76,17 +91,15 @@ public class PayloadPanel extends BasePanel {
                 if(null != error.getDocLocation() && 0 != error.getDocLocation().getLine()) {
                   try {
                     int lineNum = error.getDocLocation().getLine() - 1;
-                    int startIndex = payloadField.getLineStartOffset(lineNum);
-                    int endIndex = payloadField.getLineEndOffset(lineNum);
-                    //Highlighter.HighlightPainter painter = new DefaultHighlighter.DefaultHighlightPainter(Color.ORANGE);
-                    //payloadField.getHighlighter().addHighlight(startIndex, endIndex, painter);
+                    int startIndex = payloadTextField.getLineStartOffset(lineNum);
+                    int endIndex = payloadTextField.getLineEndOffset(lineNum);
 
-                    payloadField.requestFocusInWindow();
-                    Rectangle viewRect = payloadField.modelToView(startIndex);
-                    payloadField.scrollRectToVisible(viewRect);
+                    payloadTextField.requestFocusInWindow();
+                    Rectangle viewRect = payloadTextField.modelToView(startIndex);
+                    payloadTextField.scrollRectToVisible(viewRect);
                     // Highlight the text
-                    payloadField.setCaretPosition(endIndex);
-                    payloadField.moveCaretPosition(startIndex);
+                    payloadTextField.setCaretPosition(endIndex);
+                    payloadTextField.moveCaretPosition(startIndex);
                   } catch (BadLocationException e) {
                     e.printStackTrace();
                   }
@@ -117,17 +130,18 @@ public class PayloadPanel extends BasePanel {
                         .addComponent(errorMessageLabel)
                         .addComponent(errorTableScrollPane));
         errorPanel.setLayout(jPanel1Layout);
+        //errorScrollPane = new JScrollPane(errorPanel);
 
         errorPanel.setVisible(false);
         errorTableScrollPane.setVisible(false);
 
-        payloadField.getDocument().addDocumentListener(new DocumentListener() {
+        payloadTextField.getDocument().addDocumentListener(new DocumentListener() {
             private void setFieldColor() {
-                String text = payloadField.getText();
+                String text = payloadTextField.getText();
                 resetFields();
                 if (JSONValidator.isJSON(text)) {
                   setFieldTextColor(BLACK);
-                  errors = JSONValidator.validateJSON(text, null /* errorMessageField */, payloadField);
+                  errors = JSONValidator.validateJSON(text, null /* errorMessageField */, payloadTextField);
                   if(!errors.isEmpty()) {
                     errorTable.setModel(new ErrorTableModel(errors));
 
@@ -152,8 +166,8 @@ public class PayloadPanel extends BasePanel {
                     }
                   } else {
                     //errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
-                    errorMessageLabel.setIcon(PluginIcon.validIcon);
-                    errorPanel.setVisible(true);
+//                    errorMessageLabel.setIcon(PluginIcon.validIcon);
+//                    errorPanel.setVisible(true);
                   }
                 } else {
                   setFieldTextColor(GREEN);
@@ -161,11 +175,11 @@ public class PayloadPanel extends BasePanel {
             }
 
             private void setFieldTextColor(Color color) {
-                payloadField.setForeground(color);
+                payloadTextField.setForeground(color);
             }
 
             private void resetFields() {
-                payloadField.getHighlighter().removeAllHighlights();
+                payloadTextField.getHighlighter().removeAllHighlights();
 
                 errorMessageLabel.setIcon(PluginIcon.validIcon);
                 errorMessageLabel.setText("");
@@ -193,10 +207,11 @@ public class PayloadPanel extends BasePanel {
             }
         });
 
-        jScrollPane = new JScrollPane();
-        jScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane.setViewportView(payloadField);
+        jSplitPane = new JBSplitter(true);
+        jSplitPane.setFirstComponent(payloadTextScrollPane);
+        jSplitPane.setSecondComponent(errorPanel);
 
+        setLayout();
     }
 
     public String getRawPayload() {
@@ -216,21 +231,56 @@ public class PayloadPanel extends BasePanel {
         if (type == RestContentType.JSON) {
             payload = FormatHelper.formatJSONCode(payload);
         }
-        payloadField.setText(payload);
+        payloadTextField.setText(payload);
 
     }
 
 
     public JTextArea getPayloadField() {
-        return payloadField;
+        return payloadTextField;
     }
 
     public String getPayload() {
-        return payloadField.getText();
+        return payloadTextField.getText();
     }
 
     public void clearPayload() {
-        payloadField.setText("");
+        payloadTextField.setText("");
+    }
+
+    private void setLayout() {
+      JLabel jLabel1 = new JLabel(getType() + " Payload");
+      jLabel1.setFont(baseFont);
+      JSeparator jSeparator1 = new JSeparator();
+      jSeparator1.setOpaque(false);
+      JLabel jLabel2 = new JLabel("Raw (editable)");
+      jLabel2.setFont(baseFont);
+
+      GroupLayout layout = new GroupLayout(this);
+      this.setLayout(layout);
+      layout.setHorizontalGroup(
+              layout.createSequentialGroup()
+                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                      .addGap(FormConfig.CUSTOM_GAP)
+                                      .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
+                                      .addComponent(jLabel2, GroupLayout.Alignment.TRAILING)
+                      )
+                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                      .addComponent(jSeparator1)
+                                      .addComponent(jSplitPane, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
+                      )
+      );
+      layout.setVerticalGroup(
+              layout.createSequentialGroup()
+                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                      .addComponent(jSeparator1, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE)
+                                      .addComponent(jLabel1)
+                      )
+                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                      .addComponent(jLabel2)
+                                      .addComponent(jSplitPane, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_TEXTAREA_SIZE, GroupLayout.DEFAULT_SIZE)
+                      )
+      );
     }
 
     public static class ErrorTableModel extends AbstractTableModel {

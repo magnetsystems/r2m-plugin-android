@@ -60,8 +60,7 @@ public abstract class AbstractRequest<T> implements Runnable, Worker<T>, WorkerC
 //        Logger.info(getClass(), "onSuccess");
         if (getCallback() == null) {
             return;
-        }
-        if (getCallback() != null) {
+        } else {
             getCallback().onSuccess(t);
         }
         setCallback(null);
