@@ -214,34 +214,40 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
          * @return true if validated, false otherwise
          */
         private boolean checkAllRequirements() {
-            return checkAllMethodNames() && checkControllerName() && checkMainPanels() && checkNoRemainingCachedMethods() && checkResponse();
+            return checkAllMethodNames() && checkControllerName() && checkMainPanels() && checkNoRemainingCachedMethods() && checkPayload();
         }
 
-        private boolean checkResponse() {
+        private boolean checkPayload() {
             boolean result = true;
             List<MethodTabPanel> tabs = tabManager.getTabs();
             for (int i = 0; i < tabs.size(); i++) {
                 // Revalidate the payload before generation
                 MethodTabPanel methodTabPanel = tabs.get(i);
-                String text = methodTabPanel.getResponse();
-                BodyValidationResult validationResult = JSONValidator.validateBody(text);
-                if (!validationResult.isValid()) {
-                    int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
-                            Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_TITLE),
-                            Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CONTINUE),
-                            Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
-                            null);
-                    result = okCancelResult == 0;
 
-                    //switch to the the method tab has validation warning
-                    if(!result) {
-                      tabManager.selectTab(i);
-                    }
-
-                    break;
+                BodyValidationResult requestValidationResult = JSONValidator.validateBody(methodTabPanel.getRequestPayload());
+                BodyValidationResult responseValidationResult = JSONValidator.validateBody(methodTabPanel.getResponse());
+                if (!requestValidationResult.isValid() || !responseValidationResult.isValid()) {
+                   if(ifContinue(methodTabPanel.getMethodName(), !requestValidationResult.isValid() ? requestValidationResult : responseValidationResult)) {
+                     continue;
+                   } else {
+                     result = false;
+                     tabManager.selectTab(i);
+                     break;
+                   }
                 }
             }
             return result;
+        }
+
+        private boolean ifContinue(String methodName, BodyValidationResult validationResult) {
+             int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION, methodName) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
+                    Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_TITLE, methodName),
+                    Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CONTINUE),
+                    Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
+                      null);
+             boolean result = okCancelResult == 0;
+
+             return result;
         }
 
         /**

@@ -42,6 +42,6 @@ public interface FormConfig {
     int DEFAULT_COMPONENT_SIZE = 20;
     int CUSTOM_METHOD_TYPE_GAP = 50;
 
-    Dimension PAYLOAD_DIMENSION =new Dimension(500, 200);
+    Dimension PAYLOAD_DIMENSION =new Dimension(500, 100);
     Dimension SCREEN_DIMENSION =new Dimension(700, 700);
 }
