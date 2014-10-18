@@ -24,7 +24,7 @@ package com.magnet.plugin.ui.tab;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
 import com.magnet.plugin.helpers.HistoryHelper;
-import com.magnet.plugin.helpers.QueryParser;
+import com.magnet.plugin.helpers.UrlParser;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.listeners.URLFocusListener;
 import com.magnet.plugin.models.ParsedUrl;
@@ -72,8 +72,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                ParsedUrl parsedUrl = QueryParser.parseQuery((getComboBoxEditor()).getText());
-                urlSection.setParsedQuery(parsedUrl);
+                urlSection.setUrl((getComboBoxEditor()).getText());
                 urlSection.revalidateSection();
             }
         });
@@ -159,8 +158,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));
         if (urlDetailsBox.isSelected()) {
 //            urlDetailsBox.setIcon(openIcon);
-            ParsedUrl parsedUrl = QueryParser.parseQuery(getComboBoxEditor().getText());
-            urlSection.setParsedQuery(parsedUrl);
+            urlSection.setUrl(getComboBoxEditor().getText());
             urlSection.setVisible(true);
         } else {
 //            urlDetailsBox.setIcon(closeIcon);
@@ -241,13 +239,12 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
      * @param templatizedUrl templatized url ,with path param variables (if any), e.g http://host.com/a/b/c/{id}/{id2}
      */
     public void populateUrlDetails(String templatizedUrl) {
-        urlField.getEditor().setItem(QueryParser.expandUrl(templatizedUrl));
+        urlSection.setUrl(templatizedUrl);
 
-        ParsedUrl parsedUrl = QueryParser.parseQuery(templatizedUrl);
-        urlSection.setParsedQuery(parsedUrl);
+        urlField.getEditor().setItem(urlSection.getParsedUrl().buildUrl(false));
 
-        // expand url details if there are path params
-        if (parsedUrl.hasPathParams()) {
+      // expand url details if there are path params
+        if (urlSection.getParsedUrl().hasPathParams()) {
             urlDetailsBox.setSelected(true);
             urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));
             urlSection.setVisible(true);

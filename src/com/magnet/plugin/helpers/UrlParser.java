@@ -30,8 +30,10 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class QueryParser {
-    public static ParsedUrl parseQuery(String url) {
+public class UrlParser {
+    private static Pattern PATH_PARAM_PATTERN = Pattern.compile(Rest2MobileConstants.TEMPLATE_VARIABLE_REGEX);
+
+    public static ParsedUrl parseUrl(String url) {
         List<PathPart> pathParts = new ArrayList<PathPart>();
         List<Query> queries = new ArrayList<Query>();
         ParsedUrl parsedUrl;
@@ -51,40 +53,29 @@ public class QueryParser {
             }
             parsedUrl.setQueries(queries);
 
-            String path = aURL.getPath();
-            String[] pathStrings = path.split("/");
-            for (String string : pathStrings) {
-                if (!string.isEmpty()) {
-                    List<String> params = findPathVariables(string);
-                    if (params == null || params.isEmpty()) {
-                        pathParts.add(new PathPart(string));
-                    } else {
-                        String param = params.get(0); // assuming only one param
-                        pathParts.add(new PathPart(param, param));
-                    }
+            String[] pathStrings = aURL.getPath().split("/");
+            for (String pathPart : pathStrings) {
+              Matcher m = PATH_PARAM_PATTERN.matcher(pathPart);
+              if (m.find()) {
+                String paramDef = m.group(1);
+                String[] paramParts = paramDef.split(":");
+                if (paramParts.length > 1) {
+                  pathParts.add(new PathPart(paramParts[1].trim(), paramParts[0].trim()));
+                } else {
+                  pathParts.add(new PathPart(paramParts[0].trim()));
                 }
+              } else {
+                if(!pathPart.isEmpty()) {
+                  pathParts.add(new PathPart(pathPart));
+                }
+              }
             }
             parsedUrl.setPathParts(pathParts);
         } catch (Exception ex) {
-            Logger.error(QueryParser.class, "Can't parse URL " + url);
+            Logger.error(UrlParser.class, "Can't parse URL " + url);
             return null;
         }
         return parsedUrl;
-    }
-
-    /**
-     * Find path variables in template url. Variables are identified by <code>{var}</code>
-     * @param templateUrl template url
-     * @return list of path param variable name in url
-     */
-    public static List<String> findPathVariables(String templateUrl) {
-        Pattern p = Pattern.compile(Rest2MobileConstants.TEMPLATE_VARIABLE_REGEX);
-        Matcher m = p.matcher(templateUrl);
-        List<String> l = new ArrayList<String>();
-        while (m.find()) {
-            l.add(m.group().substring(1, m.group().length() - 1));
-        }
-        return l;
     }
 
     /**
@@ -92,8 +83,17 @@ public class QueryParser {
      * @return expanded url
      */
     public static String expandUrl(String url) {
-        url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX, "");
-        url = url.replaceAll(Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, "");
+        Matcher m = PATH_PARAM_PATTERN.matcher(url);
+        while (m.find()) {
+          String paramDef = m.group(1);
+          String[] paramParts = paramDef.split(":");
+          if (paramParts.length > 1) {
+            url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX + paramParts[0] + Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, paramParts[1]);
+          } else {
+            url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX + paramParts[0] + Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, paramParts[0]);
+          }
+        }
+
         return url;
     }
 }

@@ -34,7 +34,7 @@ public class PostRequest extends BaseRequest {
 
     @Override
     protected HttpRequestBase getRequest(RequestModel requestModel) {
-        HttpPost httpPost=new HttpPost(requestModel.getUrl());
+        HttpPost httpPost=new HttpPost(requestModel.getTestUrl());
         try {
             httpPost.setEntity(new StringEntity(requestModel.getRequest(),"UTF-8"));
         } catch (Exception e) {

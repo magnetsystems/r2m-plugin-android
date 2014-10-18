@@ -43,11 +43,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import static com.magnet.plugin.helpers.UIHelper.*;
 
@@ -183,7 +179,7 @@ public class MethodTabPanel extends BasePanel {
     public boolean createMethod() {
 
         Method method = getMethod();
-        if (!VerifyHelper.isValidUrl(method.getUrl())) {
+        if (!VerifyHelper.isValidUrl(method.getTestUrl())) {
             showErrorMessage(ERROR_INVALID_URL);
             return false;
         }
@@ -210,7 +206,7 @@ public class MethodTabPanel extends BasePanel {
     private void testApi() {
         if (methodNameSection.checkRequirementFields()) {
             Method method = makeMethod();
-            if (!VerifyHelper.isValidUrlWithoutPerformance(method.getUrl())) {
+            if (!VerifyHelper.isValidUrlWithoutPerformance(method.getTestUrl())) {
                 showErrorMessage(ERROR_INVALID_URL);
             }
             RequestModel requestModel = new RequestModel(method);
@@ -252,7 +248,7 @@ public class MethodTabPanel extends BasePanel {
 
         Method method = new Method();
         method.setMethodName(methodNameSection.getMethodName());
-        method.setUrl(methodNameSection.getUrl());
+        method.setTestUrl(methodNameSection.getUrl());
         method.setPathParts(methodNameSection.getPaths());
         method.setQueries(methodNameSection.getQueries());
         method.setHttpMethod(type.getHttpMethod());
@@ -267,7 +263,8 @@ public class MethodTabPanel extends BasePanel {
 
     public Method getMethod() {
         Method method = makeMethod();
-        method.setUrl(methodNameSection.getTemplateUrl());
+        method.setTestUrl(methodNameSection.getUrl());
+        method.setTemplateUrl(methodNameSection.getTemplateUrl());
         return method;
     }
 

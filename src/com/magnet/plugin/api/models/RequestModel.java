@@ -32,7 +32,8 @@ public class RequestModel {
     private final HTTPMethod httpMethod;
     private final String methodName;
 
-    private String url;
+    private String testUrl;
+    private String templateUrl;
     private String request;
     private String response;
     private List<RequestHeaderModel> headers = new ArrayList<RequestHeaderModel>();
@@ -40,7 +41,8 @@ public class RequestModel {
     public RequestModel(Method method) {
         httpMethod = method.getHttpMethod();
         methodName = method.getMethodName();
-        url = method.getUrl();
+        testUrl = method.getTestUrl();
+        templateUrl = method.getTemplateUrl();
         request = method.getPayload();
         headers = method.getHeaders();
     }
@@ -49,12 +51,20 @@ public class RequestModel {
         return methodName;
     }
 
-    public String getUrl() {
-        return url.replaceAll(" ", "%20");
+    public String getTestUrl() {
+        return testUrl.replaceAll(" ", "%20");
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setTestUrl(String testUrl) {
+        this.testUrl = testUrl;
+    }
+
+    public String getTemplateUrl() {
+        return templateUrl;
+    }
+
+    public void setTemplateUrl(String templateUrl) {
+        this.templateUrl = templateUrl;
     }
 
     public String getRequest() {

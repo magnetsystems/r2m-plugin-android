@@ -44,15 +44,16 @@ public class PathPartPanel extends JPanel {
     private final JTextField variableNameField;
     private final JButton deleteButton;
 
-    private String variableNameValue;
-
     private final JPanel parentPanel;
 
-    public PathPartPanel(JPanel parentPanel, PathPart pathPartPartField) {
+    private final PathPart pathPart;
+
+    public PathPartPanel(JPanel parentPanel, PathPart pathPart) {
         this.parentPanel = parentPanel;
-        variableNameField.setText(pathPartPartField.getTemplateVariable());
-        isVariableCheckBox.setSelected(pathPartPartField.isTemplatized());
-        this.pathPartField.setText(pathPartPartField.getPathPart());
+        this.pathPart = pathPart;
+        variableNameField.setText(pathPart.getVariableName());
+        isVariableCheckBox.setSelected(pathPart.isTemplatized());
+        this.pathPartField.setText(pathPart.getPathValue());
     }
 
 
@@ -61,8 +62,6 @@ public class PathPartPanel extends JPanel {
         isVariableCheckBox = new JCheckBox();
         variableNameField = new JTextField();
         deleteButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
-
-        variableNameValue = "";
 
         Font font = UIHelper.getFont();
         pathPartField.setFont(font);
@@ -113,12 +112,13 @@ public class PathPartPanel extends JPanel {
     private void changeVariable(ActionEvent evt) {
         if (isVariableCheckBox.isSelected()) {
             variableNameField.setEditable(true);
-            variableNameField.setText(variableNameValue);
+            variableNameField.setText(pathPart.getVariableName());
+            pathPart.setTemplatized(true);
             HintHelper.setHintToTextField(UIHelper.ERROR_REQUIRED_FIELD, variableNameField);
         } else {
             HintHelper.removeHintFromField(variableNameField);
             variableNameField.setEditable(false);
-            variableNameValue = variableNameField.getText().trim();
+            pathPart.setTemplatized(false);
             variableNameField.setText("");
         }
     }
@@ -134,11 +134,12 @@ public class PathPartPanel extends JPanel {
     }
 
     public PathPart getPathPartField() {
-        PathPart pathPart = new PathPart();
-        pathPart.setPathPart(this.pathPartField.getText());
-        pathPart.setTemplatized(isVariableCheckBox.isSelected());
-        pathPart.setVariableName(Rest2MobileConstants.START_TEMPLATE_VARIABLE + variableNameField.getText() + Rest2MobileConstants.END_TEMPLATE_VARIABLE);
-
+//        PathPart pathPart = new PathPart();
+//        pathPart.setPathValue(this.pathPartField.getText());
+//        pathPart.setTemplatized(isVariableCheckBox.isSelected());
+//        pathPart.setVariableName(Rest2MobileConstants.START_TEMPLATE_VARIABLE + variableNameField.getText() + Rest2MobileConstants.END_TEMPLATE_VARIABLE);
+        pathPart.setPathValue(this.pathPartField.getText());
+        pathPart.setVariableName(variableNameField.getText());
         return pathPart;
     }
 

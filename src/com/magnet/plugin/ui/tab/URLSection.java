@@ -23,6 +23,7 @@ package com.magnet.plugin.ui.tab;
 
 import com.intellij.ui.JBColor;
 import com.magnet.plugin.helpers.Logger;
+import com.magnet.plugin.helpers.UrlParser;
 import com.magnet.plugin.listeners.URLFocusListener;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.ParsedUrl;
@@ -59,20 +60,26 @@ public class URLSection extends BasePanel implements FocusListener {
 
     private URLFocusListener focusListener;
 
+    private ParsedUrl parsedUrl;
+
     public List<PathPartPanel> getPathPanels() {
         return paths;
     }
 
+    public ParsedUrl getParsedUrl() {
+      return parsedUrl;
+    }
+
     public List<Query> getQueryPanels() {
         List<Query> queries = new ArrayList<Query>();
-        for (QueryPanel panel : querys) {
+        for (QueryPanel panel : this.queries) {
             queries.add(panel.getQuery());
         }
         return queries;
     }
 
     private volatile List<PathPartPanel> paths = new ArrayList<PathPartPanel>();
-    private volatile List<QueryPanel> querys = new ArrayList<QueryPanel>();
+    private volatile List<QueryPanel> queries = new ArrayList<QueryPanel>();
 
 
     {
@@ -115,7 +122,9 @@ public class URLSection extends BasePanel implements FocusListener {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                addPath(new PathPart());
+                PathPart pathPart = new PathPart();
+                addPath(pathPart);
+                parsedUrl.addPathParam(pathPart);
             }
         });
 
@@ -123,7 +132,9 @@ public class URLSection extends BasePanel implements FocusListener {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                addQuery(new Query());
+                Query query = new Query();
+                addQuery(query);
+                parsedUrl.addQueryParam(query);
             }
         });
 
@@ -202,6 +213,7 @@ public class URLSection extends BasePanel implements FocusListener {
 
     public void removePath(PathPartPanel path) {
         pathCount--;
+        parsedUrl.removePathParam(paths.indexOf(path));
         paths.remove(path);
         if (pathCount == 0) {
             pathPartLabel.setVisible(false);
@@ -210,7 +222,8 @@ public class URLSection extends BasePanel implements FocusListener {
 
     public void removeQuery(QueryPanel query) {
         queryCount--;
-        querys.remove(query);
+        parsedUrl.removeQueryParam(queries.indexOf(query));
+        queries.remove(query);
         if (queryCount == 0) {
             queryPanelLabel.setVisible(false);
         }
@@ -235,7 +248,7 @@ public class URLSection extends BasePanel implements FocusListener {
     private void addQuery(Query query) {
         QueryPanel panel = new QueryPanel(this, query);
         panel.setFocusListener(this);
-        querys.add(panel);
+        queries.add(panel);
         queryPanelLabel.setVisible(true);
         queryCount++;
 
@@ -255,27 +268,31 @@ public class URLSection extends BasePanel implements FocusListener {
     }
 
     private void removeAllQueries() {
-        while (querys.size() > 0) {
-            querys.get(0).deleteThisPanel();
+        while (queries.size() > 0) {
+            queries.get(0).deleteThisPanel();
         }
-        querys.clear();
+        queries.clear();
     }
 
-    public void setParsedQuery(final ParsedUrl parsedUrl) {
-        if (parsedUrl == null) {
+    public void setUrl(final String url) {
+        if (url == null) {
             return;
         }
 
-        clearFields();
+        if(null == parsedUrl || !parsedUrl.buildUrl(false).equals(url)) {
+          parsedUrl = UrlParser.parseUrl(url);
 
-        baseUrlField.setText(parsedUrl.getBase());
-        List<PathPart> pathPartList = parsedUrl.getPathParts();
-        List<Query> queries = parsedUrl.getQueries();
-        for (PathPart aPathPart : pathPartList) {
+          clearFields();
+
+          baseUrlField.setText(parsedUrl.getBase());
+          List<PathPart> pathPartList = parsedUrl.getPathParts();
+          List<Query> queries = parsedUrl.getQueries();
+          for (PathPart aPathPart : pathPartList) {
             addPath(aPathPart);
-        }
-        for (Query query : queries) {
+          }
+          for (Query query : queries) {
             addQuery(query);
+          }
         }
     }
 
@@ -285,38 +302,12 @@ public class URLSection extends BasePanel implements FocusListener {
         removeAllQueries();
     }
 
-    private String buildUrl(boolean isTemplatized) {
-        StringBuilder builder = new StringBuilder(baseUrlField.getText());
-        for (PathPartPanel path : paths) {
-            builder.append("/");
-            if (isTemplatized) {
-                builder.append(path.getPathPartField().getTemplatizedPath());
-            } else {
-                builder.append(path.getPathPartField().getPathPart());
-            }
-        }
-
-        if (querys.size() > 0) {
-            builder.append("?");
-        }
-        for (QueryPanel query1 : querys) {
-            Query query = query1.getQuery();
-            String queryString = query.getKey() + "=" + query.getValue() + "&";
-            builder.append(queryString);
-        }
-        if (querys.size() > 0) {
-            builder.deleteCharAt(builder.length() - 1);
-        }
-        Logger.info(getClass(), builder.toString());
-        return builder.toString();
-    }
-
     public String getExpandedUrl() {
-        return buildUrl(false);
+        return parsedUrl.buildUrl(false);
     }
 
     public String getTemplateUrl() {
-        return buildUrl(true);
+        return parsedUrl.buildUrl(true);
     }
 
     public boolean checkRequirementFields() {
@@ -326,7 +317,7 @@ public class URLSection extends BasePanel implements FocusListener {
             }
         }
 
-        for (QueryPanel pathPanel : querys) {
+        for (QueryPanel pathPanel : queries) {
             if (!pathPanel.checkRequirementField()) {
                 return false;
             }
@@ -356,7 +347,7 @@ public class URLSection extends BasePanel implements FocusListener {
             panel.invalidate();
         }
 
-        for (QueryPanel queryPanel : querys) {
+        for (QueryPanel queryPanel : queries) {
             queryPanel.invalidate();
         }
 

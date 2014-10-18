@@ -62,5 +62,5 @@ public interface Rest2MobileConstants {
     String START_TEMPLATE_VARIABLE = "{";
     String END_TEMPLATE_VARIABLE_REGEX = "}";
     String START_TEMPLATE_VARIABLE_REGEX = "\\{";
-    String TEMPLATE_VARIABLE_REGEX = "\\{\\w+}";
+    String TEMPLATE_VARIABLE_REGEX = "\\{(.*?)\\}";
 }
