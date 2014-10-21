@@ -227,27 +227,27 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
                 BodyValidationResult requestValidationResult = JSONValidator.validateBody(methodTabPanel.getRequestPayload());
                 BodyValidationResult responseValidationResult = JSONValidator.validateBody(methodTabPanel.getResponse());
                 if (!requestValidationResult.isValid() || !responseValidationResult.isValid()) {
-                   if(ifContinue(methodTabPanel.getMethodName(), !requestValidationResult.isValid() ? requestValidationResult : responseValidationResult)) {
-                     continue;
-                   } else {
-                     result = false;
-                     tabManager.selectTab(i);
-                     break;
-                   }
+                    if (ifContinue(methodTabPanel.getMethodName(), !requestValidationResult.isValid() ? requestValidationResult : responseValidationResult)) {
+                        continue;
+                    } else {
+                        result = false;
+                        tabManager.selectTab(i);
+                        break;
+                    }
                 }
             }
             return result;
         }
 
         private boolean ifContinue(String methodName, BodyValidationResult validationResult) {
-             int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION, methodName) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
+            int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION, methodName) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
                     Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_TITLE, methodName),
                     Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CONTINUE),
                     Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
-                      null);
-             boolean result = okCancelResult == 0;
+                    null);
+            boolean result = okCancelResult == 0;
 
-             return result;
+            return result;
         }
 
         /**
@@ -256,7 +256,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
          * @return true if no conflicts, false otherwise
          */
         private boolean checkNoRemainingCachedMethods() {
-            boolean result = true;
 
             // methods from tabs
             Set<String> methodsToGenerate = new HashSet<String>();
@@ -275,16 +274,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             }
 
             for (String method : cachedMethods) {
-
-                int option = JOptionPane.showConfirmDialog(
-                        null,
-                        "Do you want to keep the following method that was previously defined for this controller?" +
-                                "\n" + method + "(..)\n",
-                        "Warning",
-                        JOptionPane.YES_NO_OPTION);
-                if (option != 0) {
-                    getCacheManager().clearControllerMethodCache(method);
-                }
+                getCacheManager().clearControllerMethodCache(method);
             }
 
             return true;
