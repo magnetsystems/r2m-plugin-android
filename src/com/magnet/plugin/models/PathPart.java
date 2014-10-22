@@ -17,9 +17,11 @@
 
 package com.magnet.plugin.models;
 
+import com.magnet.plugin.helpers.Rest2MobileConstants;
+
 public class PathPart {
 
-    private String pathPart;
+    private String pathValue;
     private String variableName;
     private boolean templatized;
 
@@ -27,36 +29,44 @@ public class PathPart {
         this("");
     }
 
-    public PathPart(String pathPart) {
-        this(pathPart, "", false);
+    public PathPart(String pathValue) {
+        this(pathValue, "", false);
     }
 
-    public PathPart(String pathPart, String variableName) {
-        this(pathPart, variableName, true);
+    public PathPart(String pathValue, String variableName) {
+        this(pathValue, variableName, true);
     }
 
-    private PathPart(String pathPart, String variableName, boolean templatized) {
-        this.pathPart = pathPart;
+    private PathPart(String pathValue, String variableName, boolean templatized) {
+        this.pathValue = pathValue;
         this.variableName = variableName;
         this.templatized = templatized;
     }
 
-    public String getPathPart() {
-        return pathPart;
+    public String getPathValue() {
+        return pathValue;
     }
 
     public String getTemplatizedPath() {
         if (templatized) {
-            return getTemplateVariable();
+            String s;
+            if(null != pathValue && !pathValue.isEmpty()) {
+                s = variableName + ":" + pathValue;
+            } else {
+                s = variableName;
+            }
+
+            return Rest2MobileConstants.START_TEMPLATE_VARIABLE + s + Rest2MobileConstants.END_TEMPLATE_VARIABLE;
+        } else {
+            return pathValue;
         }
-        return pathPart;
     }
 
-    public void setPathPart(String pathPart) {
-        this.pathPart = pathPart;
+    public void setPathValue(String pathValue) {
+        this.pathValue = pathValue;
     }
 
-    public String getTemplateVariable() {
+    public String getVariableName() {
         return variableName;
     }
 
@@ -75,7 +85,7 @@ public class PathPart {
     @Override
     public String toString() {
         return "PathPart{" +
-                "pathPart='" + pathPart + '\'' +
+                "pathValue='" + pathValue + '\'' +
                 ", variableName='" + variableName + '\'' +
                 ", templatized=" + templatized +
                 '}';

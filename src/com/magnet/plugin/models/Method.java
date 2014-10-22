@@ -26,7 +26,8 @@ import java.util.List;
 public class Method {
 
     private String methodName;
-    private String url;
+    private String testUrl;
+    private String templateUrl;
     private List<RequestHeaderModel> headers = new ArrayList<RequestHeaderModel>();
     private List<PathPart> pathParts = new ArrayList<PathPart>();
     private List<Query> queries = new ArrayList<Query>();
@@ -43,12 +44,20 @@ public class Method {
         this.methodName = methodName;
     }
 
-    public String getUrl() {
-        return url;
+    public String getTestUrl() {
+        return testUrl;
     }
 
-    public void setUrl(String url) {
-        this.url = url;
+    public void setTestUrl(String testUrl) {
+        this.testUrl = testUrl;
+    }
+
+    public String getTemplateUrl() {
+        return templateUrl;
+    }
+
+    public void setTemplateUrl(String templateUrl) {
+        this.templateUrl = templateUrl;
     }
 
     public List<RequestHeaderModel> getHeaders() {
@@ -104,7 +113,7 @@ public class Method {
     public String toString() {
         return "Method{\n" +
                 "methodName='" + methodName + '\'' +
-                "\n, url='" + url + '\'' +
+                "\n, testUrl='" + testUrl + '\'' +
                 "\n, headers=" + headers +
                 "\n, paths=" + pathParts +
                 "\n, queries=" + queries +

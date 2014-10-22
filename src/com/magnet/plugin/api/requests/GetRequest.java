@@ -37,7 +37,7 @@ public class GetRequest extends BaseRequest {
 
     @Override
     protected HttpRequestBase getRequest(RequestModel requestModel) {
-        HttpGet httpGet = new HttpGet(requestModel.getUrl());
+        HttpGet httpGet = new HttpGet(requestModel.getTestUrl());
         return httpGet;
     }
 }

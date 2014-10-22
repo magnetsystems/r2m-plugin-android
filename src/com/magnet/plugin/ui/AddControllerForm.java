@@ -124,7 +124,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
             showErrorMessage(ERROR_SERVICE_NAME);
         } else {
             getGenerator().createMethodFile(methodModel);
-            HistoryHelper.saveUrl(project, methodModel.getRequestModel().getUrl());
+            HistoryHelper.saveUrl(project, methodModel.getRequestModel().getTestUrl());
         }
     }
 

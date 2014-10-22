@@ -17,6 +17,8 @@
 
 package com.magnet.plugin.models;
 
+import com.magnet.plugin.helpers.Logger;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +34,14 @@ public class ParsedUrl {
 
     public void setPathParts(List<PathPart> pathParts) {
         this.pathParts = pathParts;
+    }
+
+    public void removePathParam(int index) {
+        pathParts.remove(index);
+    }
+
+    public void addPathParam(PathPart pathPart) {
+        pathParts.add(pathPart);
     }
 
     public boolean hasPathParams() {
@@ -51,11 +61,46 @@ public class ParsedUrl {
         this.queries = queries;
     }
 
+    public void removeQueryParam(int index) {
+        queries.remove(index);
+    }
+
+    public void addQueryParam(Query queryParam) {
+        queries.add(queryParam);
+    }
+
     public String getBase() {
         return base;
     }
 
     public void setBase(String base) {
         this.base = base;
+    }
+
+    public String buildUrl(boolean isTemplatized) {
+      StringBuilder builder = new StringBuilder(base);
+      for (PathPart path : pathParts) {
+        builder.append("/");
+        if (isTemplatized) {
+          builder.append(path.getTemplatizedPath());
+        } else {
+          builder.append(path.getPathValue());
+        }
+      }
+
+      if (queries.size() > 0) {
+        builder.append("?");
+
+        for (Query query : queries) {
+          String queryString = query.getKey() + "=" + query.getValue() + "&";
+          builder.append(queryString);
+        }
+        if (queries.size() > 0) {
+          builder.deleteCharAt(builder.length() - 1);
+        }
+      }
+
+      Logger.info(getClass(), builder.toString());
+      return builder.toString();
     }
 }

@@ -19,7 +19,6 @@ package com.magnet.plugin.generator;
 
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.io.FileUtil;
 import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.api.models.RequestHeaderModel;
 import com.magnet.plugin.helpers.ControllerHistoryManager;
@@ -77,7 +76,7 @@ public class Generator {
 
             // +Request section
             writer.println(RestByExampleKeywords.REQUEST_TOKEN);
-            writer.println(methodModel.getRequestModel().getHttpMethod().toString() + " " + methodModel.getRequestModel().getUrl());
+            writer.println(methodModel.getRequestModel().getHttpMethod().toString() + " " + methodModel.getRequestModel().getTemplateUrl());
 
             // +Headers request sub-section
             writer.println(RestByExampleKeywords.HEADERS_TOKEN);
