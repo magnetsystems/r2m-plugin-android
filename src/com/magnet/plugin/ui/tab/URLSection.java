@@ -22,7 +22,6 @@
 package com.magnet.plugin.ui.tab;
 
 import com.intellij.ui.JBColor;
-import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.UrlParser;
 import com.magnet.plugin.listeners.URLFocusListener;
 import com.magnet.plugin.messages.Rest2MobileMessages;
@@ -42,7 +41,8 @@ import java.util.List;
 /**
  * Panel implementing the URL section details with path and query params
  */
-public class URLSection extends BasePanel implements FocusListener {
+public class URLSection extends BasePanel implements FocusListener,
+        QueryPanel.QueryParamCallBack, PathPartPanel.PathParamCallBack {
 
     private final JTextField baseUrlField;
 
@@ -232,7 +232,6 @@ public class URLSection extends BasePanel implements FocusListener {
 
     private void addPath(PathPart pathPart) {
         PathPartPanel panel = new PathPartPanel(this, pathPart);
-        panel.setFocusListener(this);
         paths.add(panel);
         pathPartLabel.setVisible(true);
         pathCount++;
@@ -240,14 +239,11 @@ public class URLSection extends BasePanel implements FocusListener {
         customPathGroupHorizontal.addComponent(panel);
         customPathGroupVertical.addComponent(panel);
 
-        this.revalidate();
-        this.validate();
-        this.repaint();
+        repaintPanel();
     }
 
     private void addQuery(Query query) {
         QueryPanel panel = new QueryPanel(this, query);
-        panel.setFocusListener(this);
         queries.add(panel);
         queryPanelLabel.setVisible(true);
         queryCount++;
@@ -255,21 +251,19 @@ public class URLSection extends BasePanel implements FocusListener {
         customQueryGroupHorizontal.addComponent(panel);
         customQueryGroupVertical.addComponent(panel);
 
-        this.revalidate();
-        this.validate();
-        this.repaint();
+        repaintPanel();
     }
 
     private void removeAllPathes() {
-        while (paths.size() > 0) {
-            paths.get(0).deleteThisPanel();
+        for (PathPartPanel pp : paths) {
+            deleted(pp);
         }
         paths.clear();
     }
 
     private void removeAllQueries() {
-        while (queries.size() > 0) {
-            queries.get(0).deleteThisPanel();
+        for (QueryPanel qp : queries) {
+            deleted(qp);
         }
         queries.clear();
     }
@@ -333,7 +327,7 @@ public class URLSection extends BasePanel implements FocusListener {
     @Override
     public void focusLost(FocusEvent focusEvent) {
         for (PathPartPanel pathPartPanel : paths) {
-            pathPartPanel.invalidateField();
+            pathPartPanel.validateField();
         }
         focusListener.onFocusChange(getExpandedUrl());
     }
@@ -354,5 +348,44 @@ public class URLSection extends BasePanel implements FocusListener {
         this.invalidate();
 
     }
+
+    private void repaintPanel() {
+        revalidate();
+        validate();
+        repaint();
+    }
+
+    ////////////Methods from QueryPanel.QueryParamCallBack////////////
+    @Override
+    public void deleted(QueryPanel queryPanel) {
+        remove(queryPanel);
+        removeQuery(queryPanel);
+
+        repaintPanel();
+
+        focusListener.onFocusChange(getExpandedUrl());
+    }
+
+    @Override
+    public void updated(QueryPanel queryPanel) {
+        focusListener.onFocusChange(getExpandedUrl());
+    }
+
+    ////////////Methods from PathPartPanel.PathParamCallBack////////////
+    @Override
+    public void deleted(PathPartPanel pathPanel) {
+        remove(pathPanel);
+        removePath(pathPanel);
+
+        repaintPanel();
+
+        focusListener.onFocusChange(getExpandedUrl());
+    }
+
+    @Override
+    public void updated(PathPartPanel pathPanel) {
+        focusListener.onFocusChange(getExpandedUrl());
+    }
+
 
 }

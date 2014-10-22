@@ -23,17 +23,15 @@ package com.magnet.plugin.ui.tab;
 
 import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.helpers.HintHelper;
-import com.magnet.plugin.helpers.Rest2MobileConstants;
 import com.magnet.plugin.helpers.UIHelper;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.PathPart;
+import com.magnet.plugin.ui.AbstractDocumentListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
+import java.awt.event.*;
 
 import static com.magnet.plugin.helpers.UIHelper.ERROR_REQUIRED_FIELD;
 
@@ -44,12 +42,12 @@ public class PathPartPanel extends JPanel {
     private final JTextField variableNameField;
     private final JButton deleteButton;
 
-    private final JPanel parentPanel;
+    private final PathParamCallBack callBack;
 
     private final PathPart pathPart;
 
-    public PathPartPanel(JPanel parentPanel, PathPart pathPart) {
-        this.parentPanel = parentPanel;
+    public PathPartPanel(PathParamCallBack callBack, PathPart pathPart) {
+        this.callBack = callBack;
         this.pathPart = pathPart;
         variableNameField.setText(pathPart.getVariableName());
         isVariableCheckBox.setSelected(pathPart.isTemplatized());
@@ -58,13 +56,44 @@ public class PathPartPanel extends JPanel {
 
 
     {
-        pathPartField = new JTextField();
-        isVariableCheckBox = new JCheckBox();
-        variableNameField = new JTextField();
-        deleteButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
-
         Font font = UIHelper.getFont();
+        pathPartField = new JTextField();
         pathPartField.setFont(font);
+        pathPartField.getDocument().addDocumentListener(new AbstractDocumentListener() {
+
+          @Override
+          protected void doUpdate() {
+            pathPart.setPathValue(pathPartField.getText());
+            callBack.updated(PathPartPanel.this);
+          }
+        });
+
+        isVariableCheckBox = new JCheckBox();
+        isVariableCheckBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                changeVariable(evt);
+            }
+        });
+
+        variableNameField = new JTextField();
+        variableNameField.getDocument().addDocumentListener(new AbstractDocumentListener() {
+
+          @Override
+          protected void doUpdate() {
+                pathPart.setVariableName(variableNameField.getText());
+                callBack.updated(PathPartPanel.this);
+            }
+        });
+
+        deleteButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
+        deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent evt) {
+                callBack.deleted(PathPartPanel.this);
+            }
+        });
+
         isVariableCheckBox.setFont(font);
         variableNameField.setFont(font);
         deleteButton.setFont(font);
@@ -73,23 +102,6 @@ public class PathPartPanel extends JPanel {
 
         isVariableCheckBox.setSelected(false);
         variableNameField.setEditable(false);
-
-        isVariableCheckBox.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                changeVariable(evt);
-            }
-        });
-
-        deleteButton.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent evt) {
-                deleteThisPanel();
-            }
-        });
-
 
         GroupLayout jPanel2Layout = new GroupLayout(this);
         this.setLayout(jPanel2Layout);
@@ -123,16 +135,6 @@ public class PathPartPanel extends JPanel {
         }
     }
 
-    public void deleteThisPanel() {
-        parentPanel.remove(this);
-        if (parentPanel instanceof URLSection) {
-            ((URLSection) parentPanel).removePath(this);
-        }
-        parentPanel.revalidate();
-        parentPanel.validate();
-        parentPanel.repaint();
-    }
-
     public PathPart getPathPartField() {
 //        PathPart pathPart = new PathPart();
 //        pathPart.setPathValue(this.pathPartField.getText());
@@ -140,16 +142,11 @@ public class PathPartPanel extends JPanel {
 //        pathPart.setVariableName(Rest2MobileConstants.START_TEMPLATE_VARIABLE + variableNameField.getText() + Rest2MobileConstants.END_TEMPLATE_VARIABLE);
         pathPart.setPathValue(this.pathPartField.getText());
         pathPart.setVariableName(variableNameField.getText());
+        pathPart.setTemplatized(isVariableCheckBox.isSelected());
         return pathPart;
     }
 
-    public void setFocusListener(FocusListener focusListener) {
-        pathPartField.addFocusListener(focusListener);
-        variableNameField.addFocusListener(focusListener);
-        deleteButton.addFocusListener(focusListener);
-    }
-
-    public void invalidateField() {
+    public void validateField() {
         variableNameField.setText(VerifyHelper.verifyVariableName(variableNameField.getText()));
     }
 
@@ -167,4 +164,11 @@ public class PathPartPanel extends JPanel {
         return true;
     }
 
+    /**
+     * Callback interface to handle events in this panel
+     */
+    public interface PathParamCallBack {
+        void deleted(PathPartPanel pathPanel);
+        void updated(PathPartPanel pathPanel);
+    }
 }

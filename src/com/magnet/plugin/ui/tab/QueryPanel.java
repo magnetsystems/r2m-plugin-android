@@ -24,11 +24,11 @@ package com.magnet.plugin.ui.tab;
 import com.magnet.plugin.helpers.HintHelper;
 import com.magnet.plugin.models.Query;
 import com.magnet.plugin.constants.FormConfig;
+import com.magnet.plugin.ui.AbstractDocumentListener;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusListener;
 
 import static com.magnet.plugin.helpers.UIHelper.ERROR_REQUIRED_FIELD;
 
@@ -38,12 +38,12 @@ public class QueryPanel extends BasePanel {
     private JTextField value;
     private JButton delete;
 
-    private JPanel parrentPanel;
+    private QueryParamCallBack callBack;
 
     private Query query;
 
-    public QueryPanel(JPanel parrentPanel, Query query) {
-        this.parrentPanel = parrentPanel;
+    public QueryPanel(QueryParamCallBack callBack, Query query) {
+        this.callBack = callBack;
         this.query = query;
         key.setText(query.getKey());
         value.setText(query.getValue());
@@ -51,11 +51,28 @@ public class QueryPanel extends BasePanel {
 
     {
         key = new JTextField();
-        value = new JTextField();
-        delete = new JButton("X");
-
         key.setFont(baseFont);
+        key.getDocument().addDocumentListener(new AbstractDocumentListener() {
+
+            @Override
+            protected void doUpdate() {
+              query.setKey(key.getText());
+              callBack.updated(QueryPanel.this);
+            }
+        });
+
+        value = new JTextField();
         value.setFont(baseFont);
+        value.getDocument().addDocumentListener(new AbstractDocumentListener() {
+
+            @Override
+            protected void doUpdate() {
+              query.setValue(value.getText());
+              callBack.updated(QueryPanel.this);
+            }
+        });
+
+        delete = new JButton("X");
         delete.setFont(baseFont);
 
         HintHelper.setHintToTextField(ERROR_REQUIRED_FIELD, key);
@@ -65,7 +82,7 @@ public class QueryPanel extends BasePanel {
 
             @Override
             public void actionPerformed(ActionEvent evt) {
-                deleteThisPanel();
+                callBack.deleted(QueryPanel.this);
             }
         });
 
@@ -86,27 +103,10 @@ public class QueryPanel extends BasePanel {
                                 .addComponent(delete)));
     }
 
-    public void deleteThisPanel() {
-        parrentPanel.remove(this);
-        if (parrentPanel instanceof URLSection) {
-            ((URLSection) parrentPanel).removeQuery(this);
-        }
-        parrentPanel.revalidate();
-        parrentPanel.validate();
-        parrentPanel.repaint();
-    }
-
-
     public Query getQuery() {
         query.setKey(key.getText());
         query.setValue(value.getText());
         return query;
-    }
-
-    public void setFocusListener(FocusListener focusListener) {
-        key.addFocusListener(focusListener);
-        value.addFocusListener(focusListener);
-        delete.addFocusListener(focusListener);
     }
 
     public boolean checkRequirementField() {
@@ -118,5 +118,13 @@ public class QueryPanel extends BasePanel {
             return false;
         }
         return true;
+    }
+
+  /**
+   * Callback interface to handle events in this panel
+   */
+    public interface QueryParamCallBack {
+        void deleted(QueryPanel queryPanel);
+        void updated(QueryPanel queryPanel);
     }
 }

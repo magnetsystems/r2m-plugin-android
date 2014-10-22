@@ -21,8 +21,8 @@ import java.io.UnsupportedEncodingException;
 
 public class Query {
 
-    private String key;
-    private String value;
+    private String key = "";
+    private String value = "";
 
     public String getKey() {
         return key;
