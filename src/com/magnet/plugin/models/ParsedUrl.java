@@ -37,7 +37,9 @@ public class ParsedUrl {
     }
 
     public void removePathParam(int index) {
-        pathParts.remove(index);
+        if(index > -1 && index < pathParts.size()) {
+            pathParts.remove(index);
+        }
     }
 
     public void addPathParam(PathPart pathPart) {
@@ -62,7 +64,9 @@ public class ParsedUrl {
     }
 
     public void removeQueryParam(int index) {
-        queries.remove(index);
+        if(index > -1 && index < queries.size()) {
+            queries.remove(index);
+        }
     }
 
     public void addQueryParam(Query queryParam) {
