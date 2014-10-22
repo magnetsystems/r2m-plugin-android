@@ -129,7 +129,7 @@ public class TabManager {
     private TabRemoveListener tabRemoveListener = new TabRemoveListener() {
         @Override
         public void removeCurrentPanel(MethodTabPanel methodTabPanel) {
-            if (tabPanel.getTabCount() > 2) {
+            if (tabPanel.getTabCount() > 1) {
                 removeTab(methodTabPanel);
                 // do not delete the method example file.
                 // Users will be asked whether they want to keep it on or not at generation time.
@@ -144,7 +144,7 @@ public class TabManager {
             tabs.get(i).setIndex(i);
         }
         for (MethodTabPanel panel : tabs) {
-            panel.enableRemoveButton(tabs.size() > 1);
+            panel.enableRemoveButton(tabs.size() > 0);
         }
     }
 

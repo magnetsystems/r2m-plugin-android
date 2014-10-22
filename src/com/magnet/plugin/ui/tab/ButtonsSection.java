@@ -38,7 +38,7 @@ public class ButtonsSection extends BasePanel {
         createMethodButton = new JButton("Save Method");
         createMethodButton.setEnabled(false);
         deletePanelButton = new JButton("Remove Method");
-        deletePanelButton.setEnabled(false);
+        deletePanelButton.setEnabled(true);
         createMethodButton.setVisible(false);
 
         testApiButton.setFont(baseFont);
