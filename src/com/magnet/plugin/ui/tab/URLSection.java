@@ -67,7 +67,7 @@ public class URLSection extends BasePanel implements FocusListener,
     }
 
     public ParsedUrl getParsedUrl() {
-      return parsedUrl;
+        return parsedUrl;
     }
 
     public List<Query> getQueryPanels() {
@@ -254,15 +254,15 @@ public class URLSection extends BasePanel implements FocusListener,
         repaintPanel();
     }
 
-    private void removeAllPathes() {
-        for (PathPartPanel pp : paths) {
+    private void removeAllPaths() {
+        for (PathPartPanel pp : new ArrayList<PathPartPanel>(paths)/* avoid concurrent modification exception */) {
             deleted(pp);
         }
-        paths.clear();
+        paths.clear(); // should be cleared already
     }
 
     private void removeAllQueries() {
-        for (QueryPanel qp : queries) {
+        for (QueryPanel qp : new ArrayList<QueryPanel>(queries)/* avoid concurrent modification exception */) {
             deleted(qp);
         }
         queries.clear();
@@ -273,26 +273,29 @@ public class URLSection extends BasePanel implements FocusListener,
             return;
         }
 
-        if(null == parsedUrl || !parsedUrl.buildUrl(false).equals(url)) {
-          parsedUrl = UrlParser.parseUrl(url);
+        if (null == parsedUrl || !parsedUrl.buildUrl(false).equals(url)) {
+            parsedUrl = UrlParser.parseUrl(url);
 
-          clearFields();
+            clearFields();
 
-          baseUrlField.setText(parsedUrl.getBase());
-          List<PathPart> pathPartList = parsedUrl.getPathParts();
-          List<Query> queries = parsedUrl.getQueries();
-          for (PathPart aPathPart : pathPartList) {
-            addPath(aPathPart);
-          }
-          for (Query query : queries) {
-            addQuery(query);
-          }
+            // You need to reparse the URL since clearing the field has removed all its parts.
+            parsedUrl = UrlParser.parseUrl(url);
+
+            baseUrlField.setText(parsedUrl.getBase());
+            List<PathPart> pathPartList = parsedUrl.getPathParts();
+            List<Query> queries = parsedUrl.getQueries();
+            for (PathPart aPathPart : pathPartList) {
+                addPath(aPathPart);
+            }
+            for (Query query : queries) {
+                addQuery(query);
+            }
         }
     }
 
     private void clearFields() {
         baseUrlField.setText("");
-        removeAllPathes();
+        removeAllPaths();
         removeAllQueries();
     }
 
@@ -360,7 +363,6 @@ public class URLSection extends BasePanel implements FocusListener,
     public void deleted(QueryPanel queryPanel) {
         remove(queryPanel);
         removeQuery(queryPanel);
-
         repaintPanel();
 
         focusListener.onFocusChange(getExpandedUrl());
