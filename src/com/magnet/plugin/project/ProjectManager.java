@@ -21,6 +21,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
+import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.ProjectHelper;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.tools.cli.simple.SimpleGenConstants;
@@ -36,12 +37,17 @@ public class ProjectManager {
     private static final String MANIFEST_FILE = "AndroidManifest.xml";
     private static final String PACKAGE_LINE_PREFIX = "package=";
     private static final String BUILD_PREFIX = "build";
+    private static final String FILE_SEPARATOR = "/";  //because VirtualFile path use "/" instead of system file separator
 
     public static String getSourceFolder(Project project) {
         String result;
         VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentSourceRoots();
         if ((result = findFile(vFiles, "main", "java")) == null) {
             result = findFile(vFiles, "src");
+        }
+
+        if(null == result) {
+            Logger.error("Couldn't find source folder for project " + project.getName());
         }
 
         return result;
@@ -57,6 +63,10 @@ public class ProjectManager {
       VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentSourceRoots();
       if ((result = findFile(vFiles, "androidTest", "java")) == null) {
         result = findFile(vFiles, "src", "test", "java");
+      }
+
+      if(null == result) {
+        Logger.error("Couldn't find test folder for project " + project.getName());
       }
 
       return result;
@@ -77,7 +87,6 @@ public class ProjectManager {
       String result = null;
       for (VirtualFile file : vFiles) {
         String filePath = file.getCanonicalPath();
-
         if (filePath.contains(buildPath(paths))) {
           result = filePath;
           break;
@@ -89,7 +98,7 @@ public class ProjectManager {
     private static String buildPath(String[] paths) {
       StringBuilder sb = new StringBuilder();
       for(String s : paths) {
-        sb.append(File.separator).append(s);
+        sb.append(FILE_SEPARATOR).append(s);
       }
 
       return sb.toString();

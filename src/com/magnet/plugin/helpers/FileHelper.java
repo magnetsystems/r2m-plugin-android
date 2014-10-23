@@ -71,7 +71,7 @@ public class FileHelper {
     }
 
     private static List<String> getClassesFromFolder(final File root, final File folder, final List<String> classes) {
-        if (!folder.exists() || !folder.isDirectory()) {
+        if (null == folder || !folder.exists() || !folder.isDirectory()) {
             Logger.error(FileHelper.class, "Cache folder does not exist: " + folder);
             return null;
         }
