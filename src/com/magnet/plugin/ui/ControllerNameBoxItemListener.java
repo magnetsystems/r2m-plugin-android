@@ -21,48 +21,25 @@ import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.helpers.ControllerHistoryManager;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.project.CacheManager;
-import com.magnet.plugin.ui.tab.MethodTabPanel;
 
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.Arrays;
 import java.util.List;
 
 /**
- * Focus listener for Controller name box
- * When losing focus, the form is populated with cached data, if the controller matches one of the previously
+ * item listener for Controller name box
+ * when an item is selection, the form is populated with cached data, if the controller matches one of the previously
  * created controllers
  */
-public class ControllerNameBoxFocusListener implements FocusListener {
+public class ControllerNameBoxItemListener implements ItemListener {
 
     private final Project project;
     private final AddControllerForm form;
 
-    public ControllerNameBoxFocusListener(Project project, AddControllerForm form) {
+    public ControllerNameBoxItemListener(Project project, AddControllerForm form) {
         this.project = project;
         this.form = form;
-    }
-
-    @Override
-    public void focusGained(FocusEvent focusEvent) {}
-
-    @Override
-    public void focusLost(FocusEvent focusEvent) {
-        String entry = form.getControllerName();
-        if (null == entry || entry.isEmpty()) {
-            return;
-        }
-
-        String packageName;
-        String controllerName;
-        if (entry.lastIndexOf('.') <= 0) {
-            controllerName = entry;
-            form.populateMethods(controllerName, null, null);
-        } else {
-            packageName = entry.substring(0, entry.lastIndexOf('.'));
-            controllerName = VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
-            form.populateMethods(controllerName, packageName, getMethodsFromCache(entry));
-        }
     }
 
     private List<RestExampleModel> getMethodsFromCache(String entry) {
@@ -86,4 +63,27 @@ public class ControllerNameBoxFocusListener implements FocusListener {
         return cachedControllers.contains(entry);
     }
 
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if(e.getStateChange() != ItemEvent.SELECTED){
+            return;
+        }
+
+        String entry = form.getControllerName();
+        if (null == entry || entry.isEmpty()) {
+            return;
+        }
+
+        String packageName;
+        String controllerName;
+        if (entry.lastIndexOf('.') <= 0) {
+            controllerName = entry;
+            form.populateMethods(controllerName, null, null);
+        } else {
+            packageName = entry.substring(0, entry.lastIndexOf('.'));
+            controllerName = VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
+            form.populateMethods(controllerName, packageName, getMethodsFromCache(entry));
+        }
+
+    }
 }

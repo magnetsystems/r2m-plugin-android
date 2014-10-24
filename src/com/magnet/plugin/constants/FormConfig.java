@@ -25,10 +25,6 @@ package com.magnet.plugin.constants;
 
 import java.awt.*;
 
-/**
- *
- * @author Andrew
- */
 public interface FormConfig {
     int SEPARATOR_CUSTOM_SIZE = 6;
     int CUSTOM_GAP = 100;

@@ -92,7 +92,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
 
         tabManager = new TabManager(project, this, tabPanel);
-        controllerNameBox.getChildComponent().getEditor().getEditorComponent().addFocusListener(new ControllerNameBoxFocusListener(project, this));
+        controllerNameBox.getChildComponent().addItemListener(new ControllerNameBoxItemListener(project, this));
         controllerNameBox.addActionListener(browseListener);
         setDefaultParameters();
     }
