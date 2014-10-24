@@ -68,7 +68,7 @@ public abstract class PayloadPanel extends BasePanel {
 
   {
         payloadTextField = new JTextArea();
-        payloadTextField.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
+        payloadTextField.setMinimumSize(FormConfig.PAYLOAD_TEXT_DIMENSION);
         payloadTextField.setLineWrap(true);
         payloadTextField.setFont(baseFont);
 
@@ -79,7 +79,7 @@ public abstract class PayloadPanel extends BasePanel {
         //payloadTextPanel.add(payloadTextScrollPane, BorderLayout.CENTER);
 
         errorTable = new JXTable();
-        errorTable.setMinimumSize(FormConfig.PAYLOAD_DIMENSION);
+        errorTable.setMinimumSize(FormConfig.PAYLOAD_TEXT_DIMENSION);
         errorTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
           @Override
@@ -281,6 +281,8 @@ public abstract class PayloadPanel extends BasePanel {
                                       .addComponent(jSplitPane, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_TEXTAREA_SIZE, GroupLayout.DEFAULT_SIZE)
                       )
       );
+
+      this.setPreferredSize(FormConfig.PAYLOAD_PANEL_DIMENSION);
     }
 
     public static class ErrorTableModel extends AbstractTableModel {
