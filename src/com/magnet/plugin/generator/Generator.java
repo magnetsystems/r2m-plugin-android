@@ -164,7 +164,9 @@ public class Generator {
                 if(targetTestFolder != null && targetTestFolder.exists()) {
                     FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
                 }
-                FileUtils.deleteDirectory(generatedTestFiles);
+                // TODO: the src directory can be confusing, it should be called test,or tests as with ios.
+                File rootTestDirectory = new File(cachedSourceFolder, "src");
+                FileUtils.deleteDirectory(rootTestDirectory);
             }
 
             // copy others

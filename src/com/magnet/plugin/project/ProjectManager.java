@@ -59,17 +59,8 @@ public class ProjectManager {
     }
 
     public static String getTestSourceFolder(Project project) {
-      String result;
       VirtualFile[] vFiles = ProjectRootManager.getInstance(project).getContentSourceRoots();
-      if ((result = findFile(vFiles, "androidTest", "java")) == null) {
-        result = findFile(vFiles, "src", "test", "java");
-      }
-
-      if(null == result) {
-        Logger.error("Couldn't find test folder for project " + project.getName());
-      }
-
-      return result;
+      return findFile(vFiles, "androidTest", "java");
     }
 
     public static File getTestSourceFolderFile(Project project) {

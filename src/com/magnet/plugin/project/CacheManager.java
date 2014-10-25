@@ -138,6 +138,9 @@ public class CacheManager {
         ExampleParser parser = new ExampleParser();
         List<RestExampleModel> methodModels = new ArrayList<RestExampleModel>();
         List<String> methodNames = getControllerMethodNames();
+        if (null == methodNames) {
+            return null;
+        }
         for (String name: methodNames) {
             File file = getControllerMethodExample(name);
             try {
