@@ -37,6 +37,12 @@ import java.util.List;
  * Cache manager for directory where code and examples are generated first before being copied over to the project
  */
 public class CacheManager {
+    public static final String RELATIVE_TEST_DIR =  "src/test/java";
+    /**
+     * Cache sub-directory where test source is generated
+     */
+    public static final String TEST_SOURCE_SUB_DIR = "source/" + RELATIVE_TEST_DIR;
+
     /**
      * Cache sub-directory where source is generated
      */
@@ -169,6 +175,15 @@ public class CacheManager {
      */
     public File getControllerSourceFolder() {
         return new File(getControllerFolder(), SOURCE_SUB_DIR);
+    }
+
+    /**
+     * Source folder directory
+     *
+     * @return system-dependent path to test source folder where code is generated before it is copied to project
+     */
+    public File getTestControllerSourceFolder() {
+        return new File(getControllerFolder(), TEST_SOURCE_SUB_DIR);
     }
 
     /**

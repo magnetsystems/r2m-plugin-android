@@ -46,7 +46,7 @@ public class ProjectManager {
             result = findFile(vFiles, "src");
         }
 
-        if(null == result) {
+        if (null == result) {
             Logger.error("Couldn't find source folder for project " + project.getName());
         }
 
@@ -54,8 +54,8 @@ public class ProjectManager {
     }
 
     public static File getSourceFolderFile(Project project) {
-      String path = getSourceFolder(project);
-      return null != path ? new File(path) : null;
+        String path = getSourceFolder(project);
+        return null != path ? new File(path) : null;
     }
 
     public static String getTestSourceFolder(Project project) {
@@ -64,35 +64,36 @@ public class ProjectManager {
     }
 
     public static File getTestSourceFolderFile(Project project) {
-      String path = getTestSourceFolder(project);
-      return null != path ? new File(path) : null;
+        String path = getTestSourceFolder(project);
+        return null != path ? new File(path) : null;
     }
 
-  /**
-   * Find the file in the list which ends with the paths given
-   * @param vFiles
-   * @param paths
-   * @return
-   */
+    /**
+     * Find the file in the list which ends with the paths given
+     *
+     * @param vFiles
+     * @param paths
+     * @return
+     */
     private static String findFile(VirtualFile[] vFiles, String... paths) {
-      String result = null;
-      for (VirtualFile file : vFiles) {
-        String filePath = file.getCanonicalPath();
-        if (filePath.contains(buildPath(paths))) {
-          result = filePath;
-          break;
+        String result = null;
+        for (VirtualFile file : vFiles) {
+            String filePath = file.getCanonicalPath();
+            if (filePath != null && filePath.contains(buildPath(paths))) {
+                result = filePath;
+                break;
+            }
         }
-      }
-      return result;
+        return result;
     }
 
     private static String buildPath(String[] paths) {
-      StringBuilder sb = new StringBuilder();
-      for(String s : paths) {
-        sb.append(FILE_SEPARATOR).append(s);
-      }
+        StringBuilder sb = new StringBuilder();
+        for (String s : paths) {
+            sb.append(FILE_SEPARATOR).append(s);
+        }
 
-      return sb.toString();
+        return sb.toString();
     }
 
     private static String getManifestPath(Project project) {

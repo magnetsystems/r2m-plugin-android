@@ -25,6 +25,7 @@ import com.magnet.plugin.helpers.ControllerHistoryManager;
 import com.magnet.plugin.helpers.FileHelper;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.RestByExampleKeywords;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.project.CacheManager;
 import com.magnet.plugin.project.ProjectManager;
 import com.magnet.tools.cli.simple.SimpleGenCommand;
@@ -154,15 +155,29 @@ public class Generator {
     public void makeFilePerformance(ProgressIndicator progressIndicator) {
         progressIndicator.setFraction(0.1);
         try {
-            //displayIndicatorMessage(progressIndicator, "Removed temporary files...", 10);
             File cachedSourceFolder = cacheManager.getControllerSourceFolder();
 
             // copy test files
-            File generatedTestFiles = new File(cachedSourceFolder, "src/test/java");
+            File generatedTestFiles = new File(cachedSourceFolder, CacheManager.RELATIVE_TEST_DIR);
             File targetTestFolder = ProjectManager.getTestSourceFolderFile(project);
             if(generatedTestFiles.exists()) {
                 if(targetTestFolder != null && targetTestFolder.exists()) {
-                    FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
+                    // if test filename exists, copy the test into a fileName_latest.java test
+                    List<String> testFiles = FileHelper.getCommonTestFiles(project, controllerName, packageName);
+                    String fileName = testFiles == null || testFiles.size() == 0 ? null : testFiles.get(0); // assuming one test class
+                    if (fileName == null || !fileName.endsWith(".java")) {
+                        FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
+                    } else {
+                        String newFileName = fileName + ".latest";
+                        String header = Rest2MobileMessages.getMessage(Rest2MobileMessages.LATEST_TEST_CLASS_HEADER, fileName.substring(fileName.lastIndexOf('/') + 1));
+                        File newFile = new File(generatedTestFiles, newFileName);
+                        File oldFile = new File(generatedTestFiles, fileName);
+                        String content = FileUtils.readFileToString(oldFile);
+                        FileUtils.write(newFile, header);
+                        FileUtils.write(newFile, content, true);
+                        FileUtils.forceDelete(oldFile);
+                        FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
+                    }
                 }
                 // TODO: the src directory can be confusing, it should be called test,or tests as with ios.
                 File rootTestDirectory = new File(cachedSourceFolder, "src");

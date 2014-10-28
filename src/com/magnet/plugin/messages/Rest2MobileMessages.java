@@ -81,6 +81,8 @@ public class Rest2MobileMessages {
     public static final String CHOOSE_EXAMPLE_TITLE = "CHOOSE_EXAMPLE_TITLE";
     public static final String CHOOSE_EXAMPLE_DEFAULT_VALUE = "CHOOSE_EXAMPLE_DEFAULT_VALUE";
 
+    public static final String LATEST_TEST_CLASS_HEADER = "LATEST_TEST_CLASS_HEADER";
+
 
     /**
      * @param key  constant identifying L10n message

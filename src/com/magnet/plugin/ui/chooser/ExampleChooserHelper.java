@@ -27,13 +27,16 @@ import com.magnet.plugin.helpers.URLHelper;
 import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.ExampleResource;
 import com.magnet.plugin.models.ExamplesManifest;
+import sun.net.www.protocol.file.FileURLConnection;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -118,6 +121,10 @@ public class ExampleChooserHelper {
         ExampleParser parser = new ExampleParser();
         List<RestExampleModel> methodModels = new ArrayList<RestExampleModel>();
         try {
+            if (!ping(urlString, 5000)) {
+                UIHelper.showErrorMessage("URL not reachable: " + urlString);
+                return null;
+            }
             URL url = new URL(urlString);
             methodModels.addAll(parser.parseExample(url));
         } catch (MalformedURLException e) {
@@ -151,6 +158,33 @@ public class ExampleChooserHelper {
             // should not happen
         }
         return methodModels;
+    }
+
+    /**
+     * Found on http://stackoverflow.com/questions/3584210/preferred-java-way-to-ping-a-http-url-for-availability
+     * Pings a HTTP URL. This effectively sends a HEAD request and returns <code>true</code> if the response code is in
+     * the 200-399 range.
+     * @param url The HTTP URL to be pinged.
+     * @param timeout The timeout in millis for both the connection timeout and the response read timeout. Note that
+     * the total timeout is effectively two times the given timeout.
+     * @return <code>true</code> if the given HTTP URL has returned response code 200-399 on a HEAD request within the
+     * given timeout, otherwise <code>false</code>.
+     */
+    public static boolean ping(String url, int timeout) {
+        try {
+            URLConnection conn  = new URL(url).openConnection();
+            if (conn instanceof FileURLConnection) {
+                return true;
+            }
+            HttpURLConnection connection = (HttpURLConnection) conn;
+            connection.setConnectTimeout(timeout);
+            connection.setReadTimeout(timeout);
+            connection.setRequestMethod("HEAD");
+            int responseCode = connection.getResponseCode();
+            return (200 <= responseCode && responseCode <= 399);
+        } catch (IOException exception) {
+            return false;
+        }
     }
 
 }

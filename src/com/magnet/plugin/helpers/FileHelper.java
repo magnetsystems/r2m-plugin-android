@@ -60,6 +60,33 @@ public class FileHelper {
         return list;
     }
 
+    public static List<String> getCommonTestFiles(Project project, String controllerName, String packageName) {
+        File tempSourceDir = new CacheManager(project, packageName, controllerName).getTestControllerSourceFolder();
+        File projectSourceDir = ProjectManager.getTestSourceFolderFile(project);
+
+        if (projectSourceDir == null) {
+            return null;
+        }
+
+        List<String> fileNamesFromTempSource = new ArrayList<String>();
+        List<String> fileNamesFromProjectSource = new ArrayList<String>();
+
+        getRelativeFiles(tempSourceDir, fileNamesFromTempSource);
+        getRelativeFiles(projectSourceDir, fileNamesFromProjectSource);
+
+        System.out.println(fileNamesFromTempSource);
+        System.out.println(fileNamesFromProjectSource);
+
+        List<String> list = new ArrayList<String>();
+        for (String s : fileNamesFromTempSource) {
+            if (fileNamesFromProjectSource.contains(s)) {
+                list.add(s);
+            }
+        }
+        return list;
+
+    }
+
     /**
      * Get all java class (package.class) located under folder
      * @param classes list of classes
