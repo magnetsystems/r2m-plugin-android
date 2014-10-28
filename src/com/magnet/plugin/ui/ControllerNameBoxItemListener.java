@@ -22,8 +22,10 @@ import com.magnet.plugin.helpers.ControllerHistoryManager;
 import com.magnet.plugin.helpers.VerifyHelper;
 import com.magnet.plugin.project.CacheManager;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,7 +34,7 @@ import java.util.List;
  * when an item is selection, the form is populated with cached data, if the controller matches one of the previously
  * created controllers
  */
-public class ControllerNameBoxItemListener implements ItemListener {
+public class ControllerNameBoxItemListener implements ActionListener, FocusListener{
 
     private final Project project;
     private final AddControllerForm form;
@@ -64,26 +66,58 @@ public class ControllerNameBoxItemListener implements ItemListener {
     }
 
     @Override
-    public void itemStateChanged(ItemEvent e) {
-        if(e.getStateChange() != ItemEvent.SELECTED){
-            return;
-        }
+    public void actionPerformed(ActionEvent e) {
+        String entry;
+        String controllerName;
+        entry = form.getControllerName();
 
-        String entry = form.getControllerName();
         if (null == entry || entry.isEmpty()) {
             return;
         }
 
         String packageName;
-        String controllerName;
+
         if (entry.lastIndexOf('.') <= 0) {
             controllerName = entry;
             form.populateMethods(controllerName, null, null);
         } else {
             packageName = entry.substring(0, entry.lastIndexOf('.'));
-            controllerName = VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
+            controllerName = getControllerName();
+            if (null == controllerName) {
+                return;
+            }
             form.populateMethods(controllerName, packageName, getMethodsFromCache(entry));
         }
+    }
+
+    @Override
+    public void focusGained(FocusEvent focusEvent) {
+        return;
+    }
+
+    @Override
+    public void focusLost(FocusEvent focusEvent) {
+        String controllerName = getControllerName();
+        if (controllerName == null) {
+            return;
+        }
+        form.getControllerNameBox().getChildComponent().getEditor().setItem(controllerName);
 
     }
+
+    private String getControllerName() {
+        String entry = form.getControllerName();
+
+        if (null == entry || entry.isEmpty()) {
+            return null;
+        }
+
+        if (entry.lastIndexOf('.') <= 0) {
+            return entry;
+        } else {
+            return VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
+        }
+    }
+
+
 }
