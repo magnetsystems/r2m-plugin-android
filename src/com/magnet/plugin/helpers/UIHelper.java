@@ -34,7 +34,6 @@ public class UIHelper {
 
     public static final String ERROR_TEST_API = Rest2MobileMessages.getMessage(Rest2MobileMessages.TEST_API_BEFORE_SAVE_METHOD);
     public static final String ERROR_METHOD_NAME = Rest2MobileMessages.getMessage(Rest2MobileMessages.EMPTY_METHOD_NAME);
-    public static final String ERROR_INVALID_URL = Rest2MobileMessages.getMessage(Rest2MobileMessages.PROVIDE_VALID_URL);
     public static final String ERROR_REQUEST = Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_REQUEST);
     public static final String ERROR_SERVICE_NAME = Rest2MobileMessages.getMessage(Rest2MobileMessages.EMPTY_CLASS_NAME);
     public static final String ERROR_PACKAGE_NAME = Rest2MobileMessages.getMessage(Rest2MobileMessages.EMPTY_PACKAGE_NAME);
