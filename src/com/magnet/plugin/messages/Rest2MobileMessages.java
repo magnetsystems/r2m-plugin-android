@@ -82,6 +82,8 @@ public class Rest2MobileMessages {
     public static final String CHOOSE_EXAMPLE_DEFAULT_VALUE = "CHOOSE_EXAMPLE_DEFAULT_VALUE";
 
     public static final String LATEST_TEST_CLASS_HEADER = "LATEST_TEST_CLASS_HEADER";
+    public static final String TEST_API_TEXT = "TEST_API_TEXT";
+    public static final String REMOVE_METHOD_TEXT = "REMOVE_METHOD_TEXT";
 
 
     /**

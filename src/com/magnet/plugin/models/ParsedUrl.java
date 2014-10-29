@@ -24,9 +24,10 @@ import java.util.List;
 
 public class ParsedUrl {
 
-    List<PathPart> pathParts =new ArrayList<PathPart>();
-    List<Query> queries=new ArrayList<Query>();
-    String base;
+    private List<PathPart> pathParts = new ArrayList<PathPart>();
+    private List<Query> queries = new ArrayList<Query>();
+    private String base;
+    private boolean pathEndsWithSlash;
 
     public List<PathPart> getPathParts() {
         return pathParts;
@@ -37,7 +38,7 @@ public class ParsedUrl {
     }
 
     public void removePathParam(int index) {
-        if(index > -1 && index < pathParts.size()) {
+        if (index > -1 && index < pathParts.size()) {
             pathParts.remove(index);
         }
     }
@@ -47,7 +48,7 @@ public class ParsedUrl {
     }
 
     public boolean hasPathParams() {
-        for (PathPart part: pathParts) {
+        for (PathPart part : pathParts) {
             if (part.isTemplatized()) {
                 return true;
             }
@@ -64,7 +65,7 @@ public class ParsedUrl {
     }
 
     public void removeQueryParam(int index) {
-        if(index > -1 && index < queries.size()) {
+        if (index > -1 && index < queries.size()) {
             queries.remove(index);
         }
     }
@@ -82,29 +83,39 @@ public class ParsedUrl {
     }
 
     public String buildUrl(boolean isTemplatized) {
-      StringBuilder builder = new StringBuilder(base);
-      for (PathPart path : pathParts) {
-        builder.append("/");
-        if (isTemplatized) {
-          builder.append(path.getTemplatizedPath());
-        } else {
-          builder.append(path.getPathValue());
+        StringBuilder builder = new StringBuilder(base);
+        for (PathPart path : pathParts) {
+            builder.append("/");
+            if (isTemplatized) {
+                builder.append(path.getTemplatizedPath());
+            } else {
+                builder.append(path.getPathValue());
+            }
         }
-      }
 
-      if (queries.size() > 0) {
-        builder.append("?");
-
-        for (Query query : queries) {
-          String queryString = query.getKey() + "=" + query.getValue() + "&";
-          builder.append(queryString);
+        if (pathEndsWithSlash) {
+            builder.append("/");
         }
+
         if (queries.size() > 0) {
-          builder.deleteCharAt(builder.length() - 1);
-        }
-      }
+            builder.append("?");
 
-      Logger.info(getClass(), builder.toString());
-      return builder.toString();
+            for (Query query : queries) {
+                String queryString = query.getKey() + "=" + query.getValue() + "&";
+                builder.append(queryString);
+            }
+            if (queries.size() > 0) {
+                builder.deleteCharAt(builder.length() - 1);
+            }
+        }
+
+        Logger.info(getClass(), builder.toString());
+        return builder.toString();
     }
+
+
+    public void setPathWithEndingSlash(boolean b) {
+        pathEndsWithSlash = b;
+    }
+
 }

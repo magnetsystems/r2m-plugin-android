@@ -77,28 +77,6 @@ public class MethodTabPanel extends BasePanel {
         JScrollPane jScrollPane = new JBScrollPane();
         JPanel jPanel1 = new JPanel();
 
-
-        DocumentListener createMethodButtonUpdater = new DocumentListener() {
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                updateCreateMethodButton();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                updateCreateMethodButton();
-
-            }
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                updateCreateMethodButton();
-            }
-        };
-
-        responseSection.getPayloadField().getDocument().addDocumentListener(createMethodButtonUpdater);
-        ((JTextField) (methodNameSection.getUrlField().getEditor().getEditorComponent())).getDocument().addDocumentListener(createMethodButtonUpdater);
-
         methodNameSection.getMethodNamePanel().getDocument().addDocumentListener(new DocumentListener() {
 
             @Override
@@ -156,13 +134,6 @@ public class MethodTabPanel extends BasePanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 testApi();
-            }
-        });
-        buttons.getCreateMethodButton().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                createMethod();
-//                buttons.getCreateMethodButton().setEnabled(false);
             }
         });
 
@@ -274,7 +245,6 @@ public class MethodTabPanel extends BasePanel {
             apiMethodModel = methodModel;
             String entity = ResponseHelper.processResponse(methodModel);
             MethodTabPanel.this.responseSection.setPayload(entity);
-            buttons.getCreateMethodButton().setEnabled(true);
         }
 
         @Override
@@ -295,13 +265,6 @@ public class MethodTabPanel extends BasePanel {
 
     private void showErrorMessage(String message) {
         UIHelper.showErrorMessage(message);
-    }
-
-    private void updateCreateMethodButton() {
-        boolean isResponseEmpty = responseSection.getRawPayload().isEmpty();
-        boolean isUrlEmpty = methodNameSection.getUrl().isEmpty();
-        boolean needEnable = !isResponseEmpty && !isUrlEmpty;
-        buttons.enableCreateMethodButton(needEnable);
     }
 
     public void enableRemoveButton(boolean needEnable) {

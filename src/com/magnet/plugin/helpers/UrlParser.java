@@ -44,6 +44,7 @@ public class UrlParser {
             base = aURL.getAuthority();
             String protocol = aURL.getProtocol();
             parsedUrl = new ParsedUrl();
+            parsedUrl.setPathWithEndingSlash(aURL.getPath().endsWith("/"));
             parsedUrl.setBase(protocol + "://" + base);
             List<NameValuePair> pairs = URLEncodedUtils.parse(aURL.getQuery(),
                     Charset.defaultCharset());

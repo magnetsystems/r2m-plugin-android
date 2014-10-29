@@ -166,7 +166,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
      */
 
     /**
-     * Listener triggered upon clicking on browse buttong
+     * Listener triggered upon clicking on browse button
      */
     private final ActionListener browseListener = new ActionListener() {
         @Override

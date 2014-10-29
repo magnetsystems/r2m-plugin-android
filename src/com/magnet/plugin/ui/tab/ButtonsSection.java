@@ -23,69 +23,43 @@
 package com.magnet.plugin.ui.tab;
 
 import com.magnet.plugin.constants.FormConfig;
+import com.magnet.plugin.messages.Rest2MobileMessages;
 
 import javax.swing.*;
 
 public class ButtonsSection extends BasePanel {
 
     private JButton testApiButton;
-    private JButton createMethodButton;
     private JButton deletePanelButton;
 
 
     {
-        testApiButton = new JButton("Test API");
-        createMethodButton = new JButton("Save Method");
-        createMethodButton.setEnabled(false);
-        deletePanelButton = new JButton("Remove Method");
+        testApiButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.TEST_API_TEXT));
+        deletePanelButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.TEST_API_TEXT));
         deletePanelButton.setEnabled(true);
-        createMethodButton.setVisible(false);
 
         testApiButton.setFont(baseFont);
-        createMethodButton.setFont(baseFont);
         deletePanelButton.setFont(baseFont);
 
         GroupLayout layout = new GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(layout.createSequentialGroup()
                         .addComponent(testApiButton, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_BUTTON_SIZE, Short.MAX_VALUE)
-                        .addComponent(createMethodButton, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_BUTTON_SIZE, Short.MAX_VALUE)
                         .addComponent(deletePanelButton, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_BUTTON_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(testApiButton)
-                        .addComponent(createMethodButton)
                         .addComponent(deletePanelButton)
         );
     }
 
-    public JButton getCreateMethodButton() {
-        return createMethodButton;
-    }
-
-    public void setCreateMethodButton(JButton createMethodButton) {
-        this.createMethodButton = createMethodButton;
-    }
 
     public JButton getTestApiButton() {
         return testApiButton;
     }
 
-    public void setTestApiButton(JButton testApiButton) {
-        this.testApiButton = testApiButton;
-    }
-
     public JButton getDeletePanelButton() {
         return deletePanelButton;
-    }
-
-    public void setDeletePanelButton(JButton deletePanelButton) {
-        this.deletePanelButton = deletePanelButton;
-    }
-
-
-    public void enableCreateMethodButton(boolean isEnabled){
-        createMethodButton.setEnabled(isEnabled);
     }
 }
