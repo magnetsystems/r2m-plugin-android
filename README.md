@@ -4,6 +4,9 @@
 * [1.1.0](https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.0)
 * [1.0.0](https://github.com/magnetsystems/r2m-plugin-android/releases/v1.0.0)
 
+### Latest drop
+* [Check releases](https://github.com/magnetsystems/r2m-plugin-android/releases/)
+
 ### Prerequisites
 The rest2mobile plugin for Android Studio & IntelliJ IDEA has these prerequisites:
 
