@@ -12,7 +12,7 @@ The rest2mobile plugin for Android Studio & IntelliJ IDEA has these prerequisite
 
 * Java JDK 1.6 or later
 * Android Studio or IntelliJ IDEA
-* Android 'minSDKVersion' value of 16 or later
+* Android 'minSDKVersion' value of 15 or later
 
 ### Build
 
