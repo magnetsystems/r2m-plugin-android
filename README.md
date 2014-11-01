@@ -28,7 +28,8 @@ Build the plugin zip using the <code>Build->Prepare Plugin Module ... for deploy
 Download the latest release [here](https://github.com/magnetsystems/r2m-plugin-android/releases).
 
 The following picture is a screenshot of the plugin: 
-
+![rest2mobile plugin main menu](doc/img/R2M-menu.jpg)
+![rest2mobile plugin download menu](doc/img/R2M-download.jpg)
 ![rest2mobile plugin for Android Studio](https://github.com/magnetsystems/rest2mobile/blob/master/docimg/r2m-android.jpg)
 
 ### Setup
