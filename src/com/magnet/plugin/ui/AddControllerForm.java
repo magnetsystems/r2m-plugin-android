@@ -24,6 +24,7 @@ import com.intellij.openapi.project.ex.ProjectManagerEx;
 import com.intellij.openapi.ui.FrameWrapper;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.psi.JavaPsiFacade;
 import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
@@ -354,6 +355,11 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         VirtualFileManager.getInstance().refreshWithoutFileWatcher(false);
         ProjectManagerEx.getInstanceEx().unblockReloadingProjectOnExternalChanges();
         project.getBaseDir().refresh(false, true);
+
+        if (null == JavaPsiFacade.getInstance(project).findPackage("com.magnet.android.mms.async")) {
+            showMissingDependencies();
+        }
+
         if (!result) {
             showCloseDialog(file);
         } else {
@@ -392,6 +398,28 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
                 .getTemplatePresentation().setEnabled(state);
         e.getActionManager().getAction("MagnetPlugin.ContextMenuRestController")
                 .getTemplatePresentation().setEnabled(state);
+    }
+
+    private void showMissingDependencies() {
+        String errorMessage = "The R2M Android SDK cannot be found.\n" +
+                "Add these lines to app's build.gradle and re-sync your project:\n\n\n" + "" +
+                "// Adding R2M dependencies and public repo\n" +
+                "// Go to https://github.com/magnetsystems/r2m-plugin-android for more info\n" +
+                "dependencies {\n" +
+                "    compile(\"com.magnet:r2m-sdk-android:1.1.0@aar\") {\n" +
+                "        transitive = true\n" +
+                "    }\n" +
+                "}\n" +
+                "repositories {\n" +
+                "    maven {\n" +
+                "        url \"http://repo.magnet.com:8081/artifactory/public/\"\n" +
+                "    }\n" +
+                "}\n";
+        Messages.showWarningDialog(
+                errorMessage,
+                "Warning");
+        Logger.error(this.getClass(), errorMessage);
+
     }
 
     private void showCloseDialog(File file) {

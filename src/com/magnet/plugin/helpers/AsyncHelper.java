@@ -23,6 +23,7 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ex.ProjectManagerEx;
+import com.intellij.psi.JavaPsiFacade;
 import com.magnet.plugin.generator.Generator;
 import com.magnet.plugin.constants.GenerateActions;
 import com.magnet.plugin.listeners.generator.PostGenerateCallback;
@@ -101,15 +102,6 @@ public class AsyncHelper implements ProgressGenerateCallback {
         });
     }
 
-//    private void showMissingDependencies() {
-//        int option = JOptionPane.showConfirmDialog(
-//                null,
-//                "r2m sdk is missing",
-//                "Error",
-//                JOptionPane.YES_NO_OPTION);
-//
-//    }
-//
     private void showOverrideConfirmationDialog(final List<String> list) {
         this.result = false;
         StringBuilder sb = new StringBuilder("\n");
@@ -149,9 +141,6 @@ public class AsyncHelper implements ProgressGenerateCallback {
                 } else {
                     onActionSuccess(GenerateActions.START_FILE_OPERATIONS);
                 }
-//                if (null == JavaPsiFacade.getInstance(project).findPackage("com.magnet.android.mms.async")) {
-//                    showMissingDependencies();
-//                }
                 break;
             }
             case START_FILE_OPERATIONS: {
