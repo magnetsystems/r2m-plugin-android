@@ -53,6 +53,24 @@ public class ProjectManager {
         return result;
     }
 
+    /**
+     * controller file
+     * @param project
+     * @param packageName
+     * @param controllerName
+     * @return
+     */
+    public static File getControllerFile(Project project, String packageName, String controllerName) {
+        File src = getSourceFolderFile(project);
+        if (null == src) {
+            return null;
+        }
+        String p = packageName + "." + SimpleGenConstants.CONTROLLER_API_SUB_PACKAGE + "." + controllerName;
+        String filePath = p.replaceAll("\\.", "/") + ".java";
+        File file = new File(src, filePath);
+        return file.exists() ? file : null;
+    }
+
     public static File getSourceFolderFile(Project project) {
         String path = getSourceFolder(project);
         return null != path ? new File(path) : null;
@@ -69,11 +87,11 @@ public class ProjectManager {
     }
 
     /**
-     * Find the file in the list which ends with the paths given
+     * Find the canonical path of the directory or file in the list which ends with the paths given
      *
-     * @param vFiles
-     * @param paths
-     * @return
+     * @param vFiles files to scan
+     * @param paths ending subdirectories
+     * @return directory or file, null if no match
      */
     private static String findFile(VirtualFile[] vFiles, String... paths) {
         String result = null;

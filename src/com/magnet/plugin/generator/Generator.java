@@ -17,8 +17,11 @@
 
 package com.magnet.plugin.generator;
 
+import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.progress.ProgressIndicator;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.magnet.plugin.api.models.ApiMethodModel;
 import com.magnet.plugin.api.models.RequestHeaderModel;
 import com.magnet.plugin.helpers.ControllerHistoryManager;
@@ -32,6 +35,7 @@ import com.magnet.tools.cli.simple.SimpleGenCommand;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.exception.ExceptionUtils;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -187,10 +191,32 @@ public class Generator {
             // copy others
             FileUtils.copyDirectory(cachedSourceFolder, ProjectManager.getSourceFolderFile(project));
             ControllerHistoryManager.saveController(project, cacheManager.getControllerFolder().getName());
+            File controllerFile = ProjectManager.getControllerFile(project, packageName, controllerName);
+            if (null != controllerFile) {
+                showControllerFile(controllerFile);
+            }
             //displayIndicatorMessage(progressIndicator, "Completed generation", 100);
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    /**
+     * Show file in editor
+     * @param file file to show
+     */
+    private void showControllerFile(final File file) {
+        //need to be in main dispatcher thread
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                VirtualFile vFile = LocalFileSystem.getInstance().refreshAndFindFileByIoFile(file);
+                if (vFile == null) {
+                    return; // do nothing
+                }
+                FileEditorManager.getInstance(project).openFile(vFile, true);
+            }
+        });
 
     }
 
