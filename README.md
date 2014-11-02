@@ -70,9 +70,20 @@ Once you have loaded the plugin, you must restart your IDE.
 Once your IDE has restarted, you should see a R2M menu
 ![rest2mobile plugin main menu](doc/img/R2M-menu.jpg)
 
+Skip the following steps, if you already have created an Android project. 
+Ensure that you use at a minimum the Android SDK 15.
+
+Create an android studio gradle project
+![android studion create project](doc/img/AS-create-project.jpg)
+
+Next, ensure that you use the Android SDK 15 at a minimum
+![android studion create project](doc/img/AS-minsdk-15.jpg)
+
 Choose "Add new API", you can download an example from our repo:
 
 ![rest2mobile plugin download menu](doc/img/R2M-download.jpg)
+
+
 
 
 ### Feedback
