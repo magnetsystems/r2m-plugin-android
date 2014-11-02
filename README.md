@@ -77,7 +77,7 @@ Create an android studio gradle project
 ![android studion create project](doc/img/AS-create-project.jpg)
 
 Next, ensure that you use the Android SDK 15 at a minimum
-![android studion create project](doc/img/AS-minsdk-15.jpg)
+![android studion create project](doc/img/AS-use-minsdk-15.jpg)
 
 Choose "Add new API", you can download an example from our repo:
 
