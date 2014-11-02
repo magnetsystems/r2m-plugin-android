@@ -49,17 +49,22 @@ dependencies {
     }
 }
 ```
-Go to the releases page and download the installer:
+Go to the [releases](https://github.com/magnetsystems/r2m-plugin-android/releases) and download the latest installer. 
+
+*Note: You can find the latest official release on the [Magnet developer](http://developer.magnet.com/android] site too.*
 
 ![rest2mobile plugin main menu](doc/img/R2M-download-release.jpg)
-In Android Studio or IntelliJ, go to Preferences -> Plugins, click on install plugin from disk...
+
+In Android Studio or IntelliJ, go to <code>Preferences -> Plugins</code> and click on <code>Install plugin from disk...</code>
 
 ![rest2mobile plugin main menu](doc/img/R2M-install-plugin.jpg)
 
-Choose the installer file location
+It will ask you to choose the location of the installer zip, point to the package that you've just download.
 ![rest2mobile plugin main menu](doc/img/R2M-installer-file.jpg)
 
-Click Ok in the Preferences window and restart your IDE
+*Note: the plugin is also distributed on the Jetbrains repository, so instead of clicking on <code>Install plugin from disk...</code>, you can choose <code>Browse repositories...</code> and then look for <code>rest2mobile</code>.*
+
+Once you have loaded the plugin, you must restart your IDE.
 ![rest2mobile plugin main menu](doc/img/R2M-restart-IDE.jpg)
 
 Once your IDE has restarted, you should see a R2M menu
@@ -82,7 +87,7 @@ you may not use this software except in compliance with the License.
 
 ## Copyright
 
-Copyright © 2014 Magnet Systems, Inc. All rights reserved.
+Copyright © 2014 Magnet Systems, Inc. All rigghts reserved.
 
 [website]: http://developer.magnet.com
 [techdoc]: https://github.com/magnetsystems/rest2mobile/wiki
