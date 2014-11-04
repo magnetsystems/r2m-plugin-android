@@ -132,14 +132,14 @@ Ex: if you generated the <code>GoogleDistance</code> native API, the unit test c
   }
 ```
 
-Notice the mapping between the actual json response and the java invocation:
+Notice how the rest2mobile's java invocation allows you to safely navigate the JSON payload:
 
-*Strongly-typed invocation:*
+*Strongly-typed in java:*
 
 ```java
    String distance = result.getRows().get(0).getElements().get(0).getDistance().getText());
 ``` 
-vs *stringly-typed:*
+*Stringly-typed in JSON:*
 ```json
 {
    "destination_addresses" : [ "1 Lombard Street, San Francisco, CA 94111, USA" ],
