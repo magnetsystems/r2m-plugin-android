@@ -35,7 +35,7 @@ public class ButtonsSection extends BasePanel {
 
     {
         testApiButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.TEST_API_TEXT));
-        deletePanelButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.TEST_API_TEXT));
+        deletePanelButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.REMOVE_METHOD_TEXT));
         deletePanelButton.setEnabled(true);
 
         testApiButton.setFont(baseFont);
