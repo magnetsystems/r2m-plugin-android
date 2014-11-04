@@ -85,8 +85,7 @@ Once the IDE has restarted, you should see the new R2M menu (or "Magnet" menu in
 
 ![rest2mobile plugin main menu](doc/img/R2M-menu.jpg)
 
-Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the options of the wizard. 
-
+Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the options of the wizard:
 ![rest2mobile plugin wizard](doc/img/R2M-wizard-description.jpg)
 
 You can load existing examples from the [r2m-examples github repo](https://github.com/magnetsystems/r2m-examples) by clicking on the browse icon next to the class name:
@@ -95,8 +94,9 @@ You can load existing examples from the [r2m-examples github repo](https://githu
 
 __STEP 6: Generate code__
 
-Click on "Generate", this will generate the code under your <code>src</code> directory. If you have a <code>src/androidTest/java</code> directory, you should see a unit test file.
-For instance, say you selected the <code>GoogleDistance</code> built-in example, you should see the following files in your project pane:
+Click on "Generate", this generates the code under your <code>src</code> directory. If you have a <code>src/androidTest/java</code> directory, a unit test file is also generated.
+
+Ex: say you selected the <code>GoogleDistance</code> built-in example, you should see the following files in your project pane:
 
 ![rest2mobile generated classes](doc/img/R2M-generated-classes.jpg)
 
@@ -104,7 +104,7 @@ __STEP 7: Test__
 
 Use the generated unit test generated under <code>src/androidtest/java/</code>
 
-For instance, if you generated the <code>GoogleDistance</code> native API, then the unit test is under <code>src/androidTest/java/com/magnetapi/examples/controller/api/test/GoogleDistanceTest</code>. Remove the <code>@Supress</code> annotation on the method <code>testGoogleDistance</code>, and modify it with real values:
+Ex: if you generated the <code>GoogleDistance</code> native API, the unit test can be found atr <code>src/androidTest/java/com/magnetapi/examples/controller/api/test/GoogleDistanceTest</code>. Remove the <code>@Supress</code> annotation on <code>testGoogleDistance</code>, and invoke the API with real values:
 
 ```java
   /**
@@ -126,7 +126,7 @@ For instance, if you generated the <code>GoogleDistance</code> native API, then 
       mode, 
       language, 
       units, null); 
-    GoogleDistanceResult result = callObject.get(); // Or use a non-null 'StateChangedListener' in 'googleDistance' to be asynchronously called back, once result it readr
+    GoogleDistanceResult result = callObject.get(); // Or use a non-null 'StateChangedListener' in 'googleDistance' to be asynchronously called back, once result is avail.
     assertEquals("33.9 mi", result.getRows().get(0).getElements().get(0).getDistance().getText());// actual distance may vary
   }
 ```
@@ -171,6 +171,10 @@ vs *stringly-typed:*
 
 We are constantly adding features and welcome feedback. 
 Please, ask questions or file requests [here](https://github.com/magnetsystems/r2m-plugin-android/issues).
+
+### Blog
+
+Get latest tips, news, and useful information from our [blog](http://developer.magnet.com/dev-blog/)
 
 ## License
 
