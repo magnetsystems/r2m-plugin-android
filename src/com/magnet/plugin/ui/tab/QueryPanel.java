@@ -37,7 +37,6 @@ public class QueryPanel extends BasePanel {
 
     private JTextField key;
     private JTextField value;
-    private JButton delete;
 
     private QueryParamCallBack callBack;
 
@@ -73,7 +72,7 @@ public class QueryPanel extends BasePanel {
             }
         });
 
-        delete = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
+        JButton delete = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
         delete.setFont(baseFont);
 
         HintHelper.setHintToTextField(ERROR_REQUIRED_FIELD, key);

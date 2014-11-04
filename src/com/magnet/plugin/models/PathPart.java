@@ -19,10 +19,23 @@ package com.magnet.plugin.models;
 
 import com.magnet.plugin.helpers.Rest2MobileConstants;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 public class PathPart {
 
+    /**
+     * path value (not url encoded)
+     */
     private String pathValue;
+
+    /**
+     * variable name attached to this path part (if templatized)
+     */
     private String variableName;
+    /**
+     * Whether the url has path param variables
+     */
     private boolean templatized;
 
     public PathPart() {
@@ -43,7 +56,7 @@ public class PathPart {
         this.templatized = templatized;
     }
 
-    public String getPathValue() {
+    public String getValue() {
         return pathValue;
     }
 
@@ -62,8 +75,30 @@ public class PathPart {
         }
     }
 
-    public void setPathValue(String pathValue) {
+    public void setValue(String pathValue) {
         this.pathValue = pathValue;
+    }
+
+    public String getEncodedValue() {
+        try {
+            return java.net.URLEncoder.encode(pathValue, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }catch (NullPointerException ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public void setEncodedValue(String encodedValue) {
+        try {
+            this.pathValue = URLDecoder.decode(encodedValue, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }catch (NullPointerException ex){
+            ex.printStackTrace();
+        }
     }
 
     public String getVariableName() {
