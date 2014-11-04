@@ -89,7 +89,7 @@ Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The
 
 ![rest2mobile plugin wizard](doc/img/R2M-wizard-description.jpg)
 
-You can load existing examples from the [r2m-examples github repo](https://github.com/magnetsystems/r2m-examples) by clicking on the browse icon next to the class name:
+Alternatively, instead of crafting your own REST invocations, you can load existing examples from the [r2m-examples github repo](https://github.com/magnetsystems/r2m-examples) by clicking on the browse icon next to the <code>Class Name</code> box:
 
 ![rest2mobile plugin download menu](doc/img/R2M-download.jpg)
 
