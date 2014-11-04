@@ -59,27 +59,25 @@ In Android Studio or IntelliJ, go to <code>Preferences -> Plugins</code> and cli
 
 ![rest2mobile plugin main menu](doc/img/R2M-install-plugin.jpg)
 
+
 It will ask you to choose the location of the installer zip, point to the package that you've just download.
-![rest2mobile plugin main menu](doc/img/R2M-installer-file.jpg)
 
 *Note: the plugin is also distributed on the Jetbrains repository, so instead of clicking on <code>Install plugin from disk...</code>, you can choose <code>Browse repositories...</code> and then look for <code>rest2mobile</code>.*
 
-Once you have loaded the plugin, you must restart your IDE.
+You must restart your IDE after loading the plugin:
+
 ![rest2mobile plugin main menu](doc/img/R2M-restart-IDE.jpg)
 
-Once your IDE has restarted, you should see a R2M menu
+Once the IDE has restarted the An, you should see the new R2M menu (Magnet menu for earlier releases)
 ![rest2mobile plugin main menu](doc/img/R2M-menu.jpg)
 
-Skip the following steps, if you already have created an Android project. 
-Ensure that you use at a minimum the Android SDK 15.
+You can now create a new Android application (gradle module is recommended). Ensure that yo use at a __minimum__ the Android API level 15
 
-Create an android studio gradle project
-![android studion create project](doc/img/AS-create-project.jpg)
+Once you have created an android application. Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the options of the wizard. 
 
-Next, ensure that you use the Android SDK 15 at a minimum
-![android studion create project](doc/img/AS-use-minsdk-15.jpg)
+![rest2mobile plugin wizard](doc/img/R2M-wizard-description.jpg)
 
-Choose "Add new API", you can download an example from our repo:
+You can load existing examples from the [r2m-examples github repo](https://github.com/magnetsystems/r2m-examples) by clicking on the browse icon next to the class name:
 
 ![rest2mobile plugin download menu](doc/img/R2M-download.jpg)
 
