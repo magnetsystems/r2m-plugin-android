@@ -174,7 +174,7 @@ Please, ask questions or file requests [here](https://github.com/magnetsystems/r
 
 ### Blog
 
-Get latest tips, news, and useful information from our [blog](http://developer.magnet.com/dev-blog/)
+Get latest tips, news, and useful information from our [blog](http://www.magnet.com/dev-blog/)
 
 ## License
 
