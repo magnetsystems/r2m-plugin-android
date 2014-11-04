@@ -85,7 +85,8 @@ Once the IDE has restarted, you should see the new R2M menu (or "Magnet" menu in
 
 ![rest2mobile plugin main menu](doc/img/R2M-menu.jpg)
 
-Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the options of the wizard:
+Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the wizard options:
+
 ![rest2mobile plugin wizard](doc/img/R2M-wizard-description.jpg)
 
 You can load existing examples from the [r2m-examples github repo](https://github.com/magnetsystems/r2m-examples) by clicking on the browse icon next to the class name:
