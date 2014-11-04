@@ -51,7 +51,7 @@ public class PathPartPanel extends JPanel {
         this.pathPart = pathPart;
         variableNameField.setText(pathPart.getVariableName());
         isVariableCheckBox.setSelected(pathPart.isTemplatized());
-        this.pathPartField.setText(pathPart.getPathValue());
+        this.pathPartField.setText(pathPart.getValue());
     }
 
 
@@ -63,7 +63,7 @@ public class PathPartPanel extends JPanel {
 
           @Override
           protected void doUpdate() {
-            pathPart.setPathValue(pathPartField.getText());
+            pathPart.setValue(pathPartField.getText());
             callBack.updated(PathPartPanel.this);
           }
         });
@@ -137,10 +137,10 @@ public class PathPartPanel extends JPanel {
 
     public PathPart getPathPartField() {
 //        PathPart pathPart = new PathPart();
-//        pathPart.setPathValue(this.pathPartField.getText());
+//        pathPart.setValue(this.pathPartField.getText());
 //        pathPart.setTemplatized(isVariableCheckBox.isSelected());
 //        pathPart.setVariableName(Rest2MobileConstants.START_TEMPLATE_VARIABLE + variableNameField.getText() + Rest2MobileConstants.END_TEMPLATE_VARIABLE);
-        pathPart.setPathValue(this.pathPartField.getText());
+        pathPart.setValue(this.pathPartField.getText());
         pathPart.setVariableName(variableNameField.getText());
         pathPart.setTemplatized(isVariableCheckBox.isSelected());
         return pathPart;

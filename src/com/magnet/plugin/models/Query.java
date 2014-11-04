@@ -18,21 +18,39 @@
 package com.magnet.plugin.models;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 
 public class Query {
 
+    /**
+     * query key (not encoded)
+     */
     private String key = "";
+    /**
+     * query value (not encoded)
+     */
     private String value = "";
 
     public String getKey() {
         return key;
     }
 
+    public String getEncodedKey() {
+        try {
+            return java.net.URLEncoder.encode(key, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }catch (NullPointerException ex){
+            ex.printStackTrace();
+        }
+        return null;
+    }
+
     public void setKey(String key) {
         this.key = key;
     }
 
-    public String getValue() {
+    public String getEncodedValue() {
         try {
             return java.net.URLEncoder.encode(value, "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -42,6 +60,31 @@ public class Query {
         }
         return null;
     }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setEncodedValue(String encodedValue) {
+        try {
+            this.value = URLDecoder.decode(encodedValue, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }catch (NullPointerException ex){
+            ex.printStackTrace();
+        }
+    }
+
+    public void setEncodedKey(String encodedKey) {
+        try {
+            this.key = URLDecoder.decode(encodedKey, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }catch (NullPointerException ex){
+            ex.printStackTrace();
+        }
+    }
+
 
     public void setValue(String value) {
         this.value = value;

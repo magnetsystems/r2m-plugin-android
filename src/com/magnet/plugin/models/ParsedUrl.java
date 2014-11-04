@@ -22,6 +22,9 @@ import com.magnet.plugin.helpers.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Parsed URL
+ */
 public class ParsedUrl {
 
     private List<PathPart> pathParts = new ArrayList<PathPart>();
@@ -89,7 +92,7 @@ public class ParsedUrl {
             if (isTemplatized) {
                 builder.append(path.getTemplatizedPath());
             } else {
-                builder.append(path.getPathValue());
+                builder.append(path.getEncodedValue());
             }
         }
 
@@ -101,7 +104,7 @@ public class ParsedUrl {
             builder.append("?");
 
             for (Query query : queries) {
-                String queryString = query.getKey() + "=" + query.getValue() + "&";
+                String queryString = query.getEncodedKey() + "=" + query.getEncodedValue() + "&";
                 builder.append(queryString);
             }
             if (queries.size() > 0) {
