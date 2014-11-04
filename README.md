@@ -75,14 +75,16 @@ __STEP 3: Restart your IDE after loading the plugin__
 __STEP 4: Load or create an android application__
 
 
-It is recommended to use a gradle-based application (if you are using ant go [her](https://github.com/magnetsystems/rest2mobile/wiki/rest2mobile-setup-ant)). 
+It is recommended to use a gradle-based application (if you are still using ant, go [here](https://github.com/magnetsystems/rest2mobile/wiki/rest2mobile-setup-ant)). 
 
-Ensure that yo use at a __minimum__ the Android API level 15.
+Ensure that you use at a __minimum__ the Android API level 15. 
 
 __STEP 5: Add new API__
 
-Once the IDE has restarted, you should see the new R2M menu (Magnet menu for earlier releases):
+Once the IDE has restarted, you should see the new R2M menu (or "Magnet" menu in earlier releases):
+
 ![rest2mobile plugin main menu](doc/img/R2M-menu.jpg)
+
 Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the options of the wizard. 
 
 ![rest2mobile plugin wizard](doc/img/R2M-wizard-description.jpg)
@@ -93,7 +95,7 @@ You can load existing examples from the [r2m-examples github repo](https://githu
 
 __STEP 6: Generate code__
 
-Click on "Generate", this will generate the code under your <code>src</src> directory. If you have a <code>src/androidTest/java</code> directory, you should see a unit test file.
+Click on "Generate", this will generate the code under your <code>src</code> directory. If you have a <code>src/androidTest/java</code> directory, you should see a unit test file.
 For instance, say you selected the <code>GoogleDistance</code> built-in example, you should see the following files in your project pane:
 
 ![rest2mobile generated classes](doc/img/R2M-generated-classes.jpg)
@@ -103,6 +105,7 @@ __STEP 7: Test__
 Use the generated unit test generated under <code>src/androidtest/java/</code>
 
 For instance, if you generated the <code>GoogleDistance</code> native API, then the unit test is under <code>src/androidTest/java/com/magnetapi/examples/controller/api/test/GoogleDistanceTest</code>. Remove the <code>@Supress</code> annotation on the method <code>testGoogleDistance</code>, and modify it with real values:
+
 ```java
   /**
     * Generated unit test for {@link GoogleDistance#googleDistance}
@@ -122,16 +125,20 @@ For instance, if you generated the <code>GoogleDistance</code> native API, then 
       sensor, 
       mode, 
       language, 
-      units, null);
-    assertEquals("33.9 mi", callObject.get().getRows().get(0).getElements().get(0).getDistance().getText());// actual distance may vary
+      units, null); 
+    GoogleDistanceResult result = callObject.get(); // Or use a non-null 'StateChangedListener' in 'googleDistance' to be asynchronously called back, once result it readr
+    assertEquals("33.9 mi", result.getRows().get(0).getElements().get(0).getDistance().getText());// actual distance may vary
   }
 ```
 
 Notice the mapping between the actual json response and the java invocation:
 
+*Strongly-typed invocation:*
+
 ```java
-   String distance = callObject.get().getRows().get(0).getElements().get(0).getDistance().getText());
+   String distance = result.getRows().get(0).getElements().get(0).getDistance().getText());
 ``` 
+vs *stringly-typed:*
 ```json
 {
    "destination_addresses" : [ "1 Lombard Street, San Francisco, CA 94111, USA" ],
