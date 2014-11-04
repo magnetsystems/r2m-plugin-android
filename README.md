@@ -31,9 +31,8 @@ The following picture is a screenshot of the plugin:
 
 ### Setup
 
-The installation instructions are also described [here](http://developer.magnet.com/android).
+The installation instructions are summarized [here](http://developer.magnet.com/android).
 
-Go to 
 Be sure you include the rest2mobile Android SDK in your app by inserting this in your app's <code>build.gradle</code>.
 ```groovy
 repositories {
@@ -49,37 +48,114 @@ dependencies {
     }
 }
 ```
+
+__STEP 1: Download__
+
 Go to the [releases](https://github.com/magnetsystems/r2m-plugin-android/releases) and download the latest installer. 
 
 *Note: You can find the latest official release on the [Magnet developer](http://developer.magnet.com/android] site too.*
 
 ![rest2mobile plugin main menu](doc/img/R2M-download-release.jpg)
 
+__STEP 2: Install plugin__
+
 In Android Studio or IntelliJ, go to <code>Preferences -> Plugins</code> and click on <code>Install plugin from disk...</code>
 
 ![rest2mobile plugin main menu](doc/img/R2M-install-plugin.jpg)
 
 
-It will ask you to choose the location of the installer zip, point to the package that you've just download.
+It will ask you to choose the location of the installer zip, point to the package that you've just downloaded.
 
 *Note: the plugin is also distributed on the Jetbrains repository, so instead of clicking on <code>Install plugin from disk...</code>, you can choose <code>Browse repositories...</code> and then look for <code>rest2mobile</code>.*
 
-You must restart your IDE after loading the plugin:
+__STEP 3: Restart your IDE after loading the plugin__
 
 ![rest2mobile plugin main menu](doc/img/R2M-restart-IDE.jpg)
 
-Once the IDE has restarted the An, you should see the new R2M menu (Magnet menu for earlier releases)
+__STEP 4: Load or create an android application__
+
+
+It is recommended to use a gradle-based application (if you are using ant go [her](https://github.com/magnetsystems/rest2mobile/wiki/rest2mobile-setup-ant)). 
+
+Ensure that yo use at a __minimum__ the Android API level 15.
+
+__STEP 5: Add new API__
+
+Once the IDE has restarted, you should see the new R2M menu (Magnet menu for earlier releases):
 ![rest2mobile plugin main menu](doc/img/R2M-menu.jpg)
-
-You can now create a new Android application (gradle module is recommended). Ensure that yo use at a __minimum__ the Android API level 15
-
-Once you have created an android application. Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the options of the wizard. 
+Choose "Add new API" from the R2M menu ('Magnet' menu for earlier releases). The following describes the options of the wizard. 
 
 ![rest2mobile plugin wizard](doc/img/R2M-wizard-description.jpg)
 
 You can load existing examples from the [r2m-examples github repo](https://github.com/magnetsystems/r2m-examples) by clicking on the browse icon next to the class name:
 
 ![rest2mobile plugin download menu](doc/img/R2M-download.jpg)
+
+__STEP 6: Generate code__
+
+Click on "Generate", this will generate the code under your <code>src</src> directory. If you have a <code>src/androidTest/java</code> directory, you should see a unit test file.
+For instance, say you selected the <code>GoogleDistance</code> built-in example, you should see the following files in your project pane:
+
+![rest2mobile generated classes](doc/img/R2M-generated-classes.jpg)
+
+__STEP 7: Test__
+
+Use the generated unit test generated under <code>src/androidtest/java/</code>
+
+For instance, if you generated the <code>GoogleDistance</code> native API, then the unit test is under <code>src/androidTest/java/com/magnetapi/examples/controller/api/test/GoogleDistanceTest</code>. Remove the <code>@Supress</code> annotation on the method <code>testGoogleDistance</code>, and modify it with real values:
+```java
+  /**
+    * Generated unit test for {@link GoogleDistance#googleDistance}
+    */
+  @SmallTest
+  public void testGoogleDistance() throws SchemaException, ExecutionException, InterruptedException {
+    String origins = "435 Tasso Street, Palo Alto CA";
+    String destinations = "1 Embarcadero Street, San Francisco, CA";
+    String sensor = "false";
+    String mode = "driving";
+    String language = "en";
+    String units = "imperial";
+
+    Call<GoogleDistanceResult> callObject = googleDistance.googleDistance(
+      origins, 
+      destinations, 
+      sensor, 
+      mode, 
+      language, 
+      units, null);
+    assertEquals("33.9 mi", callObject.get().getRows().get(0).getElements().get(0).getDistance().getText());// actual distance may vary
+  }
+```
+
+Notice the mapping between the actual json response and the java invocation:
+
+```java
+   String distance = callObject.get().getRows().get(0).getElements().get(0).getDistance().getText());
+``` 
+```json
+{
+   "destination_addresses" : [ "1 Lombard Street, San Francisco, CA 94111, USA" ],
+   "origin_addresses" : [ "435 Tasso Street, Palo Alto, CA 94301, USA" ],
+   "rows" : [
+      {
+         "elements" : [
+            {
+               "distance" : {
+                  "text" : "33.9 mi",
+                  "value" : 54605
+               },
+               "duration" : {
+                  "text" : "44 mins",
+                  "value" : 2626
+               },
+               "status" : "OK"
+            }
+         ]
+      }
+   ],
+   "status" : "OK"
+}
+```
 
 
 
