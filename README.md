@@ -1,5 +1,7 @@
 ## rest2mobile plugin for Android Studio & IntelliJ IDEA
 
+The rest2mobile Android Studio plugin allows you to generate mobile api from REST services directly inside your android project. You can check this short [demo](http://www.youtube.com/watch?v=_6gtI5v4m8U), to see how it works.
+
 ### Stable releases
 * [1.1.4](https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.4)
 * [1.1.0](https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.0)
@@ -34,7 +36,8 @@ The following picture is a screenshot of the plugin:
 
 The installation instructions are summarized [here](http://developer.magnet.com/android).
 
-Be sure you include the rest2mobile Android SDK in your app by inserting this in your app's <code>build.gradle</code>.
+Be sure you include the rest2mobile Android SDK in your app by inserting this in your app's <code>build.gradle</code>. Since 1.1.3, the latest version of the plugin automatically discovers the missing dependency and provide you with the required settings to copy-paste into this file.
+
 ```groovy
 repositories {
     maven {
