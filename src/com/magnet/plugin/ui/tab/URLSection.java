@@ -212,6 +212,9 @@ public class URLSection extends BasePanel implements FocusListener,
     }
 
     public void removePath(PathPartPanel path) {
+        if (parsedUrl == null) {
+            return;
+        }
         pathCount--;
         parsedUrl.removePathParam(paths.indexOf(path));
         paths.remove(path);
@@ -221,6 +224,9 @@ public class URLSection extends BasePanel implements FocusListener,
     }
 
     public void removeQuery(QueryPanel query) {
+        if (parsedUrl == null) {
+            return;
+        }
         queryCount--;
         parsedUrl.removeQueryParam(queries.indexOf(query));
         queries.remove(query);
@@ -281,6 +287,9 @@ public class URLSection extends BasePanel implements FocusListener,
             // You need to reparse the URL since clearing the field has removed all its parts.
             parsedUrl = UrlParser.parseUrl(url);
 
+            if (null == parsedUrl) {
+                return;
+            }
             baseUrlField.setText(parsedUrl.getBase());
             List<PathPart> pathPartList = parsedUrl.getPathParts();
             List<Query> queries = parsedUrl.getQueries();
@@ -300,11 +309,11 @@ public class URLSection extends BasePanel implements FocusListener,
     }
 
     public String getExpandedUrl() {
-        return parsedUrl.buildUrl(false);
+        return parsedUrl == null ? null : parsedUrl.buildUrl(false);
     }
 
     public String getTemplateUrl() {
-        return parsedUrl.buildUrl(true);
+        return parsedUrl == null ? null : parsedUrl.buildUrl(true);
     }
 
     public boolean checkRequirementFields() {
