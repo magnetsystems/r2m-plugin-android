@@ -17,19 +17,13 @@
 
 package com.magnet.plugin.actions;
 
-import com.intellij.ide.IdeBundle;
 import com.intellij.ide.plugins.PluginManager;
-import com.intellij.ide.reporter.ConnectionException;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.CommonDataKeys;
-import com.intellij.openapi.application.ApplicationInfo;
-import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
-import com.intellij.openapi.vfs.StandardFileSystems;
-import com.intellij.util.net.HttpConfigurable;
 import com.intellij.util.text.VersionComparatorUtil;
 import com.magnet.plugin.helpers.Logger;
 import com.magnet.plugin.helpers.Rest2MobileConstants;
@@ -39,12 +33,7 @@ import com.magnet.plugin.messages.Rest2MobileMessages;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Properties;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Action for "Check Updates" menu
