@@ -187,7 +187,7 @@ you may not use this software except in compliance with the License.
 
 ## Copyright
 
-Copyright © 2015 Magnet Systems, Inc. All rights reserved.
+Copyright © 2014-2015 Magnet Systems, Inc. All rights reserved.
 
 [website]: http://developer.magnet.com
 [techdoc]: https://github.com/magnetsystems/rest2mobile/wiki
