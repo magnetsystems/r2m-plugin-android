@@ -51,8 +51,10 @@ public class ControllerHistory {
     public void reset() {
         this.controllerNames = new ArrayList<String>();
         File[] dirs = CacheManager.getControllerFolders(project);
-        for (File d : dirs) {
-            controllerNames.add(d.getName());
+        if (null != dirs) {
+            for (File d : dirs) {
+                controllerNames.add(d.getName());
+            }
         }
     }
 

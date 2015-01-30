@@ -17,7 +17,6 @@
 package com.magnet.plugin.helpers;
 
 import com.intellij.ide.IdeBundle;
-import com.intellij.ide.reporter.ConnectionException;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.util.net.HttpConfigurable;
 
@@ -64,7 +63,7 @@ public class URLHelper {
 
         if (!downloadThreadFuture.isDone()) {
             downloadThreadFuture.cancel(true);
-            throw new ConnectionException(IdeBundle.message("updates.timeout.error"));
+            throw new Exception(IdeBundle.message("updates.timeout.error"));
         }
 
         if (exception[0] != null) throw exception[0];
