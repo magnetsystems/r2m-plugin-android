@@ -212,6 +212,9 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
     @Override
     public void onFocusChange(String url) {
+        if (null == url) {
+            return;
+        }
         url = url.trim();
         if (!url.isEmpty()) {
             getComboBoxEditor().setText(url);
