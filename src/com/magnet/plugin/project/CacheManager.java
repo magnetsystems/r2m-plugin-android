@@ -88,18 +88,18 @@ public class CacheManager {
 
     /**
      * The system-dependent path of the cache directory
-     * where examples, and code is generated and cached before being copied to the project
-     * Typically: (user.home)/.magnet.com/r2m/myproject/
-     *
+     * where examples, and code is generated and cached before being copied to the project/
      * @param project project
      * @return location of the directory
      */
     public static String getProjectCacheFolder(Project project) {
         File dir = new File(project.getBasePath(), CACHE_DIR_REL_PATH);
         if (!dir.exists()) {
-            Logger.info(FileHelper.class, "Creating project cache " + dir);
             if (!dir.exists() && !dir.mkdirs()) {
-                Logger.error(FileHelper.class, "Couldn't create " + dir);
+                // on windows, on an new project, it tries to create it in
+                // C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Android Studio\.rest2mobile
+                // See https://github.com/magnetsystems/r2m-sdk-android/issues/4
+                Logger.info(FileHelper.class, "Couldn't create " + dir);
             }
         }
         return dir.getAbsolutePath();
