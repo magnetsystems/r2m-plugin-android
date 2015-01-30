@@ -5,6 +5,7 @@ The rest2mobile Android Studio plugin allows you to generate mobile api from RES
 ### Pre-releases
  * [1.1.6] (https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.6)
    * fix for https://github.com/magnetsystems/r2m-sdk-android/issues/5
+
 ### Stable releases
 * [1.1.5](https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.5)
    * fix for https://github.com/magnetsystems/r2m-sdk-android/issues/4
