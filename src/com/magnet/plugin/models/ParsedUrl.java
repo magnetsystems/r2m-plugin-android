@@ -29,7 +29,7 @@ public class ParsedUrl {
 
     private List<PathPart> pathParts = new ArrayList<PathPart>();
     private List<Query> queries = new ArrayList<Query>();
-    private String base;
+    private String baseUrl;
     private boolean pathEndsWithSlash;
 
     public List<PathPart> getPathParts() {
@@ -77,16 +77,16 @@ public class ParsedUrl {
         queries.add(queryParam);
     }
 
-    public String getBase() {
-        return base;
+    public String getBaseUrl() {
+        return baseUrl;
     }
 
-    public void setBase(String base) {
-        this.base = base;
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
     public String buildUrl(boolean isTemplatized) {
-        StringBuilder builder = new StringBuilder(base);
+        StringBuilder builder = new StringBuilder(baseUrl);
         for (PathPart path : pathParts) {
             builder.append("/");
             if (isTemplatized) {

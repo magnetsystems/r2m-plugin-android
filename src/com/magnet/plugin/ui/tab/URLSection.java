@@ -29,6 +29,7 @@ import com.magnet.plugin.models.ParsedUrl;
 import com.magnet.plugin.models.PathPart;
 import com.magnet.plugin.models.Query;
 import com.magnet.plugin.constants.FormConfig;
+import com.magnet.plugin.ui.AbstractDocumentListener;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -42,9 +43,10 @@ import java.util.List;
  * Panel implementing the URL section details with path and query params
  */
 public class URLSection extends BasePanel implements FocusListener,
-        QueryPanel.QueryParamCallBack, PathPartPanel.PathParamCallBack {
+        QueryPanel.QueryParamCallBack, PathPartPanel.PathParamCallBack, BaseUrlCallBack {
 
     private final JTextField baseUrlField;
+    private final BaseUrlCallBack baseUrlCallBack;
 
     private final PathPartLabel pathPartLabel;
     private final QueryPanelLabel queryPanelLabel;
@@ -124,7 +126,9 @@ public class URLSection extends BasePanel implements FocusListener,
             public void actionPerformed(ActionEvent evt) {
                 PathPart pathPart = new PathPart();
                 addPath(pathPart);
-                parsedUrl.addPathParam(pathPart);
+                if (null != parsedUrl) {
+                    parsedUrl.addPathParam(pathPart);
+                }
             }
         });
 
@@ -134,7 +138,9 @@ public class URLSection extends BasePanel implements FocusListener,
             public void actionPerformed(ActionEvent evt) {
                 Query query = new Query();
                 addQuery(query);
-                parsedUrl.addQueryParam(query);
+                if (null != parsedUrl) {
+                    parsedUrl.addQueryParam(query);
+                }
             }
         });
 
@@ -154,6 +160,15 @@ public class URLSection extends BasePanel implements FocusListener,
         queryButton.setFont(baseFont);
 
         baseUrlField.addFocusListener(this);
+        baseUrlCallBack = this;
+        baseUrlField.getDocument().addDocumentListener(new AbstractDocumentListener() {
+            @Override
+            protected void doUpdate() {
+//                baseUrlField.setText(baseUrlField.getText());
+                baseUrlCallBack.updated(baseUrlField);
+
+            }
+        });
 
         customPathGroupHorizontal = layout.createParallelGroup(GroupLayout.Alignment.LEADING);
         customPathGroupVertical = layout.createSequentialGroup();
@@ -212,11 +227,10 @@ public class URLSection extends BasePanel implements FocusListener,
     }
 
     public void removePath(PathPartPanel path) {
-        if (parsedUrl == null) {
-            return;
-        }
         pathCount--;
-        parsedUrl.removePathParam(paths.indexOf(path));
+        if (parsedUrl != null) {
+            parsedUrl.removePathParam(paths.indexOf(path));
+        }
         paths.remove(path);
         if (pathCount == 0) {
             pathPartLabel.setVisible(false);
@@ -224,11 +238,10 @@ public class URLSection extends BasePanel implements FocusListener,
     }
 
     public void removeQuery(QueryPanel query) {
-        if (parsedUrl == null) {
-            return;
-        }
         queryCount--;
-        parsedUrl.removeQueryParam(queries.indexOf(query));
+        if (parsedUrl != null) {
+            parsedUrl.removeQueryParam(queries.indexOf(query));
+        }
         queries.remove(query);
         if (queryCount == 0) {
             queryPanelLabel.setVisible(false);
@@ -287,17 +300,16 @@ public class URLSection extends BasePanel implements FocusListener,
             // You need to reparse the URL since clearing the field has removed all its parts.
             parsedUrl = UrlParser.parseUrl(url);
 
-            if (null == parsedUrl) {
-                return;
-            }
-            baseUrlField.setText(parsedUrl.getBase());
-            List<PathPart> pathPartList = parsedUrl.getPathParts();
-            List<Query> queries = parsedUrl.getQueries();
-            for (PathPart aPathPart : pathPartList) {
-                addPath(aPathPart);
-            }
-            for (Query query : queries) {
-                addQuery(query);
+            if (null != parsedUrl) {
+                baseUrlField.setText(parsedUrl.getBaseUrl());
+                List<PathPart> pathPartList = parsedUrl.getPathParts();
+                List<Query> queries = parsedUrl.getQueries();
+                for (PathPart aPathPart : pathPartList) {
+                    addPath(aPathPart);
+                }
+                for (Query query : queries) {
+                    addQuery(query);
+                }
             }
         }
     }
@@ -399,4 +411,13 @@ public class URLSection extends BasePanel implements FocusListener,
     }
 
 
+    @Override
+    public void updated(JTextField baseUrlField) {
+        String baseUrl = baseUrlField.getText();
+        if (null == parsedUrl) {
+            parsedUrl = UrlParser.parseUrl(baseUrl);
+        }
+        parsedUrl.setBaseUrl(baseUrl);
+        focusListener.onFocusChange(getExpandedUrl());
+    }
 }

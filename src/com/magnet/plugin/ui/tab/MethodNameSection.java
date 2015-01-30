@@ -23,15 +23,14 @@ package com.magnet.plugin.ui.tab;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.ComboBox;
-import com.magnet.plugin.helpers.HistoryHelper;
-import com.magnet.plugin.helpers.UrlParser;
-import com.magnet.plugin.helpers.VerifyHelper;
-import com.magnet.plugin.listeners.URLFocusListener;
-import com.magnet.plugin.models.ParsedUrl;
-import com.magnet.plugin.models.PathPart;
-import com.magnet.plugin.models.Query;
 import com.magnet.plugin.constants.FormConfig;
 import com.magnet.plugin.constants.PluginIcon;
+import com.magnet.plugin.helpers.HistoryHelper;
+import com.magnet.plugin.helpers.VerifyHelper;
+import com.magnet.plugin.listeners.URLFocusListener;
+import com.magnet.plugin.messages.Rest2MobileMessages;
+import com.magnet.plugin.models.PathPart;
+import com.magnet.plugin.models.Query;
 
 import javax.swing.*;
 import javax.swing.border.Border;
@@ -52,15 +51,18 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
     {
 
-        JLabel jLabel1 = new JLabel();
+        JLabel methodNameLabel = new JLabel();
         methodName = new JTextField();
+        methodName.setToolTipText(Rest2MobileMessages.getMessage("METHOD_NAME_TOOL_TIP"));
         methodName.setColumns(1);
         urlDetailsBox = new JCheckBox();
-        JLabel jLabel2 = new JLabel();
+        urlDetailsBox.setToolTipText(Rest2MobileMessages.getMessage("EXPAND_URL_CHECKBOX_TOOL_TIP"));
+        JLabel urlLabel = new JLabel();
 
 
         urlField = new ComboBox();
         urlField.setEditable(true);
+        urlField.setToolTipText(Rest2MobileMessages.getMessage("URL_FIELD_TOOL_TIP"));
 
         JTextField textField = getComboBoxEditor();
         textField.setColumns(1);
@@ -86,9 +88,9 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         urlSection.setVisible(false);
         urlSection.setFocusListener(this);
 
-        jLabel1.setText("Method Name");
+        methodNameLabel.setText(Rest2MobileMessages.getMessage("METHOD_NAME_LABEL_TEXT"));
 
-        jLabel2.setText("URL");
+        urlLabel.setText(Rest2MobileMessages.getMessage("URL_LABEL_TEXT"));
 
         methodName.addFocusListener(new FocusListener() {
             @Override
@@ -102,8 +104,8 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
             }
         });
 
-        jLabel1.setFont(baseFont);
-        jLabel2.setFont(baseFont);
+        methodNameLabel.setFont(baseFont);
+        urlLabel.setFont(baseFont);
         methodName.setFont(baseFont);
         urlField.setFont(baseFont);
 
@@ -121,9 +123,9 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         layout.setHorizontalGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING).addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addGap(FormConfig.CUSTOM_GAP)
-                        .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
+                        .addComponent(methodNameLabel, GroupLayout.Alignment.TRAILING)
                         .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(urlDetailsBox).addComponent(jLabel2)))
+                                .addComponent(urlDetailsBox).addComponent(urlLabel)))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
                         .addComponent(methodName, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
                         .addComponent(urlField, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
@@ -132,11 +134,11 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         layout.setVerticalGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                 .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel1)
+                                .addComponent(methodNameLabel)
                                 .addComponent(methodName))
                         .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                                 .addComponent(urlDetailsBox)
-                                .addComponent(jLabel2)
+                                .addComponent(urlLabel)
                                 .addComponent(urlField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addComponent(urlSection)));
 
@@ -152,17 +154,26 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
     }
 
 
-
-
-    private void showOrHideUrlSection(ActionEvent evt) {
+    /**
+     * Triggered when clicking on the expand url check box
+     * @param evt unused
+     */
+    private void showOrHideUrlSection(@SuppressWarnings("unused")ActionEvent evt) {
+        String u = getComboBoxEditor().getText();
+//        if (urlDetailsBox.isSelected()) {
+//            if (!VerifyHelper.isValidUrl(u)) {
+//                UIHelper.showErrorMessage(Rest2MobileMessages.getMessage(Rest2MobileMessages.PROVIDE_VALID_URL, getMethodName(), u));
+//                return;
+//            }
+//        }
         urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));
         if (urlDetailsBox.isSelected()) {
-//            urlDetailsBox.setIcon(openIcon);
-            urlSection.setUrl(getComboBoxEditor().getText());
+            getComboBoxEditor().setEditable(false);
+            urlSection.setUrl(u);
             urlSection.setVisible(true);
         } else {
-//            urlDetailsBox.setIcon(closeIcon);
             urlSection.setVisible(false);
+            getComboBoxEditor().setEditable(true);
         }
     }
 
@@ -213,7 +224,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
     @Override
     public void onFocusChange(String url) {
         if (null == url) {
-            return;
+            url = "";
         }
         url = url.trim();
         if (!url.isEmpty()) {

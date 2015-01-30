@@ -17,6 +17,7 @@
 
 package com.magnet.plugin.helpers;
 
+import com.magnet.plugin.messages.Rest2MobileMessages;
 import com.magnet.plugin.models.ParsedUrl;
 import com.magnet.plugin.models.PathPart;
 import com.magnet.plugin.models.Query;
@@ -45,7 +46,7 @@ public class UrlParser {
             String protocol = aURL.getProtocol();
             parsedUrl = new ParsedUrl();
             parsedUrl.setPathWithEndingSlash(aURL.getPath().endsWith("/"));
-            parsedUrl.setBase(protocol + "://" + base);
+            parsedUrl.setBaseUrl(protocol + "://" + base);
             List<NameValuePair> pairs = URLEncodedUtils.parse(aURL.getQuery(),
                     Charset.defaultCharset());
             for (NameValuePair pair : pairs) {
@@ -73,7 +74,7 @@ public class UrlParser {
             }
             parsedUrl.setPathParts(pathParts);
         } catch (Exception ex) {
-            Logger.error(UrlParser.class, "Can't parse URL " + url);
+            Logger.error(UrlParser.class, Rest2MobileMessages.getMessage("CANNOT_PARSE_URL", url));
             return null;
         }
         return parsedUrl;

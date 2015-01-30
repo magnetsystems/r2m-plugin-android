@@ -15,10 +15,6 @@
  * permissions and limitations under the License.
  */
 
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.magnet.plugin.ui.tab;
 
 import com.magnet.plugin.helpers.HintHelper;

@@ -69,6 +69,7 @@ public class PathPartPanel extends JPanel {
         });
 
         isVariableCheckBox = new JCheckBox();
+        isVariableCheckBox.setToolTipText(Rest2MobileMessages.getMessage("VARIABLE_CHECKBOX_TOOL_TIP"));
         isVariableCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -77,6 +78,7 @@ public class PathPartPanel extends JPanel {
         });
 
         variableNameField = new JTextField();
+        variableNameField.setToolTipText(Rest2MobileMessages.getMessage("VARIABLE_NAME_TEXT_FIELD_TOOL_TIP"));
         variableNameField.getDocument().addDocumentListener(new AbstractDocumentListener() {
 
           @Override

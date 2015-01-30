@@ -29,28 +29,28 @@ import javax.swing.*;
 public class PathPartLabel extends BasePanel {
 
     {
-        JLabel path = new JLabel();
+        JLabel pathLabel = new JLabel();
         JLabel variableLabel = new JLabel();
         JLabel variableNameLabel = new JLabel();
 
-        path.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_PART_NAME));
+        pathLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_PART_NAME));
         variableLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_VARIABLE_CHECKBOX_NAME));
         variableNameLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_VARIABLE_NAME));
 
-        path.setFont(baseFont);
+        pathLabel.setFont(baseFont);
         variableLabel.setFont(baseFont);
         variableNameLabel.setFont(baseFont);
 
-        GroupLayout jPanel2Layout = new GroupLayout(this);
-        this.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createSequentialGroup()
-                .addComponent(path, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_PREF_SIZE, Short.MAX_VALUE)
-                .addComponent(variableLabel, GroupLayout.DEFAULT_SIZE, FormConfig.PATH_CHECKBOX_PREF_SIZE, FormConfig.PATH_CHECKBOX_MAX_SIZE)
-                .addComponent(variableNameLabel, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_PREF_SIZE, Short.MAX_VALUE));
-        jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                .addComponent(path)
+        GroupLayout pathParamLabelsLayout = new GroupLayout(this);
+        this.setLayout(pathParamLabelsLayout);
+        pathParamLabelsLayout.setHorizontalGroup(
+                pathParamLabelsLayout.createSequentialGroup()
+                        .addComponent(pathLabel, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_PREF_SIZE, Short.MAX_VALUE)
+                        .addComponent(variableLabel, GroupLayout.DEFAULT_SIZE, FormConfig.PATH_CHECKBOX_PREF_SIZE, FormConfig.PATH_CHECKBOX_MAX_SIZE)
+                        .addComponent(variableNameLabel, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_PREF_SIZE, Short.MAX_VALUE));
+        pathParamLabelsLayout.setVerticalGroup(
+                pathParamLabelsLayout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                .addComponent(pathLabel)
                 .addComponent(variableLabel)
                 .addComponent(variableNameLabel));
     }

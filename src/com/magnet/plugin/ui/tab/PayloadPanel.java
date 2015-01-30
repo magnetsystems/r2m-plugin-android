@@ -68,6 +68,7 @@ public abstract class PayloadPanel extends BasePanel {
 
   {
         payloadTextField = new JTextArea();
+        payloadTextField.setToolTipText(Rest2MobileMessages.getMessage("PAYLOAD_TOOL_TIP"));
         payloadTextField.setMinimumSize(FormConfig.PAYLOAD_TEXT_DIMENSION);
         payloadTextField.setLineWrap(true);
         payloadTextField.setFont(baseFont);

@@ -80,6 +80,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         controllerNameBox.getChildComponent().setModel(new DefaultComboBoxModel(ControllerHistoryManager.getCachedControllers(project)));
         controllerNameBox.setFocusable(true);
         controllerNameBox.setFont(font);
+        generateButton.setToolTipText(Rest2MobileMessages.getMessage("GENERATE_TOOL_TIP"));
         generateButton.setFont(font);
         packageNameField.setFont(font);
 
