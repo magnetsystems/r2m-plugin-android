@@ -68,10 +68,10 @@ The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services in
     <project-components>
         <!-- Add your project components here -->
         <component>
-            <implementation-class>com.magnet.plugin.components.HistoryComponent</implementation-class>
+            <implementation-class>com.magnet.plugin.r2m.components.HistoryComponent</implementation-class>
         </component>
         <component>
-            <implementation-class>com.magnet.plugin.components.ControllerHistoryComponent</implementation-class>
+            <implementation-class>com.magnet.plugin.r2m.components.ControllerHistoryComponent</implementation-class>
         </component>
     </project-components>
 
@@ -81,28 +81,28 @@ The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services in
                           anchor="before"
                           relative-to-action="ViewMenu"/>
             <action id="MagnetPlugin.MainMenuAddRestApi"
-                    class="com.magnet.plugin.actions.AddRestApi"
+                    class="com.magnet.plugin.r2m.actions.AddRestApi"
                     text="Add REST API"
                     description="REST API"
-                    icon="/icon_logo.png"/>
+                    icon="/r2m/icon_logo.png"/>
             <action id="MagnetPlugin.MainMenuCheckUpdates"
-                    class="com.magnet.plugin.actions.CheckUpdatesAction"
+                    class="com.magnet.plugin.r2m.actions.CheckUpdatesAction"
                     text="Check for Updates..."
                     description="About"/>
             <action id="MagnetPlugin.MainMenuHelp"
-                    class="com.magnet.plugin.actions.HelpAction"
+                    class="com.magnet.plugin.r2m.actions.HelpAction"
                     text="Help"
                     description="Help"/>
             <action id="MagnetPlugin.MainMenuAbout"
-                    class="com.magnet.plugin.actions.AboutAction"
+                    class="com.magnet.plugin.r2m.actions.AboutAction"
                     text="About"
                     description="About"/>
         </group>
 
 
         <action id="MagnetPlugin.ContextMenuRestController"
-                class="com.magnet.plugin.actions.AddRestApi"
-                text="REST API" icon="/icon_logo.png">
+                class="com.magnet.plugin.r2m.actions.AddRestApi"
+                text="REST API" icon="/r2m/icon_logo.png">
             <add-to-group group-id="NewGroup"
                           anchor="before"
                           relative-to-action="NewActivity"/>
