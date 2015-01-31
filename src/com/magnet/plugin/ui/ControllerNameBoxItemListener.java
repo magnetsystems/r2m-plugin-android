@@ -112,10 +112,17 @@ public class ControllerNameBoxItemListener implements ActionListener, FocusListe
             return null;
         }
 
+        String className = null;
         if (entry.lastIndexOf('.') <= 0) {
-            return entry;
+            className = entry;
         } else {
-            return VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
+            className = VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
+        }
+
+        if(Character.isUpperCase(className.charAt(0))) {
+          return className;
+        } else {
+          return (new StringBuilder()).append(Character.toUpperCase(className.charAt(0))).append(className.substring(1)).toString();
         }
     }
 
