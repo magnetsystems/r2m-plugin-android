@@ -21,6 +21,7 @@ import com.intellij.openapi.project.Project;
 import com.magnet.plugin.r2m.project.CacheManager;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;

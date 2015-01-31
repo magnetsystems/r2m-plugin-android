@@ -90,16 +90,21 @@ public class CacheManager {
      * The system-dependent path of the cache directory
      * where examples, and code is generated and cached before being copied to the project/
      * @param project project
-     * @return location of the directory
+     * @param create whether to create the folder if it does not exist
+     * @return location of the directory or null if it does not exist
      */
-    public static String getProjectCacheFolder(Project project) {
+    public static String getProjectCacheFolder(Project project, boolean create) {
         File dir = new File(project.getBasePath(), CACHE_DIR_REL_PATH);
         if (!dir.exists()) {
-            if (!dir.exists() && !dir.mkdirs()) {
+            if (!create) {
+                return null;
+            }
+            if (!dir.mkdirs()) {
                 // on windows, on an new project, it tries to create it in
                 // C:\ProgramData\Microsoft\Windows\Start Menu\Programs\Android Studio\.rest2mobile
                 // See https://github.com/magnetsystems/r2m-sdk-android/issues/4
                 Logger.info(FileHelper.class, "Couldn't create " + dir);
+                return null;
             }
         }
         return dir.getAbsolutePath();
@@ -114,8 +119,12 @@ public class CacheManager {
         return new File(getControllerFolder(), EXAMPLES_SUB_DIR);
     }
 
+    /**
+     * Get the cache folder for a particular controller
+     * @return folder file or null if it does not exist (with option create set to false
+     */
     public File getControllerFolder() {
-        return new File(getProjectCacheFolder(project) + File.separator + getUniqueFolderName(packageName, controllerName));
+        return new File(getProjectCacheFolder(project, true) + File.separator + getUniqueFolderName(packageName, controllerName));
     }
 
     /**
@@ -210,7 +219,10 @@ public class CacheManager {
      * @return array of controller cache folders (sub-dirs) under the {@link #CACHE_DIR_REL_PATH}
      */
     public static File[] getControllerFolders(Project project) {
-        String dir = getProjectCacheFolder(project);
+        String dir = getProjectCacheFolder(project, false);
+        if (dir == null) { // does not exist
+            return null;
+        }
         return new File(dir).listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
