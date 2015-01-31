@@ -22,7 +22,7 @@
  */
 package com.magnet.plugin.r2m.ui.tab;
 
-public class ResponseSection extends PayloadPanel {
+public class ResponsePayloadSection extends PayloadPanel {
     private static final String _TYPE = "Response";
 
     protected String getType() {

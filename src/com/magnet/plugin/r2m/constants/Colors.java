@@ -17,6 +17,9 @@
 
 package com.magnet.plugin.r2m.constants;
 
+import com.intellij.ui.Gray;
+import com.intellij.ui.JBColor;
+
 import java.awt.*;
 
 /**
@@ -24,8 +27,7 @@ import java.awt.*;
  */
 public interface Colors {
 
-    Color PINK = new Color(253, 147, 125);
-    Color RED = new Color(135, 26, 52);
-    Color GREEN = new Color(15, 108, 40);
-    Color BLACK = new Color(0, 0, 0);
+    Color PINK = new JBColor(new Color(253, 147, 125), new Color(253, 147, 125));
+    Color GREEN = new JBColor(new Color(15, 108, 40), new Color(56, 195, 36));
+    Color BLACK = new JBColor(Gray._0, Gray._255);
 }

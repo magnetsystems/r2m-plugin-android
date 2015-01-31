@@ -18,6 +18,7 @@
 package com.magnet.plugin.r2m.ui.tab;
 
 import com.intellij.ui.JBSplitter;
+import com.intellij.ui.components.JBScrollPane;
 import com.magnet.langpack.builder.rest.RestContentType;
 import com.magnet.langpack.builder.rest.parser.ExampleParser;
 import com.magnet.plugin.r2m.constants.FormConfig;
@@ -66,14 +67,14 @@ public abstract class PayloadPanel extends BasePanel {
 
     protected List<JSONError> errors;
 
-  {
+    {
         payloadTextField = new JTextArea();
         payloadTextField.setToolTipText(Rest2MobileMessages.getMessage("PAYLOAD_TOOL_TIP"));
         payloadTextField.setMinimumSize(FormConfig.PAYLOAD_TEXT_DIMENSION);
         payloadTextField.setLineWrap(true);
         payloadTextField.setFont(baseFont);
 
-        payloadTextScrollPane = new JScrollPane();
+        payloadTextScrollPane = new JBScrollPane();
         payloadTextScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         payloadTextScrollPane.setViewportView(payloadTextField);
         //payloadTextPanel = new JPanel(new BorderLayout());
@@ -83,32 +84,32 @@ public abstract class PayloadPanel extends BasePanel {
         errorTable.setMinimumSize(FormConfig.PAYLOAD_TEXT_DIMENSION);
         errorTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
 
-          @Override
-          public void valueChanged(ListSelectionEvent listSelectionEvent) {
-            int viewRow = errorTable.getSelectedRow();
-            if (viewRow >= 0) {
-              if(null != errors && viewRow < errors.size()) {
-                JSONError error = errors.get(viewRow);
-                if(null != error.getDocLocation() && 0 != error.getDocLocation().getLine()) {
-                  try {
-                    int lineNum = error.getDocLocation().getLine() - 1;
-                    int startIndex = payloadTextField.getLineStartOffset(lineNum);
-                    int endIndex = payloadTextField.getLineEndOffset(lineNum);
+            @Override
+            public void valueChanged(ListSelectionEvent listSelectionEvent) {
+                int viewRow = errorTable.getSelectedRow();
+                if (viewRow >= 0) {
+                    if (null != errors && viewRow < errors.size()) {
+                        JSONError error = errors.get(viewRow);
+                        if (null != error.getDocLocation() && 0 != error.getDocLocation().getLine()) {
+                            try {
+                                int lineNum = error.getDocLocation().getLine() - 1;
+                                int startIndex = payloadTextField.getLineStartOffset(lineNum);
+                                int endIndex = payloadTextField.getLineEndOffset(lineNum);
 
-                    payloadTextField.requestFocusInWindow();
-                    Rectangle viewRect = payloadTextField.modelToView(startIndex);
-                    payloadTextField.scrollRectToVisible(viewRect);
-                    // Highlight the text
-                    payloadTextField.setCaretPosition(endIndex);
-                    payloadTextField.moveCaretPosition(startIndex);
-                  } catch (BadLocationException e) {
-                    e.printStackTrace();
-                  }
+                                payloadTextField.requestFocusInWindow();
+                                Rectangle viewRect = payloadTextField.modelToView(startIndex);
+                                payloadTextField.scrollRectToVisible(viewRect);
+                                // Highlight the text
+                                payloadTextField.setCaretPosition(endIndex);
+                                payloadTextField.moveCaretPosition(startIndex);
+                            } catch (BadLocationException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
                 }
-              }
-
             }
-          }
         });
 
         errorMessageLabel = new JXLabel();
@@ -141,37 +142,37 @@ public abstract class PayloadPanel extends BasePanel {
                 String text = payloadTextField.getText();
                 resetFields();
                 if (JSONValidator.isJSON(text)) {
-                  setFieldTextColor(BLACK);
-                  errors = JSONValidator.validateJSON(text, null /* errorMessageField */, payloadTextField);
-                  if(!errors.isEmpty()) {
-                    errorTable.setModel(new ErrorTableModel(errors));
+                    setFieldTextColor(BLACK);
+                    errors = JSONValidator.validateJSON(text, null /* errorMessageField */, payloadTextField);
+                    if (!errors.isEmpty()) {
+                        errorTable.setModel(new ErrorTableModel(errors));
 
-                    errorPanel.setVisible(true);
-                    errorTableScrollPane.setVisible(true);
+                        errorPanel.setVisible(true);
+                        errorTableScrollPane.setVisible(true);
 
-                    errorTable.setModel(new ErrorTableModel(errors));
-                    errorTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
-                    Dimension tableSize =  errorTableScrollPane.getPreferredSize();
-                    errorTable.getColumnModel().getColumn(0).setPreferredWidth(200);
-                    errorTable.getColumnModel().getColumn(1).setPreferredWidth(100);
-                    errorTable.getColumnModel().getColumn(2).setCellRenderer(new TableCellLongTextRenderer());
-                    errorTable.getColumnModel().getColumn(2).setMinWidth(300);
+                        errorTable.setModel(new ErrorTableModel(errors));
+                        errorTable.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
+                        Dimension tableSize = errorTableScrollPane.getPreferredSize();
+                        errorTable.getColumnModel().getColumn(0).setPreferredWidth(200);
+                        errorTable.getColumnModel().getColumn(1).setPreferredWidth(100);
+                        errorTable.getColumnModel().getColumn(2).setCellRenderer(new TableCellLongTextRenderer());
+                        errorTable.getColumnModel().getColumn(2).setMinWidth(300);
 
-                    // is it fatal error ?
-                    if(errors.size() == 1 && errors.get(0).getErrorType() == JSONErrorType.ERROR_INVALID_FORMAT) {
-                      errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
-                      errorMessageLabel.setIcon(PluginIcon.errorIcon);
+                        // is it fatal error ?
+                        if (errors.size() == 1 && errors.get(0).getErrorType() == JSONErrorType.ERROR_INVALID_FORMAT) {
+                            errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
+                            errorMessageLabel.setIcon(PluginIcon.errorIcon);
+                        } else {
+                            errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_MESSAGE));
+                            errorMessageLabel.setIcon(PluginIcon.warningIcon);
+                        }
                     } else {
-                      errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_MESSAGE));
-                      errorMessageLabel.setIcon(PluginIcon.warningIcon);
-                    }
-                  } else {
-                    //errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
+                        //errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
 //                    errorMessageLabel.setIcon(PluginIcon.validIcon);
 //                    errorPanel.setVisible(true);
-                  }
+                    }
                 } else {
-                  setFieldTextColor(GREEN);
+                    setFieldTextColor(GREEN);
                 }
             }
 
@@ -250,40 +251,40 @@ public abstract class PayloadPanel extends BasePanel {
     }
 
     private void setLayout() {
-      JLabel jLabel1 = new JLabel(getType() + " Payload");
-      jLabel1.setFont(baseFont);
-      JSeparator jSeparator1 = new JSeparator();
-      jSeparator1.setOpaque(false);
-      JLabel jLabel2 = new JLabel("Raw (editable)");
-      jLabel2.setFont(baseFont);
+        JLabel jLabel1 = new JLabel(getType() + " Payload");
+        jLabel1.setFont(baseFont);
+        JSeparator jSeparator1 = new JSeparator();
+        jSeparator1.setOpaque(false);
+        JLabel jLabel2 = new JLabel("Raw (editable)");
+        jLabel2.setFont(baseFont);
 
-      GroupLayout layout = new GroupLayout(this);
-      this.setLayout(layout);
-      layout.setHorizontalGroup(
-              layout.createSequentialGroup()
-                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                      .addGap(FormConfig.CUSTOM_GAP)
-                                      .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
-                                      .addComponent(jLabel2, GroupLayout.Alignment.TRAILING)
-                      )
-                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                      .addComponent(jSeparator1)
-                                      .addComponent(jSplitPane, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
-                      )
-      );
-      layout.setVerticalGroup(
-              layout.createSequentialGroup()
-                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
-                                      .addComponent(jSeparator1, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE)
-                                      .addComponent(jLabel1)
-                      )
-                      .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
-                                      .addComponent(jLabel2)
-                                      .addComponent(jSplitPane, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_TEXTAREA_SIZE, GroupLayout.DEFAULT_SIZE)
-                      )
-      );
+        GroupLayout layout = new GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addGap(FormConfig.CUSTOM_GAP)
+                                        .addComponent(jLabel1, GroupLayout.Alignment.TRAILING)
+                                        .addComponent(jLabel2, GroupLayout.Alignment.TRAILING)
+                        )
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(jSeparator1)
+                                        .addComponent(jSplitPane, GroupLayout.DEFAULT_SIZE, FormConfig.DEFAULT_COMPONENT_SIZE, GroupLayout.DEFAULT_SIZE)
+                        )
+        );
+        layout.setVerticalGroup(
+                layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
+                                        .addComponent(jSeparator1, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE, FormConfig.SEPARATOR_CUSTOM_SIZE)
+                                        .addComponent(jLabel1)
+                        )
+                        .addGroup(layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+                                        .addComponent(jLabel2)
+                                        .addComponent(jSplitPane, GroupLayout.DEFAULT_SIZE, FormConfig.CUSTOM_TEXTAREA_SIZE, GroupLayout.DEFAULT_SIZE)
+                        )
+        );
 
-      this.setPreferredSize(FormConfig.PAYLOAD_PANEL_DIMENSION);
+        this.setPreferredSize(FormConfig.PAYLOAD_PANEL_DIMENSION);
     }
 
     public static class ErrorTableModel extends AbstractTableModel {
@@ -296,73 +297,73 @@ public abstract class PayloadPanel extends BasePanel {
         private final java.util.List<JSONError> errors;
 
         public ErrorTableModel(java.util.List<JSONError> errors) {
-          this.errors = errors;
+            this.errors = errors;
         }
 
         @Override
         public int getRowCount() {
-          return errors.size();
+            return errors.size();
         }
 
         @Override
         public int getColumnCount() {
-          return columnNames.length;
+            return columnNames.length;
         }
 
         @Override
         public String getColumnName(int column) {
-          return columnNames[column];
+            return columnNames[column];
         }
 
         @Override
         public Object getValueAt(int row, int column) {
-          JSONError record = errors.get(row);
-          switch (column) {
-            case PROPERTY_INDEX:
-              return record.getPropertyName();
-            case LOCATION_INDEX:
-              return null != record.getDocLocation() ? record.getDocLocation().toString() : "";
-            case ERROR_INDEX:
-              return JSONErrorType.ERROR_INVALID_FORMAT != record.getErrorType() ? record.getErrorTypeAsString() : record.getMessage();
-            default:
-              return new Object();
-          }
+            JSONError record = errors.get(row);
+            switch (column) {
+                case PROPERTY_INDEX:
+                    return record.getPropertyName();
+                case LOCATION_INDEX:
+                    return null != record.getDocLocation() ? record.getDocLocation().toString() : "";
+                case ERROR_INDEX:
+                    return JSONErrorType.ERROR_INVALID_FORMAT != record.getErrorType() ? record.getErrorTypeAsString() : record.getMessage();
+                default:
+                    return new Object();
+            }
         }
 
         public boolean isCellEditable(int row, int column) {
-          return false;
+            return false;
         }
     }
 
-  /**
-   * Customized TableCellRenderer for possible long error message
-   */
+    /**
+     * Customized TableCellRenderer for possible long error message
+     */
     public class TableCellLongTextRenderer extends JTextArea implements TableCellRenderer {
 
-      @Override
-      public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        this.setText((String)value);
-        this.setWrapStyleWord(true);
-        this.setLineWrap(true);
+        @Override
+        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            this.setText((String) value);
+            this.setWrapStyleWord(true);
+            this.setLineWrap(true);
 
-        //set the JTextArea to the width of the table column
-        setSize(table.getColumnModel().getColumn(column).getWidth(),getPreferredSize().height);
-        if (table.getRowHeight(row) != getPreferredSize().height) {
-          //set the height of the table row to the calculated height of the JTextArea
-          table.setRowHeight(row, getPreferredSize().height);
+            //set the JTextArea to the width of the table column
+            setSize(table.getColumnModel().getColumn(column).getWidth(), getPreferredSize().height);
+            if (table.getRowHeight(row) != getPreferredSize().height) {
+                //set the height of the table row to the calculated height of the JTextArea
+                table.setRowHeight(row, getPreferredSize().height);
+            }
+
+            if (isSelected) {
+                this.setBackground((Color) UIManager.get("Table.selectionBackground"));
+                this.setForeground((Color) UIManager.get("Table.selectionForeground"));
+                this.selectAll();
+            } else {
+                this.setBackground((Color) UIManager.get("Table.background"));
+                this.setForeground((Color) UIManager.get("Table.foreground"));
+            }
+
+            return this;
         }
-
-        if(isSelected){
-          this.setBackground((Color)UIManager.get("Table.selectionBackground"));
-          this.setForeground((Color)UIManager.get("Table.selectionForeground"));
-          this.selectAll();
-        } else {
-          this.setBackground((Color)UIManager.get("Table.background"));
-          this.setForeground((Color)UIManager.get("Table.foreground"));
-        }
-
-        return this;
-      }
 
     }
 

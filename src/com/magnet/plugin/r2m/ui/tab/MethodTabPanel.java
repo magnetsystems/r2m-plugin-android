@@ -53,7 +53,7 @@ public class MethodTabPanel extends BasePanel {
     private final MethodTypeSection type;
     private final HeaderSection header;
     private final RequestPayloadSection requestPayloadSection;
-    private final ResponseSection responseSection;
+    private final ResponsePayloadSection responsePayloadSection;
     private final ButtonsSection buttons;
 
     private final CreateMethodCallback methodCallback;
@@ -71,7 +71,7 @@ public class MethodTabPanel extends BasePanel {
         header = new HeaderSection();
         requestPayloadSection = new RequestPayloadSection();
         type = new MethodTypeSection(requestPayloadSection);
-        responseSection = new ResponseSection();
+        responsePayloadSection = new ResponsePayloadSection();
         buttons = new ButtonsSection();
 
         JScrollPane jScrollPane = new JBScrollPane();
@@ -103,7 +103,7 @@ public class MethodTabPanel extends BasePanel {
                         .addComponent(type)
                         .addComponent(header)
                         .addComponent(requestPayloadSection)
-                        .addComponent(responseSection)
+                        .addComponent(responsePayloadSection)
         );
         jPanel1Layout.setVerticalGroup(
                 jPanel1Layout.createSequentialGroup()
@@ -111,7 +111,7 @@ public class MethodTabPanel extends BasePanel {
                         .addComponent(type)
                         .addComponent(header)
                         .addComponent(requestPayloadSection)
-                        .addComponent(responseSection));
+                        .addComponent(responsePayloadSection));
         jScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane.setViewportView(jPanel1);
 
@@ -166,7 +166,7 @@ public class MethodTabPanel extends BasePanel {
             RequestModel requestModel = new RequestModel(method);
             apiMethodModel.setRequestModel(requestModel);
         }
-        ResponseModel responseModel = new ResponseModel(responseSection.getRawPayload());
+        ResponseModel responseModel = new ResponseModel(responsePayloadSection.getRawPayload());
         apiMethodModel.setResponseModel(responseModel);
 
         // create method file
@@ -200,7 +200,7 @@ public class MethodTabPanel extends BasePanel {
     }
 
     public String getResponse() {
-        return responseSection.getRawPayload();
+        return responsePayloadSection.getRawPayload();
     }
 
     private MethodTabPanel getCurrentPanel() {
@@ -224,7 +224,7 @@ public class MethodTabPanel extends BasePanel {
         method.setQueries(methodNameSection.getQueries());
         method.setHttpMethod(type.getHttpMethod());
         method.setHeaders(header.getHeaders());
-        method.setResponse(responseSection.getRawPayload());
+        method.setResponse(responsePayloadSection.getRawPayload());
 
         String payload = getRequestPayload();
         method.setPayload(payload);
@@ -244,7 +244,7 @@ public class MethodTabPanel extends BasePanel {
         public void onSuccess(ApiMethodModel methodModel) {
             apiMethodModel = methodModel;
             String entity = ResponseHelper.processResponse(methodModel);
-            MethodTabPanel.this.responseSection.setPayload(entity);
+            MethodTabPanel.this.responsePayloadSection.setPayload(entity);
         }
 
         @Override
@@ -320,7 +320,7 @@ public class MethodTabPanel extends BasePanel {
         // Request body
         setSectionBody(requestPayloadSection, methodModel.getRequestBody());
         // Response body
-        setSectionBody(responseSection, methodModel.getResponseBody());
+        setSectionBody(responsePayloadSection, methodModel.getResponseBody());
 
     }
 
