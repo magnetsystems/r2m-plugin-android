@@ -23,7 +23,7 @@ import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.r2m.helpers.IOUtils;
 import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.helpers.UIHelper;
-import com.magnet.plugin.common.URLHelper;
+import com.magnet.plugin.common.helpers.URLHelper;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.ExampleResource;
 import com.magnet.plugin.r2m.models.ExamplesManifest;

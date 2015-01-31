@@ -14,12 +14,11 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package com.magnet.plugin.common;
+package com.magnet.plugin.common.helpers;
 
 import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.util.net.HttpConfigurable;
-import com.magnet.plugin.common.helpers.FormattedLogger;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import java.io.*;

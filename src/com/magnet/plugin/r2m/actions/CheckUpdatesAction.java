@@ -28,7 +28,7 @@ import com.intellij.util.text.VersionComparatorUtil;
 import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.helpers.R2MConstants;
 import com.magnet.plugin.r2m.helpers.UIHelper;
-import com.magnet.plugin.common.URLHelper;
+import com.magnet.plugin.common.helpers.URLHelper;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 
 import java.io.IOException;
