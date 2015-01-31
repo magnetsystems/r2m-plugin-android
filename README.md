@@ -1,8 +1,15 @@
 ## rest2mobile plugin for Android Studio & IntelliJ IDEA
 
-The rest2mobile Android Studio plugin allows you to generate mobile api from REST services directly inside your android project. You can check this short [demo](http://www.youtube.com/watch?v=_6gtI5v4m8U), to see how it works.
+The rest2mobile Android Studio plugin allows you to generate mobile api from REST services directly inside your android project. You can check out this short [demo](http://www.youtube.com/watch?v=_6gtI5v4m8U) to see how it works.
 
+### Pre-releases
+* [1.1.8] (https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.8) 
+  * fix for https://github.com/magnetsystems/r2m-plugin-android/issues/26 
+  
 ### Stable releases
+* [1.1.7](https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.7)
+   * fix for https://github.com/magnetsystems/r2m-plugin-android/issues/27
+   * fix for https://github.com/magnetsystems/r2m-sdk-android/issues/5 (from 1.1.6 pre-release)
 * [1.1.5](https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.5)
    * fix for https://github.com/magnetsystems/r2m-sdk-android/issues/4
 * [1.1.4](https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.4)
@@ -10,9 +17,6 @@ The rest2mobile Android Studio plugin allows you to generate mobile api from RES
 * [1.0.0](https://github.com/magnetsystems/r2m-plugin-android/releases/v1.0.0)
 
 The latest stable release is also published on the [Jetbrains plugin repository](https://plugins.jetbrains.com/plugin/7559?pr=idea)
-
-### Latest drop
-* [Check releases](https://github.com/magnetsystems/r2m-plugin-android/releases/)
 
 ### Prerequisites
 The rest2mobile plugin for Android Studio & IntelliJ IDEA has these prerequisites:
@@ -23,24 +27,18 @@ The rest2mobile plugin for Android Studio & IntelliJ IDEA has these prerequisite
 
 ### Build
 
-Use Intellij 13 or later to create the plugin project from the source:
+Use IntelliJ 13 or later to create the plugin project from the source:
 * create the project from the source directory <code>src</code>
 * register the <code>res</code> and <code>l10n</code> directories as resources
 * register the <code>libs</code> directory as a library 
 
 Build the plugin zip using the <code>Build->Prepare Plugin Module ... for deployment</code> option.
 
-### Releases
-
-Download the latest release [here](https://github.com/magnetsystems/r2m-plugin-android/releases).
-
-The following picture is a screenshot of the plugin: 
-
 ### Setup
 
 The installation instructions are summarized [here](http://developer.magnet.com/android).
 
-Be sure you include the rest2mobile Android SDK in your app by inserting this in your app's <code>build.gradle</code>. Since 1.1.3, the latest version of the plugin automatically discovers the missing dependency and provide you with the required settings to copy-paste into this file.
+Be sure you include the rest2mobile Android SDK in your app by inserting this in your app's <code>build.gradle</code> by adding the following lines to it:
 
 ```groovy
 repositories {
@@ -61,7 +59,7 @@ __STEP 1: Download__
 
 Go to the [releases](https://github.com/magnetsystems/r2m-plugin-android/releases) and download the latest installer. 
 
-*Note: You can find the latest official release on the [Magnet developer](http://developer.magnet.com/android] site too.*
+*Note: You can find the latest official release on the [Magnet developer](http://developer.magnet.com/android) site too.*
 
 ![rest2mobile plugin main menu](doc/img/R2M-download-release.jpg)
 
@@ -192,7 +190,7 @@ you may not use this software except in compliance with the License.
 
 ## Copyright
 
-Copyright © 2014 Magnet Systems, Inc. All rigghts reserved.
+Copyright © 2014-2015 Magnet Systems, Inc. All rights reserved.
 
 [website]: http://developer.magnet.com
 [techdoc]: https://github.com/magnetsystems/rest2mobile/wiki
