@@ -23,7 +23,7 @@ import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.helpers.ProjectHelper;
-import com.magnet.plugin.r2m.helpers.VerifyHelper;
+import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.tools.cli.simple.SimpleGenConstants;
 
 import java.io.BufferedReader;

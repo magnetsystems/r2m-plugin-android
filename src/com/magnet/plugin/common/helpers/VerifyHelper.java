@@ -15,8 +15,10 @@
  * permissions and limitations under the License.
  */
 
-package com.magnet.plugin.r2m.helpers;
+package com.magnet.plugin.common.helpers;
 
+import com.magnet.plugin.r2m.helpers.R2MConstants;
+import com.magnet.plugin.r2m.helpers.UIHelper;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import org.apache.commons.validator.routines.UrlValidator;
 

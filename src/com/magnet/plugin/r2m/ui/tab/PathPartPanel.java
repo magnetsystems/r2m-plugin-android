@@ -24,7 +24,7 @@ package com.magnet.plugin.r2m.ui.tab;
 import com.magnet.plugin.r2m.constants.FormConfig;
 import com.magnet.plugin.r2m.helpers.HintHelper;
 import com.magnet.plugin.r2m.helpers.UIHelper;
-import com.magnet.plugin.r2m.helpers.VerifyHelper;
+import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.PathPart;
 import com.magnet.plugin.r2m.ui.AbstractDocumentListener;

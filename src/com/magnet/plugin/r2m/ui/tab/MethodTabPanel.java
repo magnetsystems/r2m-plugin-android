@@ -26,6 +26,7 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.net.HTTPMethod;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.common.Logger;
+import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.plugin.r2m.api.core.RequestFactory;
 import com.magnet.plugin.r2m.api.mock.WorkerCallback;
 import com.magnet.plugin.r2m.api.models.ApiMethodModel;

@@ -30,6 +30,7 @@ import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
 import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.common.URLHelper;
+import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.plugin.r2m.api.models.ApiMethodModel;
 import com.magnet.plugin.r2m.constants.FormConfig;
 import com.magnet.plugin.r2m.generator.Generator;

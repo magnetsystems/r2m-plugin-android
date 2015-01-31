@@ -26,7 +26,7 @@ import com.intellij.openapi.ui.ComboBox;
 import com.magnet.plugin.r2m.constants.FormConfig;
 import com.magnet.plugin.r2m.constants.PluginIcon;
 import com.magnet.plugin.r2m.helpers.HistoryHelper;
-import com.magnet.plugin.r2m.helpers.VerifyHelper;
+import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.plugin.r2m.listeners.URLFocusListener;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.PathPart;

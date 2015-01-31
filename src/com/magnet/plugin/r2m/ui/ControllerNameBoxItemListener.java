@@ -19,7 +19,7 @@ package com.magnet.plugin.r2m.ui;
 import com.intellij.openapi.project.Project;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.r2m.helpers.ControllerHistoryManager;
-import com.magnet.plugin.r2m.helpers.VerifyHelper;
+import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.plugin.r2m.project.CacheManager;
 
 import java.awt.event.ActionEvent;
