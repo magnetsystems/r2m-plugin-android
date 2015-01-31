@@ -22,7 +22,7 @@
 package com.magnet.plugin.r2m.ui.tab;
 
 import com.magnet.plugin.r2m.constants.FormConfig;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 
 import javax.swing.*;
 
@@ -33,9 +33,9 @@ public class PathPartLabel extends BasePanel {
         JLabel variableLabel = new JLabel();
         JLabel variableNameLabel = new JLabel();
 
-        pathLabel.setText(Rest2MobileMessages.getMessage("PATH_PART_NAME"));
-        variableLabel.setText(Rest2MobileMessages.getMessage("PATH_VARIABLE_CHECKBOX_NAME"));
-        variableNameLabel.setText(Rest2MobileMessages.getMessage("PATH_VARIABLE_NAME"));
+        pathLabel.setText(R2MMessages.getMessage("PATH_PART_NAME"));
+        variableLabel.setText(R2MMessages.getMessage("PATH_VARIABLE_CHECKBOX_NAME"));
+        variableNameLabel.setText(R2MMessages.getMessage("PATH_VARIABLE_NAME"));
 
         pathLabel.setFont(baseFont);
         variableLabel.setFont(baseFont);

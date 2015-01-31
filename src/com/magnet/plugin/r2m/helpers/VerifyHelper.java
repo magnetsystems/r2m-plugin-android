@@ -17,7 +17,7 @@
 
 package com.magnet.plugin.r2m.helpers;
 
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import org.apache.commons.validator.routines.UrlValidator;
 
 import java.util.ArrayList;
@@ -81,8 +81,8 @@ public class VerifyHelper {
 
     public static boolean isValidUrl(String url) {
         String templateURL = url;
-        templateURL = templateURL.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX, "");
-        templateURL = templateURL.replaceAll(Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, "");
+        templateURL = templateURL.replaceAll(R2MConstants.START_TEMPLATE_VARIABLE_REGEX, "");
+        templateURL = templateURL.replaceAll(R2MConstants.END_TEMPLATE_VARIABLE_REGEX, "");
         UrlValidator urlValidator = new UrlValidator(SUPPORTED_PROTOCOL_SCHEMES, URL_VALIDATION_OPTIONS);
         return urlValidator.isValid(templateURL);
     }
@@ -94,7 +94,7 @@ public class VerifyHelper {
 
     private static String verifyByKeyWords(String text) {
         if (KEYWORDS.contains(text)) {
-            UIHelper.showErrorMessage(Rest2MobileMessages.getMessage("NAME_CONFLICTS_WITH_JAVA_KEYWORDS"));
+            UIHelper.showErrorMessage(R2MMessages.getMessage("NAME_CONFLICTS_WITH_JAVA_KEYWORDS"));
             text = "";
         }
         return text;

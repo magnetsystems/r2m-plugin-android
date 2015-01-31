@@ -27,7 +27,7 @@ import com.intellij.openapi.ui.popup.JBPopupFactory;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.wm.WindowManager;
 import com.intellij.ui.awt.RelativePoint;
-import com.magnet.plugin.r2m.helpers.Rest2MobileConstants;
+import com.magnet.plugin.r2m.helpers.R2MConstants;
 
 import javax.swing.*;
 import java.awt.*;
@@ -63,8 +63,8 @@ public class AboutAction extends AnAction {
             location = new RelativePoint(new Point((r.width - image.getIconWidth()) / 2, (r.height - image.getIconHeight()) / 2));
         }
 
-        String version = PluginManager.getPlugin(PluginId.getId(Rest2MobileConstants.PUBLIC_TOOL_PACKAGE)).getVersion();
-        String text = Rest2MobileConstants.PUBLIC_TOOL_NAME + " " + version + " " + "(" + Rest2MobileConstants.MAGNET_DEVELOPER_URL+ ")";
+        String version = PluginManager.getPlugin(PluginId.getId(R2MConstants.PUBLIC_TOOL_PACKAGE)).getVersion();
+        String text = R2MConstants.PUBLIC_TOOL_NAME + " " + version + " " + "(" + R2MConstants.MAGNET_DEVELOPER_URL+ ")";
 
         // popup
         JBPopupFactory.getInstance().createComponentPopupBuilder(panel, panel)

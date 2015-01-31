@@ -28,7 +28,7 @@ import com.magnet.plugin.r2m.generator.Generator;
 import com.magnet.plugin.r2m.constants.GenerateActions;
 import com.magnet.plugin.r2m.listeners.generator.PostGenerateCallback;
 import com.magnet.plugin.r2m.listeners.generator.ProgressGenerateCallback;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.project.ProjectManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -110,8 +110,10 @@ public class AsyncHelper implements ProgressGenerateCallback {
             sb.append(e).append("\n");
         }
         int option = Messages.showOkCancelDialog(
-                Rest2MobileMessages.getMessage("CONFIRM_OVERRIDE_FILES", sb.toString()),
-                Rest2MobileMessages.getMessage("CONFIRM_OVERRIDE_FILES_TITLE"),
+                R2MMessages.getMessage("CONFIRM_OVERRIDE_FILES", sb.toString()),
+                R2MMessages.getMessage("CONFIRM_OVERRIDE_FILES_TITLE"),
+                R2MMessages.getMessage("CONFIRM_OVERRIDE_FILES_BUTTON_TEXT"),
+                Messages.CANCEL_BUTTON,
                 Messages.getWarningIcon());
         if (option == 0) {
             onActionSuccess(GenerateActions.START_FILE_OPERATIONS);

@@ -18,7 +18,7 @@
 package com.magnet.plugin.r2m.ui.tab;
 
 import com.magnet.plugin.r2m.helpers.HintHelper;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.Query;
 import com.magnet.plugin.r2m.constants.FormConfig;
 import com.magnet.plugin.r2m.ui.AbstractDocumentListener;
@@ -68,7 +68,7 @@ public class QueryPanel extends BasePanel {
             }
         });
 
-        JButton delete = new JButton(Rest2MobileMessages.getMessage("SECTION_DELETE"));
+        JButton delete = new JButton(R2MMessages.getMessage("SECTION_DELETE"));
         delete.setFont(baseFont);
 
         HintHelper.setHintToTextField(ERROR_REQUIRED_FIELD, key);

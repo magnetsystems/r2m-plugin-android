@@ -17,6 +17,7 @@
 
 package com.magnet.plugin.r2m.helpers;
 
+import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.api.models.ApiMethodModel;
 
 import java.io.IOException;

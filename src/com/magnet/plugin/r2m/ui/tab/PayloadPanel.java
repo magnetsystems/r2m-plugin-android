@@ -26,7 +26,7 @@ import com.magnet.plugin.r2m.constants.JSONErrorType;
 import com.magnet.plugin.r2m.constants.PluginIcon;
 import com.magnet.plugin.r2m.helpers.FormatHelper;
 import com.magnet.plugin.r2m.helpers.JSONValidator;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.JSONError;
 import org.jdesktop.swingx.JXLabel;
 import org.jdesktop.swingx.JXTable;
@@ -69,7 +69,7 @@ public abstract class PayloadPanel extends BasePanel {
 
     {
         payloadTextField = new JTextArea();
-        payloadTextField.setToolTipText(Rest2MobileMessages.getMessage("PAYLOAD_TOOL_TIP"));
+        payloadTextField.setToolTipText(R2MMessages.getMessage("PAYLOAD_TOOL_TIP"));
         payloadTextField.setMinimumSize(FormConfig.PAYLOAD_TEXT_DIMENSION);
         payloadTextField.setLineWrap(true);
         payloadTextField.setFont(baseFont);
@@ -160,10 +160,10 @@ public abstract class PayloadPanel extends BasePanel {
 
                         // is it fatal error ?
                         if (errors.size() == 1 && errors.get(0).getErrorType() == JSONErrorType.ERROR_INVALID_FORMAT) {
-                            errorMessageLabel.setText(Rest2MobileMessages.getMessage("ERROR_INVALID_FORMAT"));
+                            errorMessageLabel.setText(R2MMessages.getMessage("ERROR_INVALID_FORMAT"));
                             errorMessageLabel.setIcon(PluginIcon.errorIcon);
                         } else {
-                            errorMessageLabel.setText(Rest2MobileMessages.getMessage("VALIDATION_WARNING_MESSAGE"));
+                            errorMessageLabel.setText(R2MMessages.getMessage("VALIDATION_WARNING_MESSAGE"));
                             errorMessageLabel.setIcon(PluginIcon.warningIcon);
                         }
                     } else {

@@ -23,7 +23,7 @@ package com.magnet.plugin.r2m.ui.tab;
 
 import com.magnet.plugin.r2m.api.models.RequestHeaderModel;
 import com.magnet.plugin.r2m.constants.FormConfig;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 
 import java.awt.event.ActionListener;
 import javax.swing.*;
@@ -67,7 +67,7 @@ public class HeaderPanel extends BasePanel {
     {
         key = new JTextField();
         value = new JTextField();
-        delete = new JButton(Rest2MobileMessages.getMessage("SECTION_DELETE"));
+        delete = new JButton(R2MMessages.getMessage("SECTION_DELETE"));
 
         delete.addActionListener(listener);
 

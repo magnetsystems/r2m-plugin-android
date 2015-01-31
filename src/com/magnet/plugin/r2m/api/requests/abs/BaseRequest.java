@@ -24,7 +24,7 @@ import com.magnet.plugin.r2m.api.models.ApiMethodModel;
 import com.magnet.plugin.r2m.api.models.RequestHeaderModel;
 import com.magnet.plugin.r2m.api.models.RequestModel;
 import com.magnet.plugin.r2m.helpers.ContentTypeHelper;
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;

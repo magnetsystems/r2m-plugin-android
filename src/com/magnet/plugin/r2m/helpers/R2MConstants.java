@@ -20,7 +20,7 @@ package com.magnet.plugin.r2m.helpers;
 /**
  * Constants
  */
-public interface Rest2MobileConstants {
+public interface R2MConstants {
     /**
      * Public name fo the plugin
      */

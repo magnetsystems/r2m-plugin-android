@@ -15,19 +15,21 @@
  * permissions and limitations under the License.
  */
 
-package com.magnet.plugin.r2m.actions;
-
-import com.intellij.ide.BrowserUtil;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.magnet.plugin.r2m.helpers.R2MConstants;
+package com.magnet.plugin.r2m.messages;
 
 /**
- * Action for "Help" menu item
+ * Placeholder for retrieving all L10N messages
+ *
  */
-public class HelpAction extends AnAction {
-
-    public void actionPerformed(AnActionEvent e) {
-        BrowserUtil.browse(R2MConstants.DOCUMENTATION_URL);
+public class R2MMessages {
+    /**
+     * @param key  constant identifying L10n message
+     * @param args arguments to be expanded in L10n message
+     * @return expanded L10n message given its key and arguments
+     */
+    public static String getMessage(String key, Object... args) {
+        return MessagesSupport.getMessage("r2m/r2m", key, args);
     }
+
+
 }

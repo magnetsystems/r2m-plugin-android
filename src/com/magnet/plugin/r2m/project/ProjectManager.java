@@ -21,7 +21,7 @@ import com.intellij.openapi.module.Module;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.roots.ProjectRootManager;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.helpers.ProjectHelper;
 import com.magnet.plugin.r2m.helpers.VerifyHelper;
 import com.magnet.tools.cli.simple.SimpleGenConstants;

@@ -25,7 +25,7 @@ import com.magnet.plugin.r2m.constants.FormConfig;
 import com.magnet.plugin.r2m.helpers.HintHelper;
 import com.magnet.plugin.r2m.helpers.UIHelper;
 import com.magnet.plugin.r2m.helpers.VerifyHelper;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.PathPart;
 import com.magnet.plugin.r2m.ui.AbstractDocumentListener;
 
@@ -69,7 +69,7 @@ public class PathPartPanel extends JPanel {
         });
 
         isVariableCheckBox = new JCheckBox();
-        isVariableCheckBox.setToolTipText(Rest2MobileMessages.getMessage("VARIABLE_CHECKBOX_TOOL_TIP"));
+        isVariableCheckBox.setToolTipText(R2MMessages.getMessage("VARIABLE_CHECKBOX_TOOL_TIP"));
         isVariableCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {
@@ -78,7 +78,7 @@ public class PathPartPanel extends JPanel {
         });
 
         variableNameField = new JTextField();
-        variableNameField.setToolTipText(Rest2MobileMessages.getMessage("VARIABLE_NAME_TEXT_FIELD_TOOL_TIP"));
+        variableNameField.setToolTipText(R2MMessages.getMessage("VARIABLE_NAME_TEXT_FIELD_TOOL_TIP"));
         variableNameField.getDocument().addDocumentListener(new AbstractDocumentListener() {
 
           @Override
@@ -88,7 +88,7 @@ public class PathPartPanel extends JPanel {
             }
         });
 
-        deleteButton = new JButton(Rest2MobileMessages.getMessage("SECTION_DELETE"));
+        deleteButton = new JButton(R2MMessages.getMessage("SECTION_DELETE"));
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {

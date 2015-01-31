@@ -24,7 +24,7 @@ package com.magnet.plugin.r2m.ui.tab;
 
 import com.magnet.plugin.r2m.api.models.RequestHeaderModel;
 import com.magnet.plugin.r2m.constants.FormConfig;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -56,9 +56,9 @@ public class HeaderSection extends ExtendedJPanel {
 
         setLabelPanel(new HeaderPanelLabel());
 
-        jLabel4.setText(Rest2MobileMessages.getMessage("HEADER_SECTION_NAME"));
-        jLabel5.setText(Rest2MobileMessages.getMessage("SECTION_ADD_NEW"));
-        jButton1.setText(Rest2MobileMessages.getMessage("SECTION_PLUS"));
+        jLabel4.setText(R2MMessages.getMessage("HEADER_SECTION_NAME"));
+        jLabel5.setText(R2MMessages.getMessage("SECTION_ADD_NEW"));
+        jButton1.setText(R2MMessages.getMessage("SECTION_PLUS"));
 
         jLabel4.setFont(baseFont);
         jLabel5.setFont(baseFont);

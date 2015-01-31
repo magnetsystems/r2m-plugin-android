@@ -24,7 +24,7 @@ package com.magnet.plugin.r2m.ui.tab;
 import com.intellij.ui.JBColor;
 import com.magnet.plugin.r2m.helpers.UrlParser;
 import com.magnet.plugin.r2m.listeners.URLFocusListener;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.ParsedUrl;
 import com.magnet.plugin.r2m.models.PathPart;
 import com.magnet.plugin.r2m.models.Query;
@@ -110,15 +110,15 @@ public class URLSection extends BasePanel implements FocusListener,
         jSeparator2.setForeground(JBColor.LIGHT_GRAY);
 
 
-        jLabel3.setText(Rest2MobileMessages.getMessage("BASE_URL_SECTION_NAME"));
+        jLabel3.setText(R2MMessages.getMessage("BASE_URL_SECTION_NAME"));
 
-        jLabel4.setText(Rest2MobileMessages.getMessage("PATH_SECTION_NAME"));
-        jLabel5.setText(Rest2MobileMessages.getMessage("SECTION_ADD_NEW"));
-        pathButton.setText(Rest2MobileMessages.getMessage("SECTION_PLUS"));
+        jLabel4.setText(R2MMessages.getMessage("PATH_SECTION_NAME"));
+        jLabel5.setText(R2MMessages.getMessage("SECTION_ADD_NEW"));
+        pathButton.setText(R2MMessages.getMessage("SECTION_PLUS"));
 
-        jLabel6.setText(Rest2MobileMessages.getMessage("QUERY_SECTION_NAME"));
-        jLabel7.setText(Rest2MobileMessages.getMessage("SECTION_ADD_NEW"));
-        queryButton.setText(Rest2MobileMessages.getMessage("SECTION_PLUS"));
+        jLabel6.setText(R2MMessages.getMessage("QUERY_SECTION_NAME"));
+        jLabel7.setText(R2MMessages.getMessage("SECTION_ADD_NEW"));
+        queryButton.setText(R2MMessages.getMessage("SECTION_PLUS"));
 
         pathButton.addActionListener(new ActionListener() {
 

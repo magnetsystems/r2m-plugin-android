@@ -17,7 +17,7 @@
 
 package com.magnet.plugin.r2m.models;
 
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 
 import java.util.ArrayList;
 import java.util.List;

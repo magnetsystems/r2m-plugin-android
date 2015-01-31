@@ -18,6 +18,7 @@
 package com.magnet.plugin.r2m.helpers;
 
 import com.intellij.openapi.project.Project;
+import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.project.CacheManager;
 import com.magnet.plugin.r2m.project.ProjectManager;
 

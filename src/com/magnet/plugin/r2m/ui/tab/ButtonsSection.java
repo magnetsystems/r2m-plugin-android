@@ -23,7 +23,7 @@
 package com.magnet.plugin.r2m.ui.tab;
 
 import com.magnet.plugin.r2m.constants.FormConfig;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 
 import javax.swing.*;
 
@@ -34,10 +34,10 @@ public class ButtonsSection extends BasePanel {
 
 
     {
-        testApiButton = new JButton(Rest2MobileMessages.getMessage("TEST_API_TEXT"));
-        testApiButton.setToolTipText(Rest2MobileMessages.getMessage("TEST_API_TOOL_TIP"));
-        deletePanelButton = new JButton(Rest2MobileMessages.getMessage("REMOVE_METHOD_TEXT"));
-        deletePanelButton.setToolTipText(Rest2MobileMessages.getMessage("REMOVE_METHOD_TOOL_TIP"));
+        testApiButton = new JButton(R2MMessages.getMessage("TEST_API_TEXT"));
+        testApiButton.setToolTipText(R2MMessages.getMessage("TEST_API_TOOL_TIP"));
+        deletePanelButton = new JButton(R2MMessages.getMessage("REMOVE_METHOD_TEXT"));
+        deletePanelButton.setToolTipText(R2MMessages.getMessage("REMOVE_METHOD_TOOL_TIP"));
         deletePanelButton.setEnabled(true);
 
         testApiButton.setFont(baseFont);

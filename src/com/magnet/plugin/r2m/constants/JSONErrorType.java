@@ -17,17 +17,17 @@
 
 package com.magnet.plugin.r2m.constants;
 
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 
 /**
  * JSON errors types
  */
 public enum JSONErrorType {
-    ERROR_NULL_VALUE(Rest2MobileMessages.getMessage("ERROR_NULL_VALUE_TEXT")),
-    ERROR_EMPTY_ARRAY(Rest2MobileMessages.getMessage("ERROR_EMPTY_ARRAY_TEXT")),
-    ERROR_EMPTY_DICTIONARY(Rest2MobileMessages.getMessage("ERROR_EMPTY_DICTIONARY_TEXT")),
-    ERROR_MISSING_COMMA(Rest2MobileMessages.getMessage("ERROR_MISSING_COMMA_TEXT")),
-    ERROR_INVALID_FORMAT(Rest2MobileMessages.getMessage("ERROR_INVALID_FORMAT"));
+    ERROR_NULL_VALUE(R2MMessages.getMessage("ERROR_NULL_VALUE_TEXT")),
+    ERROR_EMPTY_ARRAY(R2MMessages.getMessage("ERROR_EMPTY_ARRAY_TEXT")),
+    ERROR_EMPTY_DICTIONARY(R2MMessages.getMessage("ERROR_EMPTY_DICTIONARY_TEXT")),
+    ERROR_MISSING_COMMA(R2MMessages.getMessage("ERROR_MISSING_COMMA_TEXT")),
+    ERROR_INVALID_FORMAT(R2MMessages.getMessage("ERROR_INVALID_FORMAT"));
 
 
   private String message;

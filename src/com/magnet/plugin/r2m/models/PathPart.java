@@ -17,7 +17,7 @@
 
 package com.magnet.plugin.r2m.models;
 
-import com.magnet.plugin.r2m.helpers.Rest2MobileConstants;
+import com.magnet.plugin.r2m.helpers.R2MConstants;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -69,7 +69,7 @@ public class PathPart {
                 s = variableName;
             }
 
-            return Rest2MobileConstants.START_TEMPLATE_VARIABLE + s + Rest2MobileConstants.END_TEMPLATE_VARIABLE;
+            return R2MConstants.START_TEMPLATE_VARIABLE + s + R2MConstants.END_TEMPLATE_VARIABLE;
         } else {
             return pathValue;
         }

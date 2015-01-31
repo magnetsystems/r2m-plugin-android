@@ -28,6 +28,8 @@ import com.intellij.psi.JavaPsiFacade;
 import com.intellij.ui.TextFieldWithHistoryWithBrowseButton;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.langpack.builder.rest.parser.validation.BodyValidationResult;
+import com.magnet.plugin.common.Logger;
+import com.magnet.plugin.common.URLHelper;
 import com.magnet.plugin.r2m.api.models.ApiMethodModel;
 import com.magnet.plugin.r2m.constants.FormConfig;
 import com.magnet.plugin.r2m.generator.Generator;
@@ -35,7 +37,7 @@ import com.magnet.plugin.r2m.helpers.*;
 import com.magnet.plugin.r2m.listeners.ControllerActionCallback;
 import com.magnet.plugin.r2m.listeners.CreateMethodCallback;
 import com.magnet.plugin.r2m.listeners.generator.PostGenerateCallback;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.project.CacheManager;
 import com.magnet.plugin.r2m.project.ProjectManager;
 import com.magnet.plugin.r2m.ui.chooser.ExampleChooserHelper;
@@ -80,13 +82,13 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         controllerNameBox.getChildComponent().setModel(new DefaultComboBoxModel(ControllerHistoryManager.getCachedControllers(project)));
         controllerNameBox.setFocusable(true);
         controllerNameBox.setFont(font);
-        generateButton.setToolTipText(Rest2MobileMessages.getMessage("GENERATE_TOOL_TIP"));
+        generateButton.setToolTipText(R2MMessages.getMessage("GENERATE_TOOL_TIP"));
         generateButton.setFont(font);
         packageNameField.setFont(font);
 
 
 //        setResizable(true);
-        setTitle(Rest2MobileMessages.getMessage("WINDOW_TITLE"));
+        setTitle(R2MMessages.getMessage("WINDOW_TITLE"));
         packageNameField.setText(ProjectManager.getPackageName(project));
 
         generateButton.addActionListener(generateListener);
@@ -244,10 +246,10 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         }
 
         private boolean ifContinue(String methodName, BodyValidationResult validationResult) {
-            int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage("VALIDATION_WARNING_QUESTION", methodName) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
-                    Rest2MobileMessages.getMessage("VALIDATION_WARNING_TITLE", methodName),
-                    Rest2MobileMessages.getMessage("VALIDATION_WARNING_CONTINUE"),
-                    Rest2MobileMessages.getMessage("VALIDATION_WARNING_CANCEL"),
+            int okCancelResult = Messages.showOkCancelDialog(contentPane, R2MMessages.getMessage("VALIDATION_WARNING_QUESTION", methodName) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
+                    R2MMessages.getMessage("VALIDATION_WARNING_TITLE", methodName),
+                    R2MMessages.getMessage("VALIDATION_WARNING_CONTINUE"),
+                    R2MMessages.getMessage("VALIDATION_WARNING_CANCEL"),
                     null);
             boolean result = okCancelResult == 0;
 
@@ -419,6 +421,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         Messages.showWarningDialog(
                 errorMessage,
                 "Warning");
+        // So user can also copy-paste it from the event log
         Logger.error(this.getClass(), errorMessage);
 
     }
@@ -429,12 +432,12 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         String className = path.substring(path.lastIndexOf(File.separator) + 1);
         int option = Messages.showOkCancelDialog(
                 project,
-                Rest2MobileMessages.getMessage("SOURCE_AVAILABLE_CONTINUE_EDITING_QUESTION", className, folder),
-                Rest2MobileMessages.getMessage("SUCCESS"),
-                Messages.YES_BUTTON,
-                Messages.NO_BUTTON,
+                R2MMessages.getMessage("SOURCE_AVAILABLE_CONTINUE_EDITING_QUESTION", className, folder),
+                R2MMessages.getMessage("SUCCESS"),
+                R2MMessages.getMessage("CLOSE_AND_SHOW_CODE_BUTTON_TEXT"),
+                R2MMessages.getMessage("CONTINUE_EDITING_BUTTON_TEXT"),
                 Messages.getQuestionIcon());
-        if (option == 0) {
+        if (option == 1) {
             getThis().setVisible(true);
         } else {
             dispose();

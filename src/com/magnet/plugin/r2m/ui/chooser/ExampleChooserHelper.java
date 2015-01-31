@@ -21,10 +21,10 @@ import com.intellij.openapi.ui.Messages;
 import com.magnet.langpack.builder.rest.parser.ExampleParser;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.r2m.helpers.IOUtils;
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.helpers.UIHelper;
-import com.magnet.plugin.r2m.helpers.URLHelper;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.common.URLHelper;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.ExampleResource;
 import com.magnet.plugin.r2m.models.ExamplesManifest;
 import sun.net.www.protocol.file.FileURLConnection;
@@ -61,11 +61,11 @@ public class ExampleChooserHelper {
         try {
             List<String> examples = getManifest().getExamplesList();
             String response = Messages.showEditableChooseDialog(
-                    Rest2MobileMessages.getMessage("CHOOSE_EXAMPLE_LABEL"),
-                    Rest2MobileMessages.getMessage("CHOOSE_EXAMPLE_TITLE"),
+                    R2MMessages.getMessage("CHOOSE_EXAMPLE_LABEL"),
+                    R2MMessages.getMessage("CHOOSE_EXAMPLE_TITLE"),
                     Messages.getQuestionIcon(),
                     examples.toArray(new String[examples.size()]),
-                    Rest2MobileMessages.getMessage("CHOOSE_EXAMPLE_DEFAULT_VALUE"),
+                    R2MMessages.getMessage("CHOOSE_EXAMPLE_DEFAULT_VALUE"),
                     null);
             return response == null ? null : response.split(ExamplesManifest.DESCRIPTION_SEPARATOR_KEY)[0];
         } finally {

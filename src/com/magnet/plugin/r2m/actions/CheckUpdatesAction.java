@@ -25,11 +25,11 @@ import com.intellij.openapi.extensions.PluginId;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.Messages;
 import com.intellij.util.text.VersionComparatorUtil;
-import com.magnet.plugin.r2m.helpers.Logger;
-import com.magnet.plugin.r2m.helpers.Rest2MobileConstants;
+import com.magnet.plugin.common.Logger;
+import com.magnet.plugin.r2m.helpers.R2MConstants;
 import com.magnet.plugin.r2m.helpers.UIHelper;
-import com.magnet.plugin.r2m.helpers.URLHelper;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.common.URLHelper;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -45,12 +45,12 @@ public class CheckUpdatesAction extends AnAction {
         Properties updatesInfo = new Properties();
         InputStream infoStream = null;
 
-        String url = Rest2MobileConstants.PUBLIC_VERSION_URL;
+        String url = R2MConstants.PUBLIC_VERSION_URL;
         try {
             infoStream = URLHelper.loadUrl(url);
             updatesInfo.load(infoStream);
         } catch (Exception ex) {
-            UIHelper.showErrorMessage("Couldn't access version URL: " + Rest2MobileConstants.PUBLIC_VERSION_URL);
+            UIHelper.showErrorMessage("Couldn't access version URL: " + R2MConstants.PUBLIC_VERSION_URL);
             Logger.error(CheckUpdatesAction.class, ex.getMessage());
             return;
         } finally {
@@ -63,7 +63,7 @@ public class CheckUpdatesAction extends AnAction {
             }
         }
 
-        String latestVersion = updatesInfo.getProperty(Rest2MobileConstants.LATEST_VERSION_KEY);
+        String latestVersion = updatesInfo.getProperty(R2MConstants.LATEST_VERSION_KEY);
         String installedVersion = getInstalledVersion();
 
         Project project = e.getData(CommonDataKeys.PROJECT);
@@ -77,24 +77,24 @@ public class CheckUpdatesAction extends AnAction {
     }
 
     private static String getInstalledVersion() {
-        return PluginManager.getPlugin(PluginId.getId(Rest2MobileConstants.PUBLIC_TOOL_PACKAGE)).getVersion();
+        return PluginManager.getPlugin(PluginId.getId(R2MConstants.PUBLIC_TOOL_PACKAGE)).getVersion();
     }
 
     private static void showUpdatesAvailableDialog(Project project, String installedVersion, Properties info) {
-        String newVersion = info.getProperty(Rest2MobileConstants.LATEST_VERSION_KEY);
-        String url = info.getProperty(Rest2MobileConstants.DOWNLOAD_URL_KEY);
-        String description = info.getProperty(Rest2MobileConstants.DESCRIPTION_KEY);
-        String comments = info.getProperty(Rest2MobileConstants.COMMENTS_KEY);
+        String newVersion = info.getProperty(R2MConstants.LATEST_VERSION_KEY);
+        String url = info.getProperty(R2MConstants.DOWNLOAD_URL_KEY);
+        String description = info.getProperty(R2MConstants.DESCRIPTION_KEY);
+        String comments = info.getProperty(R2MConstants.COMMENTS_KEY);
         Messages.showInfoMessage(project,
-                Rest2MobileMessages.getMessage("UPDATES_AVAILABLE", installedVersion, newVersion, url, description, comments),
-                Rest2MobileMessages.getMessage("UPDATES_WINDOW_TITLE"));
+                R2MMessages.getMessage("UPDATES_AVAILABLE", installedVersion, newVersion, url, description, comments),
+                R2MMessages.getMessage("UPDATES_WINDOW_TITLE"));
     }
 
     private static void showNoUpdateDialog(Project project, String installedVersion, Properties info) {
-        String newVersion = info.getProperty(Rest2MobileConstants.LATEST_VERSION_KEY);
+        String newVersion = info.getProperty(R2MConstants.LATEST_VERSION_KEY);
         Messages.showInfoMessage(project,
-                Rest2MobileMessages.getMessage("NO_UPDATES_AVAILABLE", installedVersion, newVersion),
-                Rest2MobileMessages.getMessage("UPDATES_WINDOW_TITLE"));
+                R2MMessages.getMessage("NO_UPDATES_AVAILABLE", installedVersion, newVersion),
+                R2MMessages.getMessage("UPDATES_WINDOW_TITLE"));
     }
 
 }

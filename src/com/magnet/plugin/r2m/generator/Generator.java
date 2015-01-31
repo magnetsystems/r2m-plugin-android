@@ -26,9 +26,9 @@ import com.magnet.plugin.r2m.api.models.ApiMethodModel;
 import com.magnet.plugin.r2m.api.models.RequestHeaderModel;
 import com.magnet.plugin.r2m.helpers.ControllerHistoryManager;
 import com.magnet.plugin.r2m.helpers.FileHelper;
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.helpers.RestByExampleKeywords;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.project.CacheManager;
 import com.magnet.plugin.r2m.project.ProjectManager;
 import com.magnet.tools.cli.simple.SimpleGenCommand;
@@ -173,7 +173,7 @@ public class Generator {
                         FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
                     } else {
                         String newFileName = fileName + ".latest";
-                        String header = Rest2MobileMessages.getMessage("LATEST_TEST_CLASS_HEADER", fileName.substring(fileName.lastIndexOf('/') + 1));
+                        String header = R2MMessages.getMessage("LATEST_TEST_CLASS_HEADER", fileName.substring(fileName.lastIndexOf('/') + 1));
                         File newFile = new File(generatedTestFiles, newFileName);
                         File oldFile = new File(generatedTestFiles, fileName);
                         String content = FileUtils.readFileToString(oldFile);

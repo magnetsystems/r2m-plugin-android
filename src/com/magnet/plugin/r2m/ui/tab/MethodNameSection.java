@@ -28,7 +28,7 @@ import com.magnet.plugin.r2m.constants.PluginIcon;
 import com.magnet.plugin.r2m.helpers.HistoryHelper;
 import com.magnet.plugin.r2m.helpers.VerifyHelper;
 import com.magnet.plugin.r2m.listeners.URLFocusListener;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.PathPart;
 import com.magnet.plugin.r2m.models.Query;
 
@@ -53,16 +53,16 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
         JLabel methodNameLabel = new JLabel();
         methodName = new JTextField();
-        methodName.setToolTipText(Rest2MobileMessages.getMessage("METHOD_NAME_TOOL_TIP"));
+        methodName.setToolTipText(R2MMessages.getMessage("METHOD_NAME_TOOL_TIP"));
         methodName.setColumns(1);
         urlDetailsBox = new JCheckBox();
-        urlDetailsBox.setToolTipText(Rest2MobileMessages.getMessage("EXPAND_URL_CHECKBOX_TOOL_TIP"));
+        urlDetailsBox.setToolTipText(R2MMessages.getMessage("EXPAND_URL_CHECKBOX_TOOL_TIP"));
         JLabel urlLabel = new JLabel();
 
 
         urlField = new ComboBox();
         urlField.setEditable(true);
-        urlField.setToolTipText(Rest2MobileMessages.getMessage("URL_FIELD_TOOL_TIP"));
+        urlField.setToolTipText(R2MMessages.getMessage("URL_FIELD_TOOL_TIP"));
 
         JTextField textField = getComboBoxEditor();
         textField.setColumns(1);
@@ -88,9 +88,9 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         urlSection.setVisible(false);
         urlSection.setFocusListener(this);
 
-        methodNameLabel.setText(Rest2MobileMessages.getMessage("METHOD_NAME_LABEL_TEXT"));
+        methodNameLabel.setText(R2MMessages.getMessage("METHOD_NAME_LABEL_TEXT"));
 
-        urlLabel.setText(Rest2MobileMessages.getMessage("URL_LABEL_TEXT"));
+        urlLabel.setText(R2MMessages.getMessage("URL_LABEL_TEXT"));
 
         methodName.addFocusListener(new FocusListener() {
             @Override

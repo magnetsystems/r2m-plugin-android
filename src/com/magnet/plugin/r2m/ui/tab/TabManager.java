@@ -18,9 +18,9 @@ package com.magnet.plugin.r2m.ui.tab;
 
 import com.beust.jcommander.internal.Lists;
 import com.intellij.openapi.project.Project;
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.listeners.TabRemoveListener;
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.ui.AddControllerForm;
 
 import javax.swing.*;
@@ -59,8 +59,8 @@ public class TabManager {
         customTab.setTabRemoveListener(tabRemoveListener);
         customTab.setIndex(0);
         tabs.add(customTab);
-        tabPanel.addTab(Rest2MobileMessages.getMessage("METHOD_N", 1), customTab);
-        tabPanel.addTab(Rest2MobileMessages.getMessage("PLUS_TAB"), new JLabel(""));
+        tabPanel.addTab(R2MMessages.getMessage("METHOD_N", 1), customTab);
+        tabPanel.addTab(R2MMessages.getMessage("PLUS_TAB"), new JLabel(""));
         tabPanel.addChangeListener(tabListener);
     }
 
@@ -79,9 +79,9 @@ public class TabManager {
         // remove "+" tab
         tabPanel.remove(index);
         // add "method N" tab
-        tabPanel.addTab(Rest2MobileMessages.getMessage("METHOD_N", index + 1), customTab);
+        tabPanel.addTab(R2MMessages.getMessage("METHOD_N", index + 1), customTab);
         // add "+" tab
-        tabPanel.addTab(Rest2MobileMessages.getMessage("PLUS_TAB"), new JLabel(""));
+        tabPanel.addTab(R2MMessages.getMessage("PLUS_TAB"), new JLabel(""));
         // set selected index
         tabPanel.setSelectedIndex(index);
 

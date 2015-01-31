@@ -15,24 +15,14 @@
  * permissions and limitations under the License.
  */
 
-package com.magnet.plugin.r2m.helpers;
+package com.magnet.plugin.common;
 
 import com.intellij.notification.Notification;
 import com.intellij.notification.NotificationType;
 import com.intellij.notification.Notifications;
 
-/**
- * Logging utilities
- */
 public class Logger {
 
-    public static void info(Class cls, String message) {
-        sendNotification(message, cls.getSimpleName(), NotificationType.INFORMATION);
-    }
-
-    public static void error(Class cls, String message) {
-        sendNotification(message, cls.getSimpleName(), NotificationType.ERROR);
-    }
 
     public static void info(String message) {
         sendNotification(message, "Information", NotificationType.INFORMATION);
@@ -42,17 +32,43 @@ public class Logger {
         sendNotification(message, "Error", NotificationType.ERROR);
     }
 
-    public static void sendNotification(String message, String tag, NotificationType notificationType) {
+    public static void info(Class cls, String message) {
+        sendNotification(message, cls.getSimpleName(), NotificationType.INFORMATION);
+    }
+
+    public static void error(Class cls, String message) {
+        sendNotification(message, cls.getSimpleName(), NotificationType.ERROR);
+    }
+
+    private static void sendNotification(String message, String tag, NotificationType notificationType) {
         if (null == message || message.isEmpty()) { // to prevent Assertion error
             return;
         }
-        Notification notification = new Notification("MagnetPlugin", tag, espaceString(message), notificationType);
+        Notification notification = new Notification(CommonConstants.LOGGER_TAG, tag, escapeString(message), notificationType);
         Notifications.Bus.notify(notification);
     }
 
-
-    private static String espaceString(String string) {
-        // replace with both so that it returns are preserved in the notification ballon and in the event log
+    private static String escapeString(String string) {
+        // replace with both so that it returns are preserved in the notification balloon and in the event log
         return string.replaceAll("\n", "\n<br />");
     }
+
+    /**
+     * Method which provide to show info log only in debug
+     *
+     * @param message message
+     */
+    public static void showLogInfo(String message) {
+        System.out.println("=====> " + message);
+    }
+
+    /**
+     * Method which provide to show error log only in debug
+     *
+     * @param message message
+     */
+    public static void showLogError(String message) {
+        System.err.println("=====> " + message);
+    }
+
 }

@@ -22,7 +22,7 @@ import com.intellij.openapi.util.io.FileUtil;
 import com.magnet.langpack.builder.rest.parser.ExampleParser;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.r2m.helpers.FileHelper;
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 
 import java.io.File;
 import java.io.FileFilter;

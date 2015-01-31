@@ -21,7 +21,7 @@ import com.magnet.plugin.r2m.api.mock.Worker;
 import com.magnet.plugin.r2m.api.mock.WorkerCallback;
 import com.magnet.plugin.r2m.api.models.Error;
 import com.magnet.plugin.r2m.helpers.IOUtils;
-import com.magnet.plugin.r2m.helpers.Logger;
+import com.magnet.plugin.common.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;

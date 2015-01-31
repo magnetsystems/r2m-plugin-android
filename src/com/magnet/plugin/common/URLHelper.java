@@ -14,11 +14,13 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
-package com.magnet.plugin.r2m.helpers;
+package com.magnet.plugin.common;
 
 import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.util.net.HttpConfigurable;
+import com.magnet.plugin.common.helpers.FormattedLogger;
+import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import java.io.*;
 import java.net.HttpURLConnection;
@@ -32,6 +34,10 @@ import java.util.concurrent.TimeoutException;
  * Helper to access URL
  */
 public class URLHelper {
+    /**
+     * connection timeout for http request
+     */
+    private static final int CONNECTION_TIMEOUT = 10000;
 
     public static InputStream loadUrl(final String url) throws Exception {
         final InputStream[] inputStreams = new InputStream[]{null};
@@ -44,8 +50,8 @@ public class URLHelper {
                         connection = HttpConfigurable.getInstance().openHttpConnection(url);
                     } else {
                         connection = (HttpURLConnection) new URL(url).openConnection();
-                        connection.setReadTimeout(Rest2MobileConstants.CONNECTION_TIMEOUT);
-                        connection.setConnectTimeout(Rest2MobileConstants.CONNECTION_TIMEOUT);
+                        connection.setReadTimeout(CONNECTION_TIMEOUT);
+                        connection.setConnectTimeout(CONNECTION_TIMEOUT);
                     }
                     connection.connect();
 
@@ -72,6 +78,7 @@ public class URLHelper {
 
     /**
      * Utility method to get a URL instance from either a file path or a url string
+     *
      * @param source path or url string to the file
      * @return URL instance or null if source is invalid
      */
@@ -79,8 +86,7 @@ public class URLHelper {
         URL url = null;
         try {
             url = new URL(source);
-        }
-        catch (MalformedURLException e) {
+        } catch (MalformedURLException e) {
             File file = new File(source);
             if (file.exists()) {
                 try {
@@ -99,6 +105,7 @@ public class URLHelper {
      * If <code>source</code> is a file path then return the file instance for it
      * If <code>source</code> is a URL then copy the resource to a local file, and return an instance of it
      * If there is no resource associated with source, then throw a CommandException
+     *
      * @return file instance
      */
     public static File getFileFromURL(String source) throws Exception {
@@ -134,6 +141,60 @@ public class URLHelper {
             }
         }
         return temp;
+    }
+
+    public static boolean checkURL(String urlS){
+        FormattedLogger logger = new FormattedLogger(URLHelper.class);
+        logger.append("checkURL:" + urlS);
+        try {
+            URL url = new URL(urlS);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            logger.append("Response code: " + conn.getResponseCode());
+            logger.showInfoLog();
+            return true;
+        } catch (IOException e) {
+            logger.append(e.getMessage());
+            logger.showErrorLog();
+        }
+        return false;
+    }
+
+    public static String checkURLConnection(String urlS, String username, String password){
+        String status = "Error connection to server!";
+        FormattedLogger logger = new FormattedLogger(URLHelper.class);
+        logger.append("checkURLConnection:" + urlS);
+        try {
+            URL url = new URL(urlS);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+
+            if (username != null && username.trim().length() > 0 && password != null && password.trim().length() > 0) {
+                final String authString = username + ":" + password;
+                conn.setRequestProperty("Authorization", "Basic " + Base64.encode(authString.getBytes()));
+            }
+
+            conn.setRequestMethod("GET");
+            conn.setDoInput(true);
+
+            status = "" + conn.getResponseCode();
+            logger.append("Response code:" + status);
+            logger.showInfoLog();
+        } catch (Exception e) {
+            logger.append(">>>" +  e.getClass().getName() + " message: " + e.getMessage());
+            logger.showErrorLog();
+        }
+        return status;
+    }
+
+    public static boolean checkPort(int port) {
+        return port > 0 && port <= 65535;
+    }
+
+    public static boolean checkPort(String port){
+        try{
+            return checkPort(Integer.parseInt(port));
+        }catch (NumberFormatException ex){
+            return false;
+        }
     }
 
 }

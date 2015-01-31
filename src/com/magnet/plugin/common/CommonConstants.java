@@ -14,20 +14,8 @@
  * implied. See the License for the specific language governing
  * permissions and limitations under the License.
  */
+package com.magnet.plugin.common;
 
-package com.magnet.plugin.r2m.actions;
-
-import com.intellij.ide.BrowserUtil;
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.magnet.plugin.r2m.helpers.R2MConstants;
-
-/**
- * Action for "Help" menu item
- */
-public class HelpAction extends AnAction {
-
-    public void actionPerformed(AnActionEvent e) {
-        BrowserUtil.browse(R2MConstants.DOCUMENTATION_URL);
-    }
+public class CommonConstants {
+    public static final String LOGGER_TAG = "MagnetPlugin";
 }

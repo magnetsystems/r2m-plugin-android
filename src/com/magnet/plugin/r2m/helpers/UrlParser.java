@@ -17,7 +17,8 @@
 
 package com.magnet.plugin.r2m.helpers;
 
-import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
+import com.magnet.plugin.common.Logger;
+import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.ParsedUrl;
 import com.magnet.plugin.r2m.models.PathPart;
 import com.magnet.plugin.r2m.models.Query;
@@ -32,7 +33,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UrlParser {
-    private static Pattern PATH_PARAM_PATTERN = Pattern.compile(Rest2MobileConstants.TEMPLATE_VARIABLE_REGEX);
+    private static Pattern PATH_PARAM_PATTERN = Pattern.compile(R2MConstants.TEMPLATE_VARIABLE_REGEX);
 
     public static ParsedUrl parseUrl(String url) {
         List<PathPart> pathParts = new ArrayList<PathPart>();
@@ -74,7 +75,7 @@ public class UrlParser {
             }
             parsedUrl.setPathParts(pathParts);
         } catch (Exception ex) {
-            Logger.error(UrlParser.class, Rest2MobileMessages.getMessage("CANNOT_PARSE_URL", url));
+            Logger.error(UrlParser.class, R2MMessages.getMessage("CANNOT_PARSE_URL", url));
             return null;
         }
         return parsedUrl;
@@ -90,9 +91,9 @@ public class UrlParser {
           String paramDef = m.group(1);
           String[] paramParts = paramDef.split(":");
           if (paramParts.length > 1) {
-            url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX + paramParts[0] + Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, paramParts[1]);
+            url = url.replaceAll(R2MConstants.START_TEMPLATE_VARIABLE_REGEX + paramParts[0] + R2MConstants.END_TEMPLATE_VARIABLE_REGEX, paramParts[1]);
           } else {
-            url = url.replaceAll(Rest2MobileConstants.START_TEMPLATE_VARIABLE_REGEX + paramParts[0] + Rest2MobileConstants.END_TEMPLATE_VARIABLE_REGEX, paramParts[0]);
+            url = url.replaceAll(R2MConstants.START_TEMPLATE_VARIABLE_REGEX + paramParts[0] + R2MConstants.END_TEMPLATE_VARIABLE_REGEX, paramParts[0]);
           }
         }
 
