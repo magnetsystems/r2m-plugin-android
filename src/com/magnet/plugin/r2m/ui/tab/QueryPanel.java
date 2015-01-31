@@ -17,7 +17,7 @@
 
 package com.magnet.plugin.r2m.ui.tab;
 
-import com.magnet.plugin.r2m.helpers.HintHelper;
+import com.magnet.plugin.common.ui.HintTextField;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.Query;
 import com.magnet.plugin.r2m.constants.FormConfig;
@@ -31,8 +31,8 @@ import static com.magnet.plugin.r2m.helpers.UIHelper.ERROR_REQUIRED_FIELD;
 
 public class QueryPanel extends BasePanel {
 
-    private JTextField key;
-    private JTextField value;
+    private HintTextField key;
+    private HintTextField value;
 
     private QueryParamCallBack callBack;
 
@@ -46,33 +46,33 @@ public class QueryPanel extends BasePanel {
     }
 
     {
-        key = new JTextField();
+        key = new HintTextField("");
         key.setFont(baseFont);
         key.getDocument().addDocumentListener(new AbstractDocumentListener() {
 
             @Override
             protected void doUpdate() {
-              query.setKey(key.getText());
-              callBack.updated(QueryPanel.this);
+                query.setKey(key.getText());
+                callBack.updated(QueryPanel.this);
             }
         });
 
-        value = new JTextField();
+        value = new HintTextField("");
         value.setFont(baseFont);
         value.getDocument().addDocumentListener(new AbstractDocumentListener() {
 
             @Override
             protected void doUpdate() {
-              query.setValue(value.getText());
-              callBack.updated(QueryPanel.this);
+                query.setValue(value.getText());
+                callBack.updated(QueryPanel.this);
             }
         });
 
         JButton delete = new JButton(R2MMessages.getMessage("SECTION_DELETE"));
         delete.setFont(baseFont);
 
-        HintHelper.setHintToTextField(ERROR_REQUIRED_FIELD, key);
-        HintHelper.setHintToTextField(ERROR_REQUIRED_FIELD, value);
+        key.setHint(ERROR_REQUIRED_FIELD);
+        value.setHint(ERROR_REQUIRED_FIELD);
 
         delete.addActionListener(new ActionListener() {
 
@@ -106,21 +106,16 @@ public class QueryPanel extends BasePanel {
     }
 
     public boolean checkRequirementField() {
-        if (key.getText().trim().equalsIgnoreCase("")) {
-            return false;
-        }
+        return !key.getText().trim().equalsIgnoreCase("") && !value.getText().trim().equalsIgnoreCase("");
 
-        if (value.getText().trim().equalsIgnoreCase("")) {
-            return false;
-        }
-        return true;
     }
 
-  /**
-   * Callback interface to handle events in this panel
-   */
+    /**
+     * Callback interface to handle events in this panel
+     */
     public interface QueryParamCallBack {
         void deleted(QueryPanel queryPanel);
+
         void updated(QueryPanel queryPanel);
     }
 }

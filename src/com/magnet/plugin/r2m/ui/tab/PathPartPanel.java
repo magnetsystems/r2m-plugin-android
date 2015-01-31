@@ -21,25 +21,26 @@
  */
 package com.magnet.plugin.r2m.ui.tab;
 
-import com.magnet.plugin.r2m.constants.FormConfig;
-import com.magnet.plugin.r2m.helpers.HintHelper;
-import com.magnet.plugin.r2m.helpers.UIHelper;
 import com.magnet.plugin.common.helpers.VerifyHelper;
+import com.magnet.plugin.common.ui.HintTextField;
+import com.magnet.plugin.r2m.constants.FormConfig;
+import com.magnet.plugin.r2m.helpers.UIHelper;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.PathPart;
 import com.magnet.plugin.r2m.ui.AbstractDocumentListener;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import static com.magnet.plugin.r2m.helpers.UIHelper.ERROR_REQUIRED_FIELD;
 
 public class PathPartPanel extends JPanel {
 
-    private final JTextField pathPartField;
+    private final HintTextField pathPartField;
     private final JCheckBox isVariableCheckBox;
-    private final JTextField variableNameField;
+    private final HintTextField variableNameField;
     private final JButton deleteButton;
 
     private final PathParamCallBack callBack;
@@ -57,15 +58,15 @@ public class PathPartPanel extends JPanel {
 
     {
         Font font = UIHelper.getFont();
-        pathPartField = new JTextField();
+        pathPartField = new HintTextField("");
         pathPartField.setFont(font);
         pathPartField.getDocument().addDocumentListener(new AbstractDocumentListener() {
 
-          @Override
-          protected void doUpdate() {
-            pathPart.setValue(pathPartField.getText());
-            callBack.updated(PathPartPanel.this);
-          }
+            @Override
+            protected void doUpdate() {
+                pathPart.setValue(pathPartField.getText());
+                callBack.updated(PathPartPanel.this);
+            }
         });
 
         isVariableCheckBox = new JCheckBox();
@@ -77,12 +78,12 @@ public class PathPartPanel extends JPanel {
             }
         });
 
-        variableNameField = new JTextField();
+        variableNameField = new HintTextField("");
         variableNameField.setToolTipText(R2MMessages.getMessage("VARIABLE_NAME_TEXT_FIELD_TOOL_TIP"));
         variableNameField.getDocument().addDocumentListener(new AbstractDocumentListener() {
 
-          @Override
-          protected void doUpdate() {
+            @Override
+            protected void doUpdate() {
                 pathPart.setVariableName(variableNameField.getText());
                 callBack.updated(PathPartPanel.this);
             }
@@ -98,9 +99,10 @@ public class PathPartPanel extends JPanel {
 
         isVariableCheckBox.setFont(font);
         variableNameField.setFont(font);
+
         deleteButton.setFont(font);
 
-        HintHelper.setHintToTextField(ERROR_REQUIRED_FIELD, pathPartField);
+        pathPartField.setHint(ERROR_REQUIRED_FIELD);
 
         isVariableCheckBox.setSelected(false);
         variableNameField.setEditable(false);
@@ -128,9 +130,9 @@ public class PathPartPanel extends JPanel {
             variableNameField.setEditable(true);
             variableNameField.setText(pathPart.getVariableName());
             pathPart.setTemplatized(true);
-            HintHelper.setHintToTextField(UIHelper.ERROR_REQUIRED_FIELD, variableNameField);
+            variableNameField.setHint(UIHelper.ERROR_REQUIRED_FIELD);
         } else {
-            HintHelper.removeHintFromField(variableNameField);
+            variableNameField.setHint("");
             variableNameField.setEditable(false);
             pathPart.setTemplatized(false);
             variableNameField.setText("");
@@ -171,6 +173,7 @@ public class PathPartPanel extends JPanel {
      */
     public interface PathParamCallBack {
         void deleted(PathPartPanel pathPanel);
+
         void updated(PathPartPanel pathPanel);
     }
 }
