@@ -173,7 +173,7 @@ public class Generator {
                         FileUtils.copyDirectory(generatedTestFiles, targetTestFolder);
                     } else {
                         String newFileName = fileName + ".latest";
-                        String header = Rest2MobileMessages.getMessage(Rest2MobileMessages.LATEST_TEST_CLASS_HEADER, fileName.substring(fileName.lastIndexOf('/') + 1));
+                        String header = Rest2MobileMessages.getMessage("LATEST_TEST_CLASS_HEADER", fileName.substring(fileName.lastIndexOf('/') + 1));
                         File newFile = new File(generatedTestFiles, newFileName);
                         File oldFile = new File(generatedTestFiles, fileName);
                         String content = FileUtils.readFileToString(oldFile);

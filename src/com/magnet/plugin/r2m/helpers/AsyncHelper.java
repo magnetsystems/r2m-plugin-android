@@ -23,6 +23,7 @@ import com.intellij.openapi.progress.ProgressManager;
 import com.intellij.openapi.progress.Task;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.project.ex.ProjectManagerEx;
+import com.intellij.openapi.ui.Messages;
 import com.magnet.plugin.r2m.generator.Generator;
 import com.magnet.plugin.r2m.constants.GenerateActions;
 import com.magnet.plugin.r2m.listeners.generator.PostGenerateCallback;
@@ -108,11 +109,10 @@ public class AsyncHelper implements ProgressGenerateCallback {
         for (String e : list) {
             sb.append(e).append("\n");
         }
-        int option = JOptionPane.showConfirmDialog(
-                null,
+        int option = Messages.showOkCancelDialog(
                 Rest2MobileMessages.getMessage("CONFIRM_OVERRIDE_FILES", sb.toString()),
-                "Warning",
-                JOptionPane.YES_NO_OPTION);
+                Rest2MobileMessages.getMessage("CONFIRM_OVERRIDE_FILES_TITLE"),
+                Messages.getWarningIcon());
         if (option == 0) {
             onActionSuccess(GenerateActions.START_FILE_OPERATIONS);
         } else {

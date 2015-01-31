@@ -67,7 +67,7 @@ public class HeaderPanel extends BasePanel {
     {
         key = new JTextField();
         value = new JTextField();
-        delete = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
+        delete = new JButton(Rest2MobileMessages.getMessage("SECTION_DELETE"));
 
         delete.addActionListener(listener);
 

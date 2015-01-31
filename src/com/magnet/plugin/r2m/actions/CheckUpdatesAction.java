@@ -86,15 +86,15 @@ public class CheckUpdatesAction extends AnAction {
         String description = info.getProperty(Rest2MobileConstants.DESCRIPTION_KEY);
         String comments = info.getProperty(Rest2MobileConstants.COMMENTS_KEY);
         Messages.showInfoMessage(project,
-                Rest2MobileMessages.getMessage(Rest2MobileMessages.UPDATES_AVAILABLE, installedVersion, newVersion, url, description, comments),
-                Rest2MobileMessages.getMessage(Rest2MobileMessages.UPDATES_WINDOW_TITLE));
+                Rest2MobileMessages.getMessage("UPDATES_AVAILABLE", installedVersion, newVersion, url, description, comments),
+                Rest2MobileMessages.getMessage("UPDATES_WINDOW_TITLE"));
     }
 
     private static void showNoUpdateDialog(Project project, String installedVersion, Properties info) {
         String newVersion = info.getProperty(Rest2MobileConstants.LATEST_VERSION_KEY);
         Messages.showInfoMessage(project,
-                Rest2MobileMessages.getMessage(Rest2MobileMessages.NO_UPDATES_AVAILABLE, installedVersion, newVersion),
-                Rest2MobileMessages.getMessage(Rest2MobileMessages.UPDATES_WINDOW_TITLE));
+                Rest2MobileMessages.getMessage("NO_UPDATES_AVAILABLE", installedVersion, newVersion),
+                Rest2MobileMessages.getMessage("UPDATES_WINDOW_TITLE"));
     }
 
 }

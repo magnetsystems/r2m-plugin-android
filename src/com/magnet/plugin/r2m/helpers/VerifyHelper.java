@@ -94,7 +94,7 @@ public class VerifyHelper {
 
     private static String verifyByKeyWords(String text) {
         if (KEYWORDS.contains(text)) {
-            UIHelper.showErrorMessage(Rest2MobileMessages.getMessage(Rest2MobileMessages.NAME_CONFLICTS_WITH_JAVA_KEYWORDS));
+            UIHelper.showErrorMessage(Rest2MobileMessages.getMessage("NAME_CONFLICTS_WITH_JAVA_KEYWORDS"));
             text = "";
         }
         return text;

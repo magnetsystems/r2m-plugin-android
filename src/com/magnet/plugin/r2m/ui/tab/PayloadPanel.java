@@ -160,10 +160,10 @@ public abstract class PayloadPanel extends BasePanel {
 
                         // is it fatal error ?
                         if (errors.size() == 1 && errors.get(0).getErrorType() == JSONErrorType.ERROR_INVALID_FORMAT) {
-                            errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
+                            errorMessageLabel.setText(Rest2MobileMessages.getMessage("ERROR_INVALID_FORMAT"));
                             errorMessageLabel.setIcon(PluginIcon.errorIcon);
                         } else {
-                            errorMessageLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_MESSAGE));
+                            errorMessageLabel.setText(Rest2MobileMessages.getMessage("VALIDATION_WARNING_MESSAGE"));
                             errorMessageLabel.setIcon(PluginIcon.warningIcon);
                         }
                     } else {

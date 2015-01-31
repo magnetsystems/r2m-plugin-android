@@ -61,11 +61,11 @@ public class ExampleChooserHelper {
         try {
             List<String> examples = getManifest().getExamplesList();
             String response = Messages.showEditableChooseDialog(
-                    Rest2MobileMessages.getMessage(Rest2MobileMessages.CHOOSE_EXAMPLE_LABEL),
-                    Rest2MobileMessages.getMessage(Rest2MobileMessages.CHOOSE_EXAMPLE_TITLE),
+                    Rest2MobileMessages.getMessage("CHOOSE_EXAMPLE_LABEL"),
+                    Rest2MobileMessages.getMessage("CHOOSE_EXAMPLE_TITLE"),
                     Messages.getQuestionIcon(),
                     examples.toArray(new String[examples.size()]),
-                    Rest2MobileMessages.getMessage(Rest2MobileMessages.CHOOSE_EXAMPLE_DEFAULT_VALUE),
+                    Rest2MobileMessages.getMessage("CHOOSE_EXAMPLE_DEFAULT_VALUE"),
                     null);
             return response == null ? null : response.split(ExamplesManifest.DESCRIPTION_SEPARATOR_KEY)[0];
         } finally {

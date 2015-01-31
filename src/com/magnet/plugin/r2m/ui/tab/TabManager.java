@@ -59,8 +59,8 @@ public class TabManager {
         customTab.setTabRemoveListener(tabRemoveListener);
         customTab.setIndex(0);
         tabs.add(customTab);
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, 1), customTab);
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.PLUS_TAB), new JLabel(""));
+        tabPanel.addTab(Rest2MobileMessages.getMessage("METHOD_N", 1), customTab);
+        tabPanel.addTab(Rest2MobileMessages.getMessage("PLUS_TAB"), new JLabel(""));
         tabPanel.addChangeListener(tabListener);
     }
 
@@ -79,9 +79,9 @@ public class TabManager {
         // remove "+" tab
         tabPanel.remove(index);
         // add "method N" tab
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, index + 1), customTab);
+        tabPanel.addTab(Rest2MobileMessages.getMessage("METHOD_N", index + 1), customTab);
         // add "+" tab
-        tabPanel.addTab(Rest2MobileMessages.getMessage(Rest2MobileMessages.PLUS_TAB), new JLabel(""));
+        tabPanel.addTab(Rest2MobileMessages.getMessage("PLUS_TAB"), new JLabel(""));
         // set selected index
         tabPanel.setSelectedIndex(index);
 

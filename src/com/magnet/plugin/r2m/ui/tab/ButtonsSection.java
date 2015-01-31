@@ -34,9 +34,9 @@ public class ButtonsSection extends BasePanel {
 
 
     {
-        testApiButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.TEST_API_TEXT));
+        testApiButton = new JButton(Rest2MobileMessages.getMessage("TEST_API_TEXT"));
         testApiButton.setToolTipText(Rest2MobileMessages.getMessage("TEST_API_TOOL_TIP"));
-        deletePanelButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.REMOVE_METHOD_TEXT));
+        deletePanelButton = new JButton(Rest2MobileMessages.getMessage("REMOVE_METHOD_TEXT"));
         deletePanelButton.setToolTipText(Rest2MobileMessages.getMessage("REMOVE_METHOD_TOOL_TIP"));
         deletePanelButton.setEnabled(true);
 

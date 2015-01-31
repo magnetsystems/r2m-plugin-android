@@ -68,7 +68,7 @@ public class QueryPanel extends BasePanel {
             }
         });
 
-        JButton delete = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
+        JButton delete = new JButton(Rest2MobileMessages.getMessage("SECTION_DELETE"));
         delete.setFont(baseFont);
 
         HintHelper.setHintToTextField(ERROR_REQUIRED_FIELD, key);

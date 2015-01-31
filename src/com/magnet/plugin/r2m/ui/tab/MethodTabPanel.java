@@ -151,7 +151,7 @@ public class MethodTabPanel extends BasePanel {
 
         Method method = getMethod();
         if (!VerifyHelper.isValidUrl(method.getTestUrl())) {
-            showErrorMessage(Rest2MobileMessages.getMessage(Rest2MobileMessages.PROVIDE_VALID_URL, method.getMethodName(), method.getTestUrl()));
+            showErrorMessage(Rest2MobileMessages.getMessage("PROVIDE_VALID_URL", method.getMethodName(), method.getTestUrl()));
             return false;
         }
         if (getMethodName().isEmpty()) {
@@ -178,7 +178,7 @@ public class MethodTabPanel extends BasePanel {
         if (methodNameSection.checkRequirementFields()) {
             Method method = makeMethod();
             if (!VerifyHelper.isValidUrlWithoutPerformance(method.getTestUrl())) {
-                showErrorMessage(Rest2MobileMessages.getMessage(Rest2MobileMessages.PROVIDE_VALID_URL, method.getMethodName(), method.getTestUrl()));
+                showErrorMessage(Rest2MobileMessages.getMessage("PROVIDE_VALID_URL", method.getMethodName(), method.getTestUrl()));
             }
             RequestModel requestModel = new RequestModel(method);
             BaseRequest request = RequestFactory.getRequestForMethod(callback, requestModel);
@@ -286,7 +286,7 @@ public class MethodTabPanel extends BasePanel {
             if (!getMethodTabName().isEmpty()) {
                 tabPanel.setTitleAt(getIndex(), getMethodTabName());
             } else {
-                tabPanel.setTitleAt(getIndex(), Rest2MobileMessages.getMessage(Rest2MobileMessages.METHOD_N, index + 1));
+                tabPanel.setTitleAt(getIndex(), Rest2MobileMessages.getMessage("METHOD_N", index + 1));
             }
         }
     }

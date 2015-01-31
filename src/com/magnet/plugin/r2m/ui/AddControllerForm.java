@@ -86,7 +86,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
 
 //        setResizable(true);
-        setTitle(Rest2MobileMessages.getMessage(Rest2MobileMessages.WINDOW_TITLE));
+        setTitle(Rest2MobileMessages.getMessage("WINDOW_TITLE"));
         packageNameField.setText(ProjectManager.getPackageName(project));
 
         generateButton.addActionListener(generateListener);
@@ -244,10 +244,10 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         }
 
         private boolean ifContinue(String methodName, BodyValidationResult validationResult) {
-            int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_QUESTION, methodName) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
-                    Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_TITLE, methodName),
-                    Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CONTINUE),
-                    Rest2MobileMessages.getMessage(Rest2MobileMessages.VALIDATION_WARNING_CANCEL),
+            int okCancelResult = Messages.showOkCancelDialog(contentPane, Rest2MobileMessages.getMessage("VALIDATION_WARNING_QUESTION", methodName) + "\n" + JSONValidator.getErrorMessage(validationResult.getErrors()),
+                    Rest2MobileMessages.getMessage("VALIDATION_WARNING_TITLE", methodName),
+                    Rest2MobileMessages.getMessage("VALIDATION_WARNING_CONTINUE"),
+                    Rest2MobileMessages.getMessage("VALIDATION_WARNING_CANCEL"),
                     null);
             boolean result = okCancelResult == 0;
 
@@ -427,11 +427,13 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         String path = file.getAbsolutePath();
         String folder = path.substring(0, path.lastIndexOf(File.separator));
         String className = path.substring(path.lastIndexOf(File.separator) + 1);
-        int option = JOptionPane.showConfirmDialog(
-                null,
-                Rest2MobileMessages.getMessage(Rest2MobileMessages.SOURCE_AVAILABLE_CONTINUE_EDITING_QUESTION, className, folder),
-                "Success",
-                JOptionPane.YES_NO_OPTION);
+        int option = Messages.showOkCancelDialog(
+                project,
+                Rest2MobileMessages.getMessage("SOURCE_AVAILABLE_CONTINUE_EDITING_QUESTION", className, folder),
+                Rest2MobileMessages.getMessage("SUCCESS"),
+                Messages.YES_BUTTON,
+                Messages.NO_BUTTON,
+                Messages.getQuestionIcon());
         if (option == 0) {
             getThis().setVisible(true);
         } else {

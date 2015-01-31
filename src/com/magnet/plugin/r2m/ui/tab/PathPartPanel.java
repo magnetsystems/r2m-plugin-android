@@ -88,7 +88,7 @@ public class PathPartPanel extends JPanel {
             }
         });
 
-        deleteButton = new JButton(Rest2MobileMessages.getMessage(Rest2MobileMessages.SECTION_DELETE));
+        deleteButton = new JButton(Rest2MobileMessages.getMessage("SECTION_DELETE"));
         deleteButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent evt) {

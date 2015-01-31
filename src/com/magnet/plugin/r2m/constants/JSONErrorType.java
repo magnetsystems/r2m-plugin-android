@@ -23,11 +23,11 @@ import com.magnet.plugin.r2m.messages.Rest2MobileMessages;
  * JSON errors types
  */
 public enum JSONErrorType {
-    ERROR_NULL_VALUE(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_NULL_VALUE_TEXT)),
-    ERROR_EMPTY_ARRAY(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_EMPTY_ARRAY_TEXT)),
-    ERROR_EMPTY_DICTIONARY(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_EMPTY_DICTIONARY_TEXT)),
-    ERROR_MISSING_COMMA(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_MISSING_COMMA_TEXT)),
-    ERROR_INVALID_FORMAT(Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_INVALID_FORMAT));
+    ERROR_NULL_VALUE(Rest2MobileMessages.getMessage("ERROR_NULL_VALUE_TEXT")),
+    ERROR_EMPTY_ARRAY(Rest2MobileMessages.getMessage("ERROR_EMPTY_ARRAY_TEXT")),
+    ERROR_EMPTY_DICTIONARY(Rest2MobileMessages.getMessage("ERROR_EMPTY_DICTIONARY_TEXT")),
+    ERROR_MISSING_COMMA(Rest2MobileMessages.getMessage("ERROR_MISSING_COMMA_TEXT")),
+    ERROR_INVALID_FORMAT(Rest2MobileMessages.getMessage("ERROR_INVALID_FORMAT"));
 
 
   private String message;

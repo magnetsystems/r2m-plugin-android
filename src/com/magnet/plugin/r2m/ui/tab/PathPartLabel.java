@@ -33,9 +33,9 @@ public class PathPartLabel extends BasePanel {
         JLabel variableLabel = new JLabel();
         JLabel variableNameLabel = new JLabel();
 
-        pathLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_PART_NAME));
-        variableLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_VARIABLE_CHECKBOX_NAME));
-        variableNameLabel.setText(Rest2MobileMessages.getMessage(Rest2MobileMessages.PATH_VARIABLE_NAME));
+        pathLabel.setText(Rest2MobileMessages.getMessage("PATH_PART_NAME"));
+        variableLabel.setText(Rest2MobileMessages.getMessage("PATH_VARIABLE_CHECKBOX_NAME"));
+        variableNameLabel.setText(Rest2MobileMessages.getMessage("PATH_VARIABLE_NAME"));
 
         pathLabel.setFont(baseFont);
         variableLabel.setFont(baseFont);

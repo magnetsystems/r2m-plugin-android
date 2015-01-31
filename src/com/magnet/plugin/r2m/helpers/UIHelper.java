@@ -30,14 +30,14 @@ import java.awt.*;
  */
 public class UIHelper {
 
-    public static final String ERROR_TEST_API = Rest2MobileMessages.getMessage(Rest2MobileMessages.TEST_API_BEFORE_SAVE_METHOD);
-    public static final String ERROR_METHOD_NAME = Rest2MobileMessages.getMessage(Rest2MobileMessages.EMPTY_METHOD_NAME);
-    public static final String ERROR_REQUEST = Rest2MobileMessages.getMessage(Rest2MobileMessages.ERROR_REQUEST);
-    public static final String ERROR_SERVICE_NAME = Rest2MobileMessages.getMessage(Rest2MobileMessages.EMPTY_CLASS_NAME);
-    public static final String ERROR_PACKAGE_NAME = Rest2MobileMessages.getMessage(Rest2MobileMessages.EMPTY_PACKAGE_NAME);
-    public static final String ERROR_REQUIRED_FIELD = Rest2MobileMessages.getMessage(Rest2MobileMessages.REQUIRED_FIELD);
-    public static final String ERROR_FILL_REQUIRED_FIELD = Rest2MobileMessages.getMessage(Rest2MobileMessages.MUST_FILL_ALL_REQUIRED_FIELDS);
-    public static final String MESSAGE_GENERATING_SERVICE = Rest2MobileMessages.getMessage(Rest2MobileMessages.GENERATING_MESSAGE_SERVICE);
+    public static final String ERROR_TEST_API = Rest2MobileMessages.getMessage("TEST_API_BEFORE_SAVE_METHOD");
+    public static final String ERROR_METHOD_NAME = Rest2MobileMessages.getMessage("EMPTY_METHOD_NAME");
+    public static final String ERROR_REQUEST = Rest2MobileMessages.getMessage("ERROR_REQUEST");
+    public static final String ERROR_SERVICE_NAME = Rest2MobileMessages.getMessage("EMPTY_CLASS_NAME");
+    public static final String ERROR_PACKAGE_NAME = Rest2MobileMessages.getMessage("EMPTY_PACKAGE_NAME");
+    public static final String ERROR_REQUIRED_FIELD = Rest2MobileMessages.getMessage("REQUIRED_FIELD");
+    public static final String ERROR_FILL_REQUIRED_FIELD = Rest2MobileMessages.getMessage("MUST_FILL_ALL_REQUIRED_FIELDS");
+    public static final String MESSAGE_GENERATING_SERVICE = Rest2MobileMessages.getMessage("SERVICE_WAS_GENERATED");
 
 
     public static void openAPIDialog(Project project, AnActionEvent anAction) {
@@ -45,7 +45,7 @@ public class UIHelper {
     }
 
     public static void showErrorMessage(String message) {
-        Messages.showInfoMessage(message, Rest2MobileMessages.getMessage(Rest2MobileMessages.WINDOW_TITLE));
+        Messages.showInfoMessage(message, Rest2MobileMessages.getMessage("WINDOW_TITLE"));
     }
 
     public static Font getFont() {
