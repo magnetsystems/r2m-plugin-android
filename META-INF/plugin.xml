@@ -38,7 +38,6 @@ The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services in
         <![CDATA[
         <p>Changes in 1.1.9
                <br>- UI cosmetics
-               <br>- added tooltips
                <br>- lazily create .rest2mobile
                <br>- fixed https://github.com/magnetsystems/r2m-plugin-android/issues/23
                <br>- fixed https://github.com/magnetsystems/r2m-plugin-android/issues/22
