@@ -432,7 +432,6 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
         String folder = path.substring(0, path.lastIndexOf(File.separator));
         String className = path.substring(path.lastIndexOf(File.separator) + 1);
         int option = Messages.showOkCancelDialog(
-                project,
                 R2MMessages.getMessage("SOURCE_AVAILABLE_CONTINUE_EDITING_QUESTION", className, folder),
                 R2MMessages.getMessage("SUCCESS"),
                 R2MMessages.getMessage("CLOSE_AND_SHOW_CODE_BUTTON_TEXT"),
