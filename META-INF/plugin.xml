@@ -18,7 +18,7 @@
 <idea-plugin version="2">
     <id>com.magnet.r2m</id>
     <name>Magnet rest2mobile</name>
-    <version>1.1.10</version>
+    <version>1.1.11</version>
     <vendor logo="/icon_logo.png" url="http://developer.magnet.com">Magnet</vendor>
     <description><![CDATA[
 
@@ -36,6 +36,8 @@ The Magnet rest2mobile Android Studio and Intellij Plugin turns REST services in
 
     <change-notes>
         <![CDATA[
+        <p>Changes in 1.1.11
+               <br>- fix for https://github.com/magnetsystems/r2m-plugin-android/issues/29
         <p>Changes in 1.1.10
                <br>- bring "close Add rest api" window to the front.
         <p>Changes in 1.1.9
