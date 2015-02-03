@@ -91,8 +91,9 @@
   <target name="plugin.build.jar.r2m-plugin-android" depends="compile.module.r2m-plugin-android" description="Build plugin archive for module &#39;r2m-plugin-android&#39;">
     <property name="tmp.dir.r2m-plugin-android" value="${module.r2m-plugin-android.basedir}/../temp"/>
     <mkdir dir="${tmp.dir.r2m-plugin-android}"/>
-    <mkdir dir="${tmp.dir.r2m-plugin-android}/lib"/>
-    <jar destfile="${tmp.dir.r2m-plugin-android}/lib/r2m-plugin-android.jar" duplicate="preserve">
+    <mkdir dir="${tmp.dir.r2m-plugin-android}/r2m-plugin-android"/>
+    <mkdir dir="${tmp.dir.r2m-plugin-android}/r2m-plugin-android/lib"/>
+    <jar destfile="${tmp.dir.r2m-plugin-android}/r2m-plugin-android/lib/r2m-plugin-android.jar" duplicate="preserve">
       <zipfileset dir="${module.r2m-plugin-android.basedir}/out/production/r2m-plugin-android"/>
       <zipfileset file="${module.r2m-plugin-android.basedir}/META-INF/plugin.xml" prefix="META-INF"/>
       <manifest>
@@ -100,9 +101,9 @@
         <attribute name="Manifest-Version" value="1.0"/>
       </manifest>
     </jar>
-    <copy file="${module.r2m-plugin-android.basedir}/lib/gson-2.3.jar" tofile="${tmp.dir.r2m-plugin-android}/lib/gson-2.3.jar"/>
-    <copy file="${module.r2m-plugin-android.basedir}/lib/commons-validator-1.4.0.jar" tofile="${tmp.dir.r2m-plugin-android}/lib/commons-validator-1.4.0.jar"/>
-    <copy file="${module.r2m-plugin-android.basedir}/lib/magnet-tools-cli-simple-1.1.0.jar" tofile="${tmp.dir.r2m-plugin-android}/lib/magnet-tools-cli-simple-1.1.0.jar"/>
+    <copy file="${module.r2m-plugin-android.basedir}/lib/gson-2.3.jar" tofile="${tmp.dir.r2m-plugin-android}/r2m-plugin-android/lib/gson-2.3.jar"/>
+    <copy file="${module.r2m-plugin-android.basedir}/lib/commons-validator-1.4.0.jar" tofile="${tmp.dir.r2m-plugin-android}/r2m-plugin-android/lib/commons-validator-1.4.0.jar"/>
+    <copy file="${module.r2m-plugin-android.basedir}/lib/magnet-tools-cli-simple-1.1.0.jar" tofile="${tmp.dir.r2m-plugin-android}/r2m-plugin-android/lib/magnet-tools-cli-simple-1.1.0.jar"/>
     <zip destfile="${r2m-plugin-android.plugin.path.jar}">
       <fileset dir="${module.r2m-plugin-android.basedir}/../temp"/>
     </zip>

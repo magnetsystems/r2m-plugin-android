@@ -58,27 +58,10 @@
   
   <!-- JDK definitions -->
   
-  <property name="jdk.bin.idea_ic-139.1117.1" value="${jdk.home.idea_ic-139.1117.1}/../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/bin"/>
+  <property name="jdk.bin.idea_ic-139.1117.1" value="${java.home}/bin"/>
   <path id="jdk.classpath.idea_ic-139.1117.1">
-    <pathelement location="/System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar"/>
+    <pathelement location="${java.home}/../Classes/classes.jar"/>
     <fileset dir="${jdk.home.idea_ic-139.1117.1}">
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/deploy.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/dt.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/javaws.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/jce.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/jconsole.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/management-agent.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/plugin.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/sa-jdi.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/charsets.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/classes.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/jsse.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Classes/ui.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/apple_provider.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/dnsns.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/localedata.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/sunjce_provider.jar"/>
-      <include name="../../../System/Library/Java/JavaVirtualMachines/1.6.0.jdk/Contents/Home/lib/ext/sunpkcs11.jar"/>
       <include name="lib/annotations.jar"/>
       <include name="lib/asm-all.jar"/>
       <include name="lib/asm-commons.jar"/>
