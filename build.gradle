@@ -46,6 +46,8 @@ configurations {
     antTask
 }
 
+
+
 task compileJava(overwrite: true, dependsOn: configurations.compile.getTaskDependencyFromProjectDependency(true, 'jar')) {
     doLast {
         project.sourceSets.main.output.classesDir.mkdirs()
@@ -64,7 +66,7 @@ task copyFormsLib(type: Copy) {
     into ("build/${PLUGIN_NAME}/lib")
 }
 
-task copyLibs(type: Copy, dependsOn: copyFormsLib) {
+task copyLibs(type: Copy) {
     from('.') {
         include ('lib/*.jar')
     }
@@ -83,5 +85,9 @@ task pluginZip(type: Zip, dependsOn: copyLibs) {
         println("Plugin file created under build/distributions/$archiveName")
     }
 
+}
+
+task printPath {
+    println project.sourceSets.main.compileClasspath.asPath
 }
 
