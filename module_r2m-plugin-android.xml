@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="module_r2m-plugin-android" default="compile.module.r2m-plugin-android">
+  <dirname property="module.r2m-plugin-android.basedir" file="${ant.file.module_r2m-plugin-android}"/>
+  
+  <property name="module.jdk.home.r2m-plugin-android" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.r2m-plugin-android" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.r2m-plugin-android" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.r2m-plugin-android" value="-encoding UTF-8 -source 1.6 ${compiler.args}"/>
+  
+  <property name="r2m-plugin-android.output.dir" value="${module.r2m-plugin-android.basedir}/out/production/r2m-plugin-android"/>
+  <property name="r2m-plugin-android.testoutput.dir" value="${module.r2m-plugin-android.basedir}/out/test/r2m-plugin-android"/>
+  
+  <path id="r2m-plugin-android.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="r2m-plugin-android.module.production.classpath">
+    <path refid="${module.jdk.classpath.r2m-plugin-android}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="r2m-plugin-android.runtime.production.module.classpath">
+    <pathelement location="${r2m-plugin-android.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="r2m-plugin-android.module.classpath">
+    <path refid="${module.jdk.classpath.r2m-plugin-android}"/>
+    <pathelement location="${r2m-plugin-android.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  <path id="r2m-plugin-android.runtime.module.classpath">
+    <pathelement location="${r2m-plugin-android.testoutput.dir}"/>
+    <pathelement location="${r2m-plugin-android.output.dir}"/>
+    <path refid="library.lib.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.r2m-plugin-android">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.r2m-plugin-android">
+    <patternset refid="excluded.from.module.r2m-plugin-android"/>
+  </patternset>
+  
+  <path id="r2m-plugin-android.module.sourcepath">
+    <dirset dir="${module.r2m-plugin-android.basedir}">
+      <include name="src"/>
+      <include name="res"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.r2m-plugin-android" depends="compile.module.r2m-plugin-android.production,compile.module.r2m-plugin-android.tests" description="Compile module r2m-plugin-android"/>
+  
+  <target name="compile.module.r2m-plugin-android.production" depends="register.custom.compilers" description="Compile module r2m-plugin-android; production classes">
+    <mkdir dir="${r2m-plugin-android.output.dir}"/>
+    <javac2 destdir="${r2m-plugin-android.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.r2m-plugin-android}/javac">
+      <compilerarg line="${compiler.args.r2m-plugin-android}"/>
+      <bootclasspath refid="r2m-plugin-android.module.bootclasspath"/>
+      <classpath refid="r2m-plugin-android.module.production.classpath"/>
+      <src refid="r2m-plugin-android.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.r2m-plugin-android"/>
+    </javac2>
+    
+    <copy todir="${r2m-plugin-android.output.dir}">
+      <fileset dir="${module.r2m-plugin-android.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+      <fileset dir="${module.r2m-plugin-android.basedir}/res">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.r2m-plugin-android.tests" depends="register.custom.compilers,compile.module.r2m-plugin-android.production" description="compile module r2m-plugin-android; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.r2m-plugin-android" description="cleanup module">
+    <delete dir="${r2m-plugin-android.output.dir}"/>
+    <delete dir="${r2m-plugin-android.testoutput.dir}"/>
+  </target>
+  
+  <property name="r2m-plugin-android.plugin.path.jar" value="${module.r2m-plugin-android.basedir}/r2m-plugin-android.zip"/>
+  
+  <!-- Build archive for plugin 'r2m-plugin-android' -->
+  <target name="plugin.build.jar.r2m-plugin-android" depends="compile.module.r2m-plugin-android" description="Build plugin archive for module &#39;r2m-plugin-android&#39;">
+    <property name="tmp.dir.r2m-plugin-android" value="${module.r2m-plugin-android.basedir}/../temp"/>
+    <mkdir dir="${tmp.dir.r2m-plugin-android}"/>
+    <mkdir dir="${tmp.dir.r2m-plugin-android}/lib"/>
+    <jar destfile="${tmp.dir.r2m-plugin-android}/lib/r2m-plugin-android.jar" duplicate="preserve">
+      <zipfileset dir="${module.r2m-plugin-android.basedir}/out/production/r2m-plugin-android"/>
+      <zipfileset file="${module.r2m-plugin-android.basedir}/META-INF/plugin.xml" prefix="META-INF"/>
+      <manifest>
+        <attribute name="Created-By" value="IntelliJ IDEA"/>
+        <attribute name="Manifest-Version" value="1.0"/>
+      </manifest>
+    </jar>
+    <copy file="${module.r2m-plugin-android.basedir}/lib/gson-2.3.jar" tofile="${tmp.dir.r2m-plugin-android}/lib/gson-2.3.jar"/>
+    <copy file="${module.r2m-plugin-android.basedir}/lib/commons-validator-1.4.0.jar" tofile="${tmp.dir.r2m-plugin-android}/lib/commons-validator-1.4.0.jar"/>
+    <copy file="${module.r2m-plugin-android.basedir}/lib/magnet-tools-cli-simple-1.1.0.jar" tofile="${tmp.dir.r2m-plugin-android}/lib/magnet-tools-cli-simple-1.1.0.jar"/>
+    <zip destfile="${r2m-plugin-android.plugin.path.jar}">
+      <fileset dir="${module.r2m-plugin-android.basedir}/../temp"/>
+    </zip>
+    <delete dir="${tmp.dir.r2m-plugin-android}"/>
+  </target>
+</project>
