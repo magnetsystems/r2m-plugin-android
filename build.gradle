@@ -23,6 +23,7 @@ sourceSets {
 }
 
 dependencies {
+//    compile fileTree(dir: "${org.gradle.java.home}/../Classes" , include: ['Classes.jar'])
     compile fileTree(dir: IDEA_LIBS, include: ['*.jar'])
     compile fileTree(dir: 'lib', include: ['*.jar'])
 }
@@ -44,13 +45,6 @@ jar {
 configurations {
     antTask
 }
-
-//dependencies {
-//    antTask name: 'javac2', version: '12.1.0'
-//    antTask name: 'forms_rt', version: '12.1.0'
-//    antTask name: 'asm4-all', version: '12.1.0-idea'
-//    antTask group: 'org.jdom', name: 'jdom', version: '1.1'
-//}
 
 task compileJava(overwrite: true, dependsOn: configurations.compile.getTaskDependencyFromProjectDependency(true, 'jar')) {
     doLast {
