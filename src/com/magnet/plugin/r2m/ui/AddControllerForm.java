@@ -437,7 +437,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
                 R2MMessages.getMessage("CLOSE_AND_SHOW_CODE_BUTTON_TEXT"),
                 R2MMessages.getMessage("CONTINUE_EDITING_BUTTON_TEXT"),
                 Messages.getQuestionIcon());
-        if (option == 1) {
+        if (option != 0) {
             getThis().setVisible(true);
         } else {
             dispose();
