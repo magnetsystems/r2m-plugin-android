@@ -76,7 +76,6 @@ public abstract class BaseRequest extends AbstractRequest<ApiMethodModel> {
             methodModel.setRequestModel(requestModel);
             onSuccess(methodModel);
         } catch (Exception e) {
-            e.printStackTrace();
             Logger.info(getClass(), e.toString());
             onError(e);
         }
