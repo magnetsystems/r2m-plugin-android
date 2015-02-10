@@ -252,9 +252,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
                     R2MMessages.getMessage("VALIDATION_WARNING_CONTINUE"),
                     R2MMessages.getMessage("VALIDATION_WARNING_CANCEL"),
                     null);
-            boolean result = okCancelResult == 0;
-
-            return result;
+            return okCancelResult == 0;
         }
 
         /**
