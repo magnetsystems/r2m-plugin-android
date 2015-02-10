@@ -3,6 +3,8 @@
 The rest2mobile Android Studio plugin allows you to generate mobile api from REST services directly inside your android project. You can check out this short [demo](http://www.youtube.com/watch?v=_6gtI5v4m8U) to see how it works.
 
 ### Pre-releases
+* [1.1.12] (https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.11)
+  * fixed issue #31
 * [1.1.11] (https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.11)
   * fixed issue #29
 * [1.1.10] (https://github.com/magnetsystems/r2m-plugin-android/releases/1.1.10)
