@@ -24,7 +24,6 @@ import com.magnet.plugin.r2m.api.models.ApiMethodModel;
 import com.magnet.plugin.r2m.api.models.RequestHeaderModel;
 import com.magnet.plugin.r2m.api.models.RequestModel;
 import com.magnet.plugin.r2m.helpers.ContentTypeHelper;
-import com.magnet.plugin.common.Logger;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -48,37 +47,32 @@ public abstract class BaseRequest extends AbstractRequest<ApiMethodModel> {
 
 
     @Override
-    public void doWork() {
-        try {
-            HttpClient httpClient = HttpClientBuilder.create().build();
-            HttpRequestBase request = getRequest(requestModel);
+    public void doWork() throws Exception {
+        HttpClient httpClient = HttpClientBuilder.create().build();
+        HttpRequestBase request = getRequest(requestModel);
 
-            List<RequestHeaderModel> requestModelHeaders = requestModel.getHeaders();
+        List<RequestHeaderModel> requestModelHeaders = requestModel.getHeaders();
 
-            for (RequestHeaderModel header : requestModelHeaders) {
-                request.setHeader(header.getName(), header.getValue());
-            }
-
-            // If not specified as a header argument, Content-Type is inferred from the request body
-            // Add the header here so the request is successful.
-            if (request.getHeaders(ContentTypeHelper.CONTENT_TYPE_HEADER) == null ||
-                    request.getHeaders(ContentTypeHelper.CONTENT_TYPE_HEADER).length == 0) {
-                RestContentType type = ExampleParser.guessContentType(requestModel.getRequest());
-                if (null != type) {
-                    request.setHeader(ContentTypeHelper.CONTENT_TYPE_HEADER, type.getName());
-                }
-            }
-            // check if content-type is parameterized
-            HttpResponse httpResponse = httpClient.execute(request);
-            ApiMethodModel methodModel = new ApiMethodModel();
-            methodModel.setRequestHeaders(request.getAllHeaders());
-            methodModel.setHttpResponse(httpResponse);
-            methodModel.setRequestModel(requestModel);
-            onSuccess(methodModel);
-        } catch (Exception e) {
-            Logger.info(getClass(), e.toString());
-            onError(e);
+        for (RequestHeaderModel header : requestModelHeaders) {
+            request.setHeader(header.getName(), header.getValue());
         }
+
+        // If not specified as a header argument, Content-Type is inferred from the request body
+        // Add the header here so the request is successful.
+        if (request.getHeaders(ContentTypeHelper.CONTENT_TYPE_HEADER) == null ||
+                request.getHeaders(ContentTypeHelper.CONTENT_TYPE_HEADER).length == 0) {
+            RestContentType type = ExampleParser.guessContentType(requestModel.getRequest());
+            if (null != type) {
+                request.setHeader(ContentTypeHelper.CONTENT_TYPE_HEADER, type.getName());
+            }
+        }
+        // check if content-type is parameterized
+        HttpResponse httpResponse = httpClient.execute(request);
+        ApiMethodModel methodModel = new ApiMethodModel();
+        methodModel.setRequestHeaders(request.getAllHeaders());
+        methodModel.setHttpResponse(httpResponse);
+        methodModel.setRequestModel(requestModel);
+        onSuccess(methodModel);
 
     }
 

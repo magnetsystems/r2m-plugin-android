@@ -49,12 +49,13 @@ public class UIHelper {
         Messages.showInfoMessage(message, R2MMessages.getMessage("WINDOW_TITLE"));
     }
 
-    public static void showErrorMessageEventually(final String message) {
+    public static void showErrorMessageEventuallyAndEnable(final String message, final JComponent component) {
         SwingUtilities.invokeLater(new Runnable() {
 
             @Override
             public void run() {
-                Messages.showInfoMessage(message, R2MMessages.getMessage("WINDOW_TITLE"));
+                Messages.showErrorDialog(message, R2MMessages.getMessage("WINDOW_TITLE"));
+                component.setEnabled(true);
             }
         });
     }

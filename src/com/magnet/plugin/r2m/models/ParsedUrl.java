@@ -112,7 +112,6 @@ public class ParsedUrl {
             }
         }
 
-        Logger.info(getClass(), builder.toString());
         return builder.toString();
     }
 

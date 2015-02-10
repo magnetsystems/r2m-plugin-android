@@ -20,5 +20,5 @@ package com.magnet.plugin.r2m.api.mock;
 
 public interface Worker<T> {
 
-	void doWork();
+	void doWork() throws Exception;
 }

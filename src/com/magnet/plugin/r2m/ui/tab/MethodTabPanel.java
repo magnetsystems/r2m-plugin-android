@@ -136,12 +136,9 @@ public class MethodTabPanel extends BasePanel {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 try {
-                    buttons.getTestApiButton().setEnabled(false);
-                    testApi();
+                    testApi(buttons.getTestApiButton());
                 } catch (Exception e) {
-                    Logger.error(R2MMessages.getMessage("ERROR_TESTING_API"));
-                } finally {
-                    buttons.getTestApiButton().setEnabled(true);
+                    Logger.error(R2MMessages.getMessage("ERROR_TESTING_API", e.toString()));
                 }
 
             }
@@ -184,14 +181,31 @@ public class MethodTabPanel extends BasePanel {
         return true;
     }
 
-    private void testApi() {
+    private void testApi(final JButton button) {
+        button.setEnabled(false);
         if (methodNameSection.checkRequirementFields()) {
             Method method = makeMethod();
             if (!VerifyHelper.isValidUrlWithoutPerformance(method.getTestUrl())) {
                 showErrorMessage(R2MMessages.getMessage("PROVIDE_VALID_URL", method.getMethodName(), method.getTestUrl()));
             }
             RequestModel requestModel = new RequestModel(method);
+
+            WorkerCallback<ApiMethodModel> callback = new WorkerCallback<ApiMethodModel>() {
+                @Override
+                public void onSuccess(ApiMethodModel methodModel) {
+                    apiMethodModel = methodModel;
+                    String entity = ResponseHelper.processResponse(methodModel);
+                    MethodTabPanel.this.responsePayloadSection.setPayload(entity);
+                    button.setEnabled(true);                }
+
+                @Override
+                public void onError(Exception e) {
+                    UIHelper.showErrorMessageEventuallyAndEnable(R2MMessages.getMessage("ERROR_TESTING_API", ""), button);
+                }
+
+            };
             BaseRequest request = RequestFactory.getRequestForMethod(callback, requestModel);
+
             request.execute();
         } else {
             UIHelper.showErrorMessage(ERROR_FILL_REQUIRED_FIELD);
@@ -247,21 +261,6 @@ public class MethodTabPanel extends BasePanel {
         method.setTemplateUrl(methodNameSection.getTemplateUrl());
         return method;
     }
-
-    private WorkerCallback<ApiMethodModel> callback = new WorkerCallback<ApiMethodModel>() {
-        @Override
-        public void onSuccess(ApiMethodModel methodModel) {
-            apiMethodModel = methodModel;
-            String entity = ResponseHelper.processResponse(methodModel);
-            MethodTabPanel.this.responsePayloadSection.setPayload(entity);
-        }
-
-        @Override
-        public void onError(Exception e) {
-            Logger.error(getClass(), e.toString());
-        }
-
-    };
 
     public void setTabRemoveListener(TabRemoveListener tabRemoveListener) {
         this.tabRemoveListener = tabRemoveListener;

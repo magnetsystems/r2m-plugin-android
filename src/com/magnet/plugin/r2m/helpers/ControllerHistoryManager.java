@@ -34,6 +34,10 @@ public class ControllerHistoryManager {
     }
 
     private static ControllerHistoryComponent getComponent(Project project) {
+        if (project == null) {
+            return null;
+        }
+
         return project.getComponent(ControllerHistoryComponent.class);
     }
 
