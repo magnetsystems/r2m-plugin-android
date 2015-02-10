@@ -23,6 +23,7 @@ import com.intellij.openapi.ui.Messages;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.singletons.Application;
 
+import javax.swing.*;
 import java.awt.*;
 
 /**
@@ -46,6 +47,16 @@ public class UIHelper {
 
     public static void showErrorMessage(String message) {
         Messages.showInfoMessage(message, R2MMessages.getMessage("WINDOW_TITLE"));
+    }
+
+    public static void showErrorMessageEventually(final String message) {
+        SwingUtilities.invokeLater(new Runnable() {
+
+            @Override
+            public void run() {
+                Messages.showInfoMessage(message, R2MMessages.getMessage("WINDOW_TITLE"));
+            }
+        });
     }
 
     public static Font getFont() {

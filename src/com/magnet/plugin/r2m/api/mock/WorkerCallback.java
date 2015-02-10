@@ -17,15 +17,11 @@
 
 package com.magnet.plugin.r2m.api.mock;
 
-import com.magnet.plugin.r2m.api.models.Error;
 
 public interface WorkerCallback<T> {
 	
 	public void onSuccess(T t);
 	
 	public void onError(Exception e);
-	
-	public void onError(Error error);
-	
 
 }

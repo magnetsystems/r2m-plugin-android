@@ -135,7 +135,15 @@ public class MethodTabPanel extends BasePanel {
         buttons.getTestApiButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                testApi();
+                try {
+                    buttons.getTestApiButton().setEnabled(false);
+                    testApi();
+                } catch (Exception e) {
+                    Logger.error(R2MMessages.getMessage("ERROR_TESTING_API"));
+                } finally {
+                    buttons.getTestApiButton().setEnabled(true);
+                }
+
             }
         });
 
@@ -185,7 +193,6 @@ public class MethodTabPanel extends BasePanel {
             RequestModel requestModel = new RequestModel(method);
             BaseRequest request = RequestFactory.getRequestForMethod(callback, requestModel);
             request.execute();
-            System.out.println(method.toString());
         } else {
             UIHelper.showErrorMessage(ERROR_FILL_REQUIRED_FIELD);
         }
@@ -254,10 +261,6 @@ public class MethodTabPanel extends BasePanel {
             Logger.error(getClass(), e.toString());
         }
 
-        @Override
-        public void onError(com.magnet.plugin.r2m.api.models.Error error) {
-            Logger.error(getClass(), "onError");
-        }
     };
 
     public void setTabRemoveListener(TabRemoveListener tabRemoveListener) {

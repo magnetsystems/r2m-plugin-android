@@ -17,11 +17,10 @@
 
 package com.magnet.plugin.r2m.api.requests.abs;
 
+import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.api.mock.Worker;
 import com.magnet.plugin.r2m.api.mock.WorkerCallback;
-import com.magnet.plugin.r2m.api.models.Error;
 import com.magnet.plugin.r2m.helpers.IOUtils;
-import com.magnet.plugin.common.Logger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -30,6 +29,7 @@ import java.util.concurrent.Executors;
 
 /**
  * Abstract implementation for all HTTP requests
+ *
  * @param <T>
  */
 public abstract class AbstractRequest<T> implements Runnable, Worker<T>, WorkerCallback<T> {
@@ -57,7 +57,6 @@ public abstract class AbstractRequest<T> implements Runnable, Worker<T>, WorkerC
 
     @Override
     public void onSuccess(final T t) {
-//        Logger.info(getClass(), "onSuccess");
         if (getCallback() == null) {
             return;
         } else {
@@ -68,20 +67,10 @@ public abstract class AbstractRequest<T> implements Runnable, Worker<T>, WorkerC
 
     @Override
     public void onError(final Exception e) {
-        e.printStackTrace();
         Logger.info(getClass(), "onError: " + e.toString());
 
         if (getCallback() != null) {
             getCallback().onError(e);
-        }
-        setCallback(null);
-    }
-
-    @Override
-    public void onError(final Error error) {
-        Logger.error(getClass(), "onError: " + error.getErrorMessage());
-        if (getCallback() != null) {
-            getCallback().onError(error);
         }
         setCallback(null);
     }
@@ -93,11 +82,6 @@ public abstract class AbstractRequest<T> implements Runnable, Worker<T>, WorkerC
     protected void setCallback(WorkerCallback<T> callback) {
         this.callback = callback;
     }
-
-    public void removeCallback() {
-        setCallback(null);
-    }
-
 
     protected String toString(InputStream is) throws IOException {
         return IOUtils.toString(is);
