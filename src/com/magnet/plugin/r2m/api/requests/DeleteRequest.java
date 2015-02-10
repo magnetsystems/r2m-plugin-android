@@ -37,7 +37,6 @@ public class DeleteRequest extends BaseRequest {
 
     @Override
     protected HttpRequestBase getRequest(RequestModel requestModel) {
-        HttpDelete httpDelete=new HttpDelete(requestModel.getTestUrl());
-        return httpDelete;
+        return new HttpDelete(requestModel.getTestUrl());
     }
 }
