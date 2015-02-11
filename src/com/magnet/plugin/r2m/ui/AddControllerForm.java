@@ -188,7 +188,7 @@ public class AddControllerForm extends FrameWrapper implements CreateMethodCallb
 
             List<RestExampleModel> methods = ExampleChooserHelper.getControllersMethodsByName(controllerName);
             if (methods != null && !methods.isEmpty()) {
-                populateMethods(VerifyHelper.verifyClassName(controllerName), "com.magnetapi.examples", methods);
+                populateMethods(R2MVerifyHelper.verifyClassName(controllerName), "com.magnetapi.examples", methods);
                 return;
             }
             // check for file

@@ -24,6 +24,7 @@ import com.intellij.openapi.vfs.VirtualFile;
 import com.magnet.plugin.common.Logger;
 import com.magnet.plugin.r2m.helpers.ProjectHelper;
 import com.magnet.plugin.common.helpers.VerifyHelper;
+import com.magnet.plugin.r2m.helpers.R2MVerifyHelper;
 import com.magnet.tools.cli.simple.SimpleGenConstants;
 
 import java.io.BufferedReader;
@@ -158,7 +159,7 @@ public class ProjectManager {
 
         }
 //        Logger.info(FileHelper.class, packageName);
-        packageName = VerifyHelper.verifyPackageName(packageName);
+        packageName = R2MVerifyHelper.verifyPackageName(packageName);
         return packageName;
     }
 

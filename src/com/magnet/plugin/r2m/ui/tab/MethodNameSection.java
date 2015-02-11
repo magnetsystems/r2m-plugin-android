@@ -26,7 +26,7 @@ import com.intellij.openapi.ui.ComboBox;
 import com.magnet.plugin.r2m.constants.FormConfig;
 import com.magnet.plugin.r2m.constants.PluginIcon;
 import com.magnet.plugin.r2m.helpers.HistoryHelper;
-import com.magnet.plugin.common.helpers.VerifyHelper;
+import com.magnet.plugin.r2m.helpers.R2MVerifyHelper;
 import com.magnet.plugin.r2m.listeners.URLFocusListener;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.PathPart;
@@ -80,7 +80,6 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
         });
 
 
-
         Border border = UIManager.getBorder("Button.border");
         urlDetailsBox.setBorder(border);
 
@@ -100,7 +99,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
             @Override
             public void focusLost(FocusEvent focusEvent) {
-                methodName.setText(VerifyHelper.verifyMethodName(methodName.getText()));
+                methodName.setText(R2MVerifyHelper.verifyMethodName(methodName.getText()));
             }
         });
 
@@ -156,9 +155,10 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
     /**
      * Triggered when clicking on the expand url check box
+     *
      * @param evt unused
      */
-    private void showOrHideUrlSection(@SuppressWarnings("unused")ActionEvent evt) {
+    private void showOrHideUrlSection(@SuppressWarnings("unused") ActionEvent evt) {
         String u = getComboBoxEditor().getText();
 //        if (urlDetailsBox.isSelected()) {
 //            if (!VerifyHelper.isValidUrl(u)) {
@@ -250,6 +250,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
     /**
      * Populate the url section with url details given a templatized urls
+     *
      * @param templatizedUrl templatized url ,with path param variables (if any), e.g http://host.com/a/b/c/{id}/{id2}
      */
     public void populateUrlDetails(String templatizedUrl) {
@@ -257,7 +258,7 @@ public class MethodNameSection extends BasePanel implements URLFocusListener, Pl
 
         urlField.getEditor().setItem(urlSection.getParsedUrl().buildUrl(false));
 
-      // expand url details if there are path params
+        // expand url details if there are path params
         if (urlSection.getParsedUrl().hasPathParams()) {
             urlDetailsBox.setSelected(true);
             urlDetailsBox.setPressedIcon(getSelectedIcon(urlDetailsBox));

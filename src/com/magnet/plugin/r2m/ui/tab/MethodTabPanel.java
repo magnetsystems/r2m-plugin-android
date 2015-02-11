@@ -26,19 +26,20 @@ import com.intellij.ui.components.JBScrollPane;
 import com.intellij.util.net.HTTPMethod;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.common.Logger;
-import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.plugin.r2m.api.core.RequestFactory;
 import com.magnet.plugin.r2m.api.mock.WorkerCallback;
 import com.magnet.plugin.r2m.api.models.ApiMethodModel;
 import com.magnet.plugin.r2m.api.models.RequestModel;
 import com.magnet.plugin.r2m.api.models.ResponseModel;
 import com.magnet.plugin.r2m.api.requests.abs.BaseRequest;
-import com.magnet.plugin.r2m.helpers.*;
+import com.magnet.plugin.r2m.constants.FormConfig;
+import com.magnet.plugin.r2m.helpers.R2MVerifyHelper;
+import com.magnet.plugin.r2m.helpers.ResponseHelper;
+import com.magnet.plugin.r2m.helpers.UIHelper;
 import com.magnet.plugin.r2m.listeners.CreateMethodCallback;
 import com.magnet.plugin.r2m.listeners.TabRemoveListener;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.Method;
-import com.magnet.plugin.r2m.constants.FormConfig;
 
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
@@ -47,7 +48,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Map;
 
-import static com.magnet.plugin.r2m.helpers.UIHelper.*;
+import static com.magnet.plugin.r2m.helpers.UIHelper.ERROR_FILL_REQUIRED_FIELD;
+import static com.magnet.plugin.r2m.helpers.UIHelper.ERROR_METHOD_NAME;
 
 public class MethodTabPanel extends BasePanel {
 
@@ -157,7 +159,7 @@ public class MethodTabPanel extends BasePanel {
     public boolean createMethod() {
 
         Method method = getMethod();
-        if (!VerifyHelper.isValidUrl(method.getTestUrl())) {
+        if (!R2MVerifyHelper.isValidUrl(method.getTestUrl())) {
             showErrorMessage(R2MMessages.getMessage("PROVIDE_VALID_URL", method.getMethodName(), method.getTestUrl()));
             return false;
         }
@@ -185,7 +187,7 @@ public class MethodTabPanel extends BasePanel {
         button.setEnabled(false);
         if (methodNameSection.checkRequirementFields()) {
             Method method = makeMethod();
-            if (!VerifyHelper.isValidUrlWithoutPerformance(method.getTestUrl())) {
+            if (!R2MVerifyHelper.isValidUrlWithoutPerformance(method.getTestUrl())) {
                 showErrorMessage(R2MMessages.getMessage("PROVIDE_VALID_URL", method.getMethodName(), method.getTestUrl()));
             }
             RequestModel requestModel = new RequestModel(method);

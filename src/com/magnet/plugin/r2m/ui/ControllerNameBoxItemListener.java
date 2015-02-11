@@ -20,6 +20,7 @@ import com.intellij.openapi.project.Project;
 import com.magnet.langpack.builder.rest.parser.RestExampleModel;
 import com.magnet.plugin.r2m.helpers.ControllerHistoryManager;
 import com.magnet.plugin.common.helpers.VerifyHelper;
+import com.magnet.plugin.r2m.helpers.R2MVerifyHelper;
 import com.magnet.plugin.r2m.project.CacheManager;
 
 import java.awt.event.ActionEvent;
@@ -116,7 +117,7 @@ public class ControllerNameBoxItemListener implements ActionListener, FocusListe
         if (entry.lastIndexOf('.') <= 0) {
             className = entry;
         } else {
-            className = VerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
+            className = R2MVerifyHelper.verifyClassName(entry.substring(entry.lastIndexOf('.') + 1));
         }
 
         if(Character.isUpperCase(className.charAt(0))) {

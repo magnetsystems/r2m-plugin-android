@@ -24,6 +24,7 @@ package com.magnet.plugin.r2m.ui.tab;
 import com.magnet.plugin.common.helpers.VerifyHelper;
 import com.magnet.plugin.common.ui.HintTextField;
 import com.magnet.plugin.r2m.constants.FormConfig;
+import com.magnet.plugin.r2m.helpers.R2MVerifyHelper;
 import com.magnet.plugin.r2m.helpers.UIHelper;
 import com.magnet.plugin.r2m.messages.R2MMessages;
 import com.magnet.plugin.r2m.models.PathPart;
@@ -151,7 +152,7 @@ public class PathPartPanel extends JPanel {
     }
 
     public void validateField() {
-        variableNameField.setText(VerifyHelper.verifyVariableName(variableNameField.getText()));
+        variableNameField.setText(R2MVerifyHelper.verifyVariableName(variableNameField.getText()));
     }
 
     public boolean checkRequirementField() {
