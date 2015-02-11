@@ -19,6 +19,7 @@ package com.magnet.plugin.common.helpers;
 import com.intellij.ide.IdeBundle;
 import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.util.net.HttpConfigurable;
+import com.magnet.plugin.common.FormattedLogger;
 import com.sun.org.apache.xml.internal.security.utils.Base64;
 
 import java.io.*;
